@@ -48,15 +48,23 @@ public class TextUtils {
                 }
             }
         }
+        return deleteDoubles(words, countDoubles);
+    }
 
-        String[] uniques = new String[words.length - countDoubles];
+    /**
+     * @param words array with words and marked doubles
+     * @param amountOfDoubles - quantity of non-inique words, amount which should be decreased
+     *                        from size of new array
+     * @return array with unique words
+     */
+    public static String[] deleteDoubles(String[] words, int amountOfDoubles){
+        String[] uniques = new String[words.length - amountOfDoubles];
         for (int i = 0, j = 0; i < words.length; i++) {
             if (words[i] != "_duplicate_") {
                 uniques[j++] = words[i];
             }
         }
-
-        return uniques;
+        return  uniques;
     }
 
     /**
