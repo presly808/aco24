@@ -1,12 +1,2 @@
-include 'TarasTelischuk'
-include 'SerhiiBilobrov'
-include 'OlehChernykh'
-include 'VolodymyrLisoviy'
-include 'YuriyKolomiyets'
-include 'AndreyMihailenko'
-include 'VladPetrovskyi'
-include 'VitaliiLaputko'
-include 'ValentynaMusiiaka'
 include 'functional-tests'
 include 'common'
-
