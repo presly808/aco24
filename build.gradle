@@ -127,7 +127,7 @@ task showAllTasks() {
         def parsed = parseJson('functional-tests/course-tasks.json')
         def tasks = parsed.tasks;
         for (task in tasks) {
-            println task
+            println "$task"
         }
     }
 }

@@ -11,6 +11,7 @@
                 fullname
                 login
                 pass
+
         ua.artcode.market.models.Product
             fields:
                 billId
