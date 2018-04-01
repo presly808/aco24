@@ -24,14 +24,10 @@ public class TextUtils {
     public static String[] getWords(String text) {
 
 //        TODO write your code here
-        String[] array;
-        if ((text==null)||(text.length()==0)){
-            array=new String[0];
+        if ((text == null) || (text.length() == 0)){
+            return new String[0];
         }
-        else {
-            array=text.split("; ");
-        }
-        return array;
+        return text.split("; ");
     }
     /**
      * @param words array with words
@@ -42,29 +38,28 @@ public class TextUtils {
 //        TODO write your code here
 
         String[] tmpArray = new String[words.length];
-        int iPoint=0;
-        for (int i=0;i<words.length;i++){
+        int iPoint = 0;
+        for (int i = 0; i < words.length; i++){
             if (!hasElement(tmpArray,words[i])){
-                tmpArray[iPoint]=words[i];
+                tmpArray[iPoint] = words[i];
                 iPoint++;
             }
         }
 
         String[] uniqueWords = new String[iPoint];
         for (int i = 0; i < iPoint; i++) {
-            uniqueWords[i]=tmpArray[i];
+            uniqueWords[i] = tmpArray[i];
         }
         return uniqueWords;
     }
 
     public static boolean hasElement(String[] words, String element){
-        boolean result=false;
-        for (int i=0; i<words.length;i++){
-            if (words[i]!=null&&words[i].equalsIgnoreCase(element)){
-                result=true;
+        for (int i=0; i < words.length; i++){
+            if (words[i] != null&&words[i].equalsIgnoreCase(element)){
+                return true;
             }
         }
-        return result;
+        return false;
     }
     /**
      * @param  uniqueWords array with unique words
@@ -73,12 +68,12 @@ public class TextUtils {
     public static String[] sortWords(String[] uniqueWords) {
 
 //        TODO write your code here
-        for (int i=0;i<uniqueWords.length;i++){
-            for (int j=i+1;j<uniqueWords.length;j++){
-                if (uniqueWords[i].compareTo(uniqueWords[j])>0){
+        for (int i=0; i < uniqueWords.length; i++){
+            for (int j=i+1; j < uniqueWords.length; j++){
+                if (uniqueWords[i].compareTo(uniqueWords[j]) > 0){
                     String tempValue = uniqueWords[i];
-                    uniqueWords[i]=uniqueWords[j];
-                    uniqueWords[j]=tempValue;
+                    uniqueWords[i] = uniqueWords[j];
+                    uniqueWords[j] = tempValue;
                 }
             }
         }
