@@ -39,32 +39,25 @@ public class TextUtils {
     public static String[] getUniqueWords(String[] words) {
 
 //        TODO write your code here
-        int countDoubles = 0;
-        for (int i = 0; i < words.length; i++) {
-            for (int j = i + 1; j < words.length; j++) {
-                if (words[j] != "_duplicate_" & words[j].toLowerCase().equals(words[i].toLowerCase())) {
-                    words[j] = "_duplicate_";
-                    countDoubles++;
-                }
+        String[] arrayWitnNulls = new String[words.length];
+        int count = 0;
+        for (int i = 0, j = 0; i < words.length; i++) {
+            if (!hasElement(arrayWitnNulls, words[i])) {
+                arrayWitnNulls[j++] = words[i];
+                count++;
             }
         }
-        return deleteDoubles(words, countDoubles);
+
+        return Arrays.copyOf(arrayWitnNulls, count);
     }
 
-    /**
-     * @param words array with words and marked doubles
-     * @param amountOfDoubles - quantity of non-inique words, amount which should be decreased
-     *                        from size of new array
-     * @return array with unique words
-     */
-    public static String[] deleteDoubles(String[] words, int amountOfDoubles){
-        String[] uniques = new String[words.length - amountOfDoubles];
-        for (int i = 0, j = 0; i < words.length; i++) {
-            if (words[i] != "_duplicate_") {
-                uniques[j++] = words[i];
+    public static boolean hasElement(String[] array, String element) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null && array[i].equalsIgnoreCase(element)) {
+                return true;
             }
         }
-        return  uniques;
+        return false;
     }
 
     /**
@@ -74,8 +67,18 @@ public class TextUtils {
     public static String[] sortWords(String[] uniqueWords) {
 
 //        TODO write your code here
-            Arrays.sort(uniqueWords);
+
+        for (int i = 1; i < uniqueWords.length; i++) {
+            String temp;
+            if (uniqueWords[i - 1].compareTo(uniqueWords[i]) > 0) {
+                temp = uniqueWords[i];
+                uniqueWords[i] = uniqueWords[i - 1];
+                uniqueWords[i - 1] = temp;
+            }
+        }
 
         return uniqueWords;
     }
+
+
 }
