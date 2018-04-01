@@ -17,7 +17,7 @@
 	b) open in IDEA -> choose gradle.build -> Open as project
 	
 	Delegate all build IDEA commands to gradle
-	In IDEA (Ctrl + Alt + S) 
+	In IDEA (Ctrl + Alt + S)
 	Build, Execution, Deployment -> Build Tool -> Gradle -> Runner
 	Activate Delegate IDE build/run actions to Gradle
 	Create own module using idea
