@@ -1,4 +1,6 @@
 include 'functional-tests'
 include 'common'
+include 'VadymHarashchuk'
+
 include 'StasKostov'
 
