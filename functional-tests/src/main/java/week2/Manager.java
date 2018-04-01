@@ -1,4 +1,4 @@
-package ua.artcode.week2;
+package week2;
 
 import java.util.List;
 
