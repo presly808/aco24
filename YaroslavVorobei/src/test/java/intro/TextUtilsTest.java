@@ -1,42 +1,55 @@
 package intro;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TextUtilsTest {
+
     @Test
-    public void getUniqueSortedWords() throws Exception {
-        String str = "oop,lsd,cpa,java";
-        String[] AR = TextUtils.getUniqueSortedWords(str, ",");
-        String[] ER = {"cpa", "java", "lsd", "oop"};
-        Assert.assertArrayEquals(ER, AR);
+    public void testGetWords1(){
+        String[] expected = {"cab", "abc", "cab", "cab", "bac", "bac"};
+        String[] actual = TextUtils.getWords("cab; abc; cab; cab; bac; bac");
+        assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testGetWords2(){
+        String[] expected = {};
+        String[] actual = TextUtils.getWords("");
+        assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testGetWords3(){
+        String[] expected = {};
+        String[] actual = TextUtils.getWords(null);
+        assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testGetUniqueWords(){
+        String[] expected = {"cab", "abc", "bac"};
+        String[] actual = {"cab", "abc", "cab", "cab", "bac", "bac"};
+        actual = TextUtils.getUniqueWords(actual);
+        assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testSortWords(){
+        String[] expected = {"aaa", "abc", "bac", "cab"};
+        String[] actual = {"cab", "abc", "bac", "aaa"};
+        actual = TextUtils.sortWords(actual);
+        assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testGetUniqueSortedWords1(){
+        String[] expected = {"abc", "bac", "cab"};
+        String[] actual = TextUtils.getUniqueSortedWords("cab; abc; cab; cab; bac; bac");
+        assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void getWords() throws Exception {
-        String str = "oop,lsd,cpa";
-        String[] ER = {"oop", "lsd", "cpa"};
-        String[] AR = TextUtils.getWords(str, ",");
-
-        Assert.assertArrayEquals(ER, AR);
-    }
-
-    @Test
-    public void getUniqueWords() throws Exception {
-        String[] array = {"oop", "cpa", "oop"};
-        String[] AR = TextUtils.getUniqueWords(array);
-        String[] ER = {"oop", "cpa"};
-        Assert.assertArrayEquals(ER, AR);
-    }
-
-    @Test
-    public void sortWords() throws Exception {
-        String[] array = {"cpa", "apple", "java"};
-        String[] AR = TextUtils.sortWords(array);
-        String[] ER = {"apple", "cpa", "java"};
-        Assert.assertArrayEquals(ER, AR);
+    public void testGetUniqueSortedWords2(){
+        String[] expected = {};
+        String[] actual = TextUtils.getUniqueSortedWords(null);
+        assertArrayEquals(expected, actual);
     }
 
 }
