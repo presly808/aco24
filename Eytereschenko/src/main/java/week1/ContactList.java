@@ -47,7 +47,37 @@ public class ContactList {
 
 
     public Contact[] findByNameOrNumber(String nameOrNumber){
-        return null;
+        int count = 0;
+        for (int i = 0; i < contactList.length; i++) {
+            if(contactList[i] != null &&
+                    (contactList[i].getName().contains(nameOrNumber)
+                            || contactList[i].getNumber().contains(nameOrNumber))
+                    ){
+                count++;
+            }
+        }
+
+
+
+        if (count == 0) {
+            return null;
+        }
+
+        Contact[] contactListResult = new Contact[count];
+
+        int index = 0;
+
+        for (int i = 0; i < contactList.length; i++) {
+            if(contactList[i] != null &&
+                    (contactList[i].getName().contains(nameOrNumber)
+                            || contactList[i].getNumber().contains(nameOrNumber))
+                    ){
+                contactListResult[index++] = contactList[i];
+
+            }
+        }
+
+        return contactListResult;
     }
 
     public boolean removeContact(int id){
