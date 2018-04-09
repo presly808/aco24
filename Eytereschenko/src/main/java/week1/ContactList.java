@@ -39,6 +39,11 @@ public class ContactList {
             return false;
         }
 
+        if(contact.getName().isEmpty()){
+            System.out.println("Enter valid Name");
+            return false;
+        }
+
         contactList[size++] = contact;
 
 
