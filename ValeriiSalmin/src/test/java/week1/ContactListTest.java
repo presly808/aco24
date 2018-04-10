@@ -10,10 +10,11 @@ import static org.junit.Assert.*;
  */
 public class ContactListTest {
 
-    private ContactList contactList = new ContactList();
+    //private ContactList contactList = new ContactList();
 
     @Test
     public void addContact() throws Exception {
+        ContactList contactList = new ContactList();
         Contact user1 = new Contact(1, "Lolia", "+380933091219");
         boolean res = contactList.addContact(user1);
         assertTrue(res);
@@ -21,12 +22,14 @@ public class ContactListTest {
 
     @Test
     public void addContactNeg() throws Exception {
+        ContactList contactList = new ContactList();
         assertFalse(contactList.addContact(new Contact(1, "Lolia", "lkjhsdksdkjf")));
     }
 
 
     @Test
     public void findByNameOrNumber() throws Exception {
+        ContactList contactList = new ContactList();
         Contact user1 = new Contact(1, "Lolia", "+380933091219");
         Contact user2 = new Contact(2, "Ivan", "+38093");
         Contact user3 = new Contact(3, "Oleg", "+380933091233");
@@ -42,7 +45,7 @@ public class ContactListTest {
 
     @Test
     public void removeContact() throws Exception {
-
+        ContactList contactList = new ContactList();
         Contact user1 = new Contact(1, "Lolia", "+380933091219");
         Contact user2 = new Contact(2, "Ivan", "+38093");
         Contact user3 = new Contact(3, "Oleg", "+380933091233");
@@ -58,7 +61,7 @@ public class ContactListTest {
 
     @Test
     public void getAll() throws Exception {
-
+        ContactList contactList = new ContactList();
         Contact user1 = new Contact(1, "Lolia", "+380933091219");
         Contact user2 = new Contact(2, "Ivan", "+38093");
         Contact user3 = new Contact(3, "Oleg", "+380933091233");
