@@ -5,8 +5,6 @@ package week1;
  */
 public class Contact {
 
-    //private int n=0;
-
     private int id;
     private String name;
     private String number;

@@ -6,17 +6,14 @@ package week1;
 public class ContactList {
 
     Contact[] contactArray = new Contact[10];
-    int n;
+    int lastContactIndex = 0;
 
-    public boolean addContact(Contact contact){
-        if (isValidContact(contact)){
-            n++;
-            for (int i = 0; i < contactArray.length; i++) {
-                if (contactArray[i]==null){
-                    contactArray[i]=contact;
-                    return true;
-                }
-            }
+    public boolean addContact(Contact contact) {
+        if (isValidContact(contact)) {
+            //TODO: need check/increase array
+            contactArray[lastContactIndex] = contact;
+            lastContactIndex++;
+            return true;
         }
         return false;
     }
@@ -26,25 +23,26 @@ public class ContactList {
         int iPoint = 0;
         for (int i = 0; i < contactArray.length; i++) {
             if (contactArray[i] != null) {
-                if (contactArray[i].getNumber().contains(nameOrNumber)) {
+                if (contactArray[i].getNumber().contains(nameOrNumber) || contactArray[i].getName().contains(nameOrNumber)) {
                     contactsFoundTemp[i] = contactArray[i];
-                    iPoint = i;
+                    iPoint++;
                 }
             }
         }
 
-        Contact[] contactsFound = new Contact[iPoint+1];
+        Contact[] contactsFound = new Contact[iPoint];
         for (int i = 0; i < contactsFound.length; i++) {
             contactsFound[i] = contactsFoundTemp[i];
         }
         return contactsFound;
     }
 
-    public boolean removeContact(int id){
-        for (int i=0;i<contactArray.length;i++) {
+    public boolean removeContact(int id) {
+        //TODO:
+        for (int i = 0; i < contactArray.length; i++) {
             if (contactArray[i] != null) {
                 if (id == contactArray[i].getId()) {
-                    n--;
+                    lastContactIndex--;
                     contactArray[i] = null;
                     return true;
                 }
@@ -53,11 +51,11 @@ public class ContactList {
         return false;
     }
 
-    public Contact[] getAll(){
-        Contact[] contactArrayTemp = new Contact[n];
+    public Contact[] getAll() {
+        Contact[] contactArrayTemp = new Contact[lastContactIndex];
         for (int i = 0; i < contactArray.length; i++) {
-            for (int j=0;j<n;j++) {
-                if ((contactArray[i] != null)&&(contactArrayTemp[j]==null)) {
+            for (int j = 0; j < lastContactIndex; j++) {
+                if ((contactArray[i] != null) && (contactArrayTemp[j] == null)) {
                     contactArrayTemp[j] = contactArray[i];
                 }
             }
@@ -65,18 +63,17 @@ public class ContactList {
         return contactArrayTemp;
     }
 
-    public boolean isValidContact(Contact contact){
-        if ((contact.getId()!=0)&&(contact.getName()!=null)&&isValidNumber(contact.getNumber())){
+    public boolean isValidContact(Contact contact) {
+        if (contact != null && contact.getId() != 0 && contact.getName() != null && isValidNumber(contact.getNumber())) {
             return true;
         }
         return false;
     }
 
-    public boolean isValidNumber(String number){
-
+    public boolean isValidNumber(String number) {
         String regex = "\\d+";
 
-        if ((number.length()==13)&&(number.substring(1).matches(regex))){
+        if ((number.length() == 13) && (number.substring(1).matches(regex))) {
             return true;
         }
         return false;
