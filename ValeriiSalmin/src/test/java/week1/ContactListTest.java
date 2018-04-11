@@ -10,8 +10,6 @@ import static org.junit.Assert.*;
  */
 public class ContactListTest {
 
-    //private ContactList contactList = new ContactList();
-
     @Test
     public void addContact() throws Exception {
         ContactList contactList = new ContactList();
@@ -25,7 +23,6 @@ public class ContactListTest {
         ContactList contactList = new ContactList();
         assertFalse(contactList.addContact(new Contact(1, "Lolia", "lkjhsdksdkjf")));
     }
-
 
     @Test
     public void findByNameOrNumber() throws Exception {
@@ -71,7 +68,5 @@ public class ContactListTest {
         contactList.addContact(user3);
 
         assertEquals(2, contactList.getAll().length);
-
     }
-
 }

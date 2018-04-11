@@ -5,7 +5,7 @@ package week1;
  */
 public class ContactList {
 
-    Contact[] contactArray = new Contact[5];
+    Contact[] contactArray = new Contact[10];
     int n;
 
     public boolean addContact(Contact contact){
@@ -21,39 +21,45 @@ public class ContactList {
         return false;
     }
 
-    public Contact[] findByNameOrNumber(String nameOrNumber){
+    public Contact[] findByNameOrNumber(String nameOrNumber) {
         Contact[] contactsFoundTemp = new Contact[contactArray.length];
-        int iPoint=0;
-        for (int i=0;i<contactArray.length;i++){
-            if ((nameOrNumber==contactArray[i].getName())||(nameOrNumber==contactArray[i].getNumber())){
-                contactsFoundTemp[i]=contactArray[i];
-                iPoint=i;
+        int iPoint = 0;
+        for (int i = 0; i < contactArray.length; i++) {
+            if (contactArray[i] != null) {
+                if (contactArray[i].getNumber().contains(nameOrNumber)) {
+                    contactsFoundTemp[i] = contactArray[i];
+                    iPoint = i;
+                }
             }
         }
-        Contact[] contactsFound = new Contact[iPoint];
-        for (int i=0;i<iPoint;i++) {
-            contactsFound[i]=contactsFoundTemp[i];
+
+        Contact[] contactsFound = new Contact[iPoint+1];
+        for (int i = 0; i < contactsFound.length; i++) {
+            contactsFound[i] = contactsFoundTemp[i];
         }
         return contactsFound;
     }
 
     public boolean removeContact(int id){
-        boolean flag=false;
-        for (int i=0;i<contactArray.length;i++){
-            if (id==contactArray[i].getId()){
-                n--;
-                contactArray[i]=null;
-                flag=true;
+        for (int i=0;i<contactArray.length;i++) {
+            if (contactArray[i] != null) {
+                if (id == contactArray[i].getId()) {
+                    n--;
+                    contactArray[i] = null;
+                    return true;
+                }
             }
         }
-        return flag;
+        return false;
     }
 
     public Contact[] getAll(){
         Contact[] contactArrayTemp = new Contact[n];
         for (int i = 0; i < contactArray.length; i++) {
-            if (contactArray[i]!=null){
-                contactArrayTemp[i]=contactArray[i];
+            for (int j=0;j<n;j++) {
+                if ((contactArray[i] != null)&&(contactArrayTemp[j]==null)) {
+                    contactArrayTemp[j] = contactArray[i];
+                }
             }
         }
         return contactArrayTemp;
