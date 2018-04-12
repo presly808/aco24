@@ -1,32 +1,37 @@
 package week1;
 
-import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
 
-import static java.awt.SystemColor.info;
+import java.util.Arrays;
 
 /**
  * Created by y.vorobei on 31.03.18.
  */
 public class ContactList {
 
-    private static final int DEFAULT_CONTACT_LIST_SIZE = 15;
-    private static Contact[] tempContactsStore = new Contact[DEFAULT_CONTACT_LIST_SIZE];
-    private static Contact[] contactsStore;
-    private static int size;
-    private static int removeContactIndex = 0;
+    private final int DEFAULT_CONTACT_LIST_SIZE = 15;
+    private Contact[] tempContactsStore = new Contact[DEFAULT_CONTACT_LIST_SIZE];
+    private Contact[] contactsStore;
+    private Contact[] listContactsByName;
+    private int size;
+    private int removeContactIndex = 0;
 
-    public static boolean addContact(Contact contact){
-        //contactsStore = new Contact[DEFAULT_CONTACT_LIST_SIZE];
-        if(!contact.getNumber().substring(0,3).equals("+38")){
+    public void clearContactsStore() {
+        contactsStore = null;
+        size = 0;
+    }
+
+    public boolean addContact(Contact contact) {
+        if (!contact.getNumber().substring(0, 3).equals("+38")) {
             return false;
         }
 
-        if(contact == null){
+        if (contact == null) {
             System.out.println("Contact is NULL!!!");
             return false;
         }
 
-        if(size == tempContactsStore.length){
+        if (size == tempContactsStore.length) {
             System.out.println("Contact list is already FULL!!!");
         }
 
@@ -38,20 +43,14 @@ public class ContactList {
         return true;
     }
 
+    public boolean removeContact(int id) {
 
-    public Contact[] findByNameOrNumber(String nameOrNumber){
-        return null;
-    }
-
-
-    public static boolean removeContact(int id){
-
-         if(!findContactByID(id) || contactsStore.length == 0 || contactsStore == null){
+        if (!findContactByID(id) || contactsStore.length == 0 || contactsStore == null) {
             return false;
-         }
+        }
 
         for (int i = 0; i < contactsStore.length; i++) {
-            if(contactsStore[i].getId() == id){
+            if (contactsStore[i].getId() == id) {
                 removeContactIndex = i;
             }
         }
@@ -75,83 +74,59 @@ public class ContactList {
         return true;
     }
 
-    private static boolean findContactByID(int id){
+    private boolean findContactByID(int id) {
         boolean searchFlag = false;
 
         for (int i = 0; i < contactsStore.length; i++) {
-            if(contactsStore[i].getId() == id){
+            if (contactsStore[i].getId() == id) {
                 return true;
             }
         }
 
-        if(searchFlag == false) {
+        if (searchFlag == false) {
             System.out.println("We don't have user with id = " + id);
         }
         return searchFlag;
     }
 
-    private static Contact findContactById(int id){
+    private Contact[] findContactByNumber(String number) {
+        int counter = 0;
         for (int i = 0; i < contactsStore.length; i++) {
-            if(contactsStore[i].getId() == id){
-                return contactsStore[i];
+            if (contactsStore[i].getNumber().substring(1).contains(number)) {
+                tempContactsStore[i] = contactsStore[i];
+                counter++;
             }
+            listContactsByName = Arrays.copyOf(tempContactsStore, counter);
         }
-        System.out.println("We don't have user with id = " + id);
-        return null;
+        return listContactsByName;
     }
 
-    private static Contact findContactByName(String name){
+    private Contact[] findContactByName(String name) {
+        int counter = 0;
         for (int i = 0; i < contactsStore.length; i++) {
-            if(contactsStore[i].getName().equals(name)){
-                return contactsStore[i];
+            if (contactsStore[i].getName().equals(name)) {
+                tempContactsStore[i] = contactsStore[i];
+                counter++;
             }
         }
-        System.out.println("We don't have user with name = " + name);
-        return null;
+        listContactsByName = Arrays.copyOf(tempContactsStore, counter);
+        return listContactsByName;
+    }
+
+    public Contact[] findByNameOrNumber(String nameOrNumber) {
+
+        if (StringUtils.isNumericSpace(nameOrNumber.substring(1))) {
+            return findContactByNumber(nameOrNumber.substring(1));
+        }
+
+        return findContactByName(nameOrNumber);
     }
 
 
-    public Contact[] getAll(){
+    public Contact[] getAll() {
         for (int i = 0; i < contactsStore.length; i++) {
             System.out.println("userID = " + contactsStore[i].getId());
         }
         return contactsStore;
     }
-
-
-
-    public static void main(String[] args) {
-
-        Contact user1 = new Contact(1, "Lolia", "+380933091219");
-        Contact user2 = new Contact(2, "Ivan", "+38093");
-        Contact user3 = new Contact(3, "Oleg", "+380933091233");
-        Contact user4 = new Contact(4, "Olga", "+380933091234");
-
-        addContact(user1);
-        addContact(user2);
-        addContact(user3);
-        addContact(user4);
-
-        removeContact(3);
-
-
-    /*    int[] arr = {1, 2, 3, 4, 5};
-
-        int lastContactIndex = arr.length;
-        int removeContactIndex = 2;
-
-        int[] secondArrayPart = new int[lastContactIndex - removeContactIndex];
-
-        System.out.println("size second arr = " + secondArrayPart.length);
-        System.arraycopy(arr, 1, secondArrayPart, 1, 2);
-
-
-        for (int i = 0; i < secondArrayPart.length; i++) {
-            System.out.println("--> " + secondArrayPart[i]);
-        } */
-        }
-    //}
-
-
-   // }
 }
