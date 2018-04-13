@@ -1,8 +1,6 @@
 package contactList;
 
-/**
- * Created by mac on 4/1/18.
- */
+
 public class ContactList {
 
     public boolean addContact(Contact contact){
