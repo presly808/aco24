@@ -1,6 +1,8 @@
 package week1;
 
-
+ /**
+  * Created by mac on 4/1/18.
+ */
 public class ContactList {
 
     private static final int DEFAULT_SIZE = 1;

@@ -1,7 +1,7 @@
 package week1;
 
 /**
- * Created by serhii on 31.03.18.
+ * Created by mac on 4/1/18.
  */
 public class Contact {
 
