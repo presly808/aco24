@@ -1,10 +1,8 @@
-package week2;
+package exclude.week2;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by serhii on 19.01.18.
