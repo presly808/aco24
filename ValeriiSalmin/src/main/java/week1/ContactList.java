@@ -5,15 +5,45 @@ package week1;
  */
 public class ContactList {
 
-    Contact[] contactArray = new Contact[100];
+    Contact[] contactArray = new Contact[10];
+    int lastContactIndex = 0;
 
+    public boolean addContact(Contact contact) {
+        if (isValidContact(contact)) {
+            //TODO: need check/increase array
+            contactArray[lastContactIndex] = contact;
+            lastContactIndex++;
+            return true;
+        }
+        return false;
+    }
 
-    public boolean addContact(Contact contact){
-        if (isValidContact(contact)){
-            Contact.n++;
-            for (int i = 0; i < contactArray.length; i++) {
-                if (contactArray[i]==null){
-                    contactArray[i]=contact;
+    public Contact[] findByNameOrNumber(String nameOrNumber) {
+        Contact[] contactsFoundTemp = new Contact[contactArray.length];
+        int iPoint = 0;
+        for (int i = 0; i < contactArray.length; i++) {
+            if (contactArray[i] != null) {
+                if (contactArray[i].getNumber().contains(nameOrNumber) || contactArray[i].getName().contains(nameOrNumber)) {
+                    contactsFoundTemp[i] = contactArray[i];
+                    iPoint++;
+                }
+            }
+        }
+
+        Contact[] contactsFound = new Contact[iPoint];
+        for (int i = 0; i < contactsFound.length; i++) {
+            contactsFound[i] = contactsFoundTemp[i];
+        }
+        return contactsFound;
+    }
+
+    public boolean removeContact(int id) {
+        //TODO:
+        for (int i = 0; i < contactArray.length; i++) {
+            if (contactArray[i] != null) {
+                if (id == contactArray[i].getId()) {
+                    lastContactIndex--;
+                    contactArray[i] = null;
                     return true;
                 }
             }
@@ -21,61 +51,29 @@ public class ContactList {
         return false;
     }
 
-    public Contact[] findByNameOrNumber(String nameOrNumber){
-        Contact[] contactsFoundTemp = new Contact[contactArray.length];
-        int iPoint=0;
-        for (int i=0;i<contactArray.length;i++){
-            if ((nameOrNumber==contactArray[i].getName())||(nameOrNumber==contactArray[i].getNumber())){
-                contactsFoundTemp[i]=contactArray[i];
-                iPoint=i;
-            }
-        }
-        Contact[] contactsFound = new Contact[iPoint];
-        for (int i=0;i<iPoint;i++) {
-            contactsFound[i]=contactsFoundTemp[i];
-        }
-        return contactsFound;
-    }
-
-    public boolean removeContact(int id){
-        boolean flag=false;
-        for (int i=0;i<contactArray.length;i++){
-            if (id==contactArray[i].getId()){
-                Contact.n--;
-                contactArray[i]=null;
-                //return true;
-                flag=true;
-            }
-        }
-        Contact[] contactArrayTemp = new Contact[Contact.n];
+    public Contact[] getAll() {
+        Contact[] contactArrayTemp = new Contact[lastContactIndex];
         for (int i = 0; i < contactArray.length; i++) {
-            if (contactArray[i]!=null) {
-                contactArrayTemp[i]=contactArray[i];
-
+            for (int j = 0; j < lastContactIndex; j++) {
+                if ((contactArray[i] != null) && (contactArrayTemp[j] == null)) {
+                    contactArrayTemp[j] = contactArray[i];
+                }
             }
         }
-
-        return flag;
-    }
-
-    public Contact[] getAll(){
-        Contact[] contactArrayTemp = new Contact[Contact.n];
-        System.arraycopy(contactArray,0,contactArrayTemp,0,Contact.n);
         return contactArrayTemp;
     }
 
-    public boolean isValidContact(Contact contact){
-        if ((contact.getId()!=0)&&(contact.getName()!=null)&&isValidNumber(contact.getNumber())){
+    public boolean isValidContact(Contact contact) {
+        if (contact != null && contact.getId() != 0 && contact.getName() != null && isValidNumber(contact.getNumber())) {
             return true;
         }
         return false;
     }
 
-    public boolean isValidNumber(String number){
-
+    public boolean isValidNumber(String number) {
         String regex = "\\d+";
 
-        if ((number.length()==13)&&(number.substring(1).matches(regex))){
+        if ((number.length() == 13) && (number.substring(1).matches(regex))) {
             return true;
         }
         return false;
