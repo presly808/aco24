@@ -1,0 +1,33 @@
+MVC Task
+
+View (ConsoleView) -> Controller (ContactController) -> Model (DataModel)
+Tests (Junit) + use interfaces
+
+ContactController implements Controller
+
+    fields:
+        DataModel
+
+    methods:
+        addContact
+        removeContact
+        findByNameOrNumber
+        filterByCity
+        mergeContacts
+        findDuplicates
+        getAll
+
+DataModel implements Model
+    fields:
+        Contact[] arr
+
+    methods:
+        CRUD(CREATE, READ, UPDATE, DELETE)
+
+0. Interfaces(Controller, Model)
+1. Tests
+2. Implementation for interfaces
+
+
+Considering the prev tasks, you should split ContactList to Controller and Model
+

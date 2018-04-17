@@ -1,4 +1,4 @@
-package week2;
+package exclude.week2;
 
 import java.util.List;
 
