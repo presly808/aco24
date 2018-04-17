@@ -29,6 +29,17 @@ public class ContactListTest {
         assertFalse(contactList.addContact(new Contact(1, "Lolia", "lkjhsdksdkjf")));
     }
 
+    @Test
+    public void addContactNegFullDB() throws Exception {
+        final int SIZE_DB = 15;
+        boolean result = true;
+        for (int i = 0; i <= SIZE_DB; i++) {
+            Contact userName = new Contact(1, "L1", "+380933091219");
+            result = contactList.addContact(userName);
+        }
+        assertFalse(result);
+    }
+
 
     @Test
     public void findByNameOrNumber() throws Exception {
