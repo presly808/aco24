@@ -5,8 +5,7 @@ package week1;
  */
 public class ContactList {
 
-    Contact[] contactArray = new Contact[100];
-
+    Contact[] contactArray = new Contact[10];
 
     public boolean addContact(Contact contact){
         if (isValidContact(contact)){

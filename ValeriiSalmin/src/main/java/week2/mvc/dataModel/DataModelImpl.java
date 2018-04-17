@@ -2,30 +2,44 @@ package week2.mvc.dataModel;
 
 import week1.Contact;
 
+import java.util.Arrays;
+
 public class DataModelImpl implements DataModel {
 
     private Contact[] contactsArray;
-    private int lastIndex;
+    private int lastContactIndex;
 
     public DataModelImpl(){
         this.contactsArray = new Contact[10];
     }
 
+    public Contact[] getContactsArray() {
+        return contactsArray;
+    }
+
+    public void setContactsArray(Contact[] contactsArray) {
+        this.contactsArray = contactsArray;
+    }
+
+    public int getLastContactIndex() {
+        return lastContactIndex;
+    }
+
     @Override
     public boolean create(Contact contact) {
-        contactsArray[lastIndex] = contact;
-        lastIndex++;
+        contactsArray[lastContactIndex] = contact;
+        lastContactIndex++;
         return true;
     }
 
     @Override
     public Contact[] read() {
-        return contactsArray;
+        return Arrays.copyOf(contactsArray,lastContactIndex);
     }
 
     @Override
     public boolean update(Contact contact) {
-        for (int i = 0; i < contactsArray.length; i++) {
+        for (int i = 0; i < lastContactIndex; i++) {
             if (contactsArray[i].getId()==contact.getId()) {
                 contactsArray[i] = contact;
                 return true;
@@ -36,10 +50,10 @@ public class DataModelImpl implements DataModel {
 
     @Override
     public boolean delete(int id) {
-        for (int i = 0; i < contactsArray.length; i++) {
+        for (int i = 0; i < lastContactIndex; i++) {
             if (contactsArray[i].getId()==id) {
                 contactsArray[i] = null;
-                lastIndex--;
+                lastContactIndex--;
                 return true;
             }
         }
