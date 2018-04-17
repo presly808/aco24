@@ -34,8 +34,7 @@ public class ContactList {
                 }
             }
         }
-        Contact[] contactsFound = Arrays.copyOf(contactsFoundTemp, iPoint);
-        return contactsFound;
+        return Arrays.copyOf(contactsFoundTemp, iPoint);
     }
 
     public boolean removeContact(int id) {
