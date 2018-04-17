@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class ContactList {
 
-    private Contact[] contactArray = new Contact[1];
+    private Contact[] contactArray = new Contact[10];
     private int lastContactIndex = 0;
     private int phoneNumberSize = 13;
 
