@@ -22,8 +22,6 @@ public class ContactList {
     private Contact[] contactList = new Contact[DEFAULT_LIST_SIZE];
     private int size;
 
-
-
     public boolean addContact(Contact contact){
         if(contact == null){
             return false;
@@ -53,6 +51,7 @@ public class ContactList {
 
     public Contact[] findByNameOrNumber(String nameOrNumber){
         int count = 0;
+
         for (int i = 0; i < contactList.length; i++) {
             if(contactList[i] != null &&
                     (contactList[i].getName().contains(nameOrNumber)
@@ -61,8 +60,6 @@ public class ContactList {
                 count++;
             }
         }
-
-
 
         if (count == 0) {
             return null;
