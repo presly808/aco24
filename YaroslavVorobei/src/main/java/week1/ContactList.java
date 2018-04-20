@@ -91,8 +91,6 @@ public class ContactList {
 
     public Contact[] findByNameOrNumber(String param) {
         int counter = 0;
-        Contact[] foundContactList;
-
         for (int i = 0; i < contactsStore.length; i++) {
             if (paramIsNumber(param) == true &&
                     validateNumberFormate(contactsStore[i].getNumber()).contains(param)) {
@@ -103,9 +101,7 @@ public class ContactList {
                 counter++;
             }
         }
-
-        foundContactList = Arrays.copyOf(tempContactsStore, counter);
-        return foundContactList;
+        return Arrays.copyOf(tempContactsStore, counter);
     }
 
     private boolean paramIsNumber(String param) {
