@@ -2,7 +2,6 @@ package week2.mvc.controller;
 
 import week2.mvc.model.Contact;
 import week2.mvc.model.DataModel;
-
 import java.util.Arrays;
 
 public class ContactControllerImpl implements ContactController {
@@ -25,29 +24,32 @@ public class ContactControllerImpl implements ContactController {
 
     @Override
     public Contact[] findByNameOrNumber(String nameOrNumber) {
-        Contact[] matched = new Contact[10];
+        int INITIAL_SIZE = 10;
+        Contact[] matched = new Contact[INITIAL_SIZE];
         int index = 0;
 
         for (Contact contact : getAll()) {
-            if (findContact(contact, nameOrNumber) != null) {
-                matched[index++] = findContact(contact, nameOrNumber);
+            Contact foundContact = findContact(contact, nameOrNumber);
+            if (foundContact != null) {
+                matched[index++] = foundContact;
             }
         }
         return Arrays.copyOf(matched, index);
     }
 
     @Override
-    public boolean removeContact(int id) {
+    public Contact removeContact(int id) {
         Contact[] list = getAll();
         for (int i = 0; i < list.length; i++) {
             if (list[i].getId() == id) {
+                Contact foundToRemove = list[i];
                 System.arraycopy(getAll(), i + 1, getAll(), i, list.length - 1 - i);
                 dataModel.setSize(dataModel.getSize() - 1);
                 list[list.length - 1] = null;
-                return true;
+                return foundToRemove;
             }
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -56,19 +58,17 @@ public class ContactControllerImpl implements ContactController {
     }
 
 
+    @Override
     public Contact findContact(Contact contact, String nameOrNumber) {
-        if (contact.getName().contains(nameOrNumber) || contact.getNumber().contains(nameOrNumber)) {
+        if (contact != null
+                && nameOrNumber != null
+                && !nameOrNumber.isEmpty()
+                && (contact.getName().contains(nameOrNumber)
+                || contact.getNumber().contains(nameOrNumber))) {
             return contact;
         }
         return null;
     }
 
-//    public Contact findContact(Contact[] list, int id) {
-//        for (Contact contact : list) {
-//            if (contact.getId() == id) {
-//                return contact;
-//            }
-//        }
-//        return null;
-//    }
+
 }

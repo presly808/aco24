@@ -1,4 +1,4 @@
-package week1;
+package week2.mvc.model;
 
 /**
  * Created by serhii on 31.03.18.
@@ -9,8 +9,6 @@ public class Contact {
     private String name;
     private String number;
 
-    public Contact() {
-    }
 
     public Contact(int id, String name, String number) {
         this.id = id;
@@ -43,5 +41,14 @@ public class Contact {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
 
+        Contact contact = (Contact) obj;
+        if (obj == null) return  false;
+
+        return contact.getNumber().equals(this.getNumber())
+                && contact.getName().equals(this.getName())
+                && contact.getId() == this.getId();
+    }
 }

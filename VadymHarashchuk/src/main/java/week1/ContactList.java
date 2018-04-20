@@ -12,28 +12,19 @@ public class ContactList {
     private int lastIndex = 0;
 
     public boolean addContact(Contact contact) {
-        if (contact.getName().isEmpty()
-                || contact.getNumber().isEmpty()
-                || contact.getName() == null
-                || contact.getNumber() == null) {
-            return false;
+
+        if (validateNameIsCorrect(contact) && validatePhoneIsCorrect(contact)) {
+            if (lastIndex == allContacts.length - 1) {
+                Contact[] resized = new Contact[allContacts.length + 10];
+                System.arraycopy(allContacts, 0, resized, 0, allContacts.length);
+                allContacts = resized;
+            }
+
+            allContacts[lastIndex++] = new Contact(contact.getId(), contact.getName(), contact.getNumber());
+
+            return true;
         }
-
-        if (contact.getNumber().matches("[a-zA-Z]*")
-                || contact.getNumber().contains("?!@#$%^&*~`.,<>/\\|")
-                || contact.getNumber().length() < 10) {
-            return false;
-        }
-
-        if (lastIndex == allContacts.length - 1) {
-            Contact[] resized = new Contact[allContacts.length + 10];
-            System.arraycopy(allContacts, 0, resized, 0, allContacts.length);
-            allContacts = resized;
-        }
-
-        allContacts[lastIndex++] = new Contact(contact.getId(), contact.getName(), contact.getNumber());
-
-        return true;
+        return false;
     }
 
     public Contact[] findByNameOrNumber(String nameOrNumber) {
@@ -69,6 +60,19 @@ public class ContactList {
 
     public Contact[] getAll() {
         return Arrays.copyOf(allContacts, lastIndex);
+    }
+
+    public boolean validateNameIsCorrect(Contact contact) {
+        return !(contact.getName().isEmpty()
+                || contact.getNumber().isEmpty()
+                || contact.getName() == null
+                || contact.getNumber() == null);
+    }
+
+    public boolean validatePhoneIsCorrect(Contact contact) {
+        return !(contact.getNumber().matches("[a-zA-Z]*")
+                || contact.getNumber().contains("?!@#$%^&*~`.,<>/\\|")
+                || contact.getNumber().length() < 10);
     }
 
 }
