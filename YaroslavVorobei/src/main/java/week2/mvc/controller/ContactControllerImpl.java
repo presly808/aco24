@@ -3,6 +3,7 @@ package week2.mvc.controller;
 import org.apache.commons.lang3.StringUtils;
 import week2.mvc.dao.ContactDao;
 import week2.mvc.model.Contact;
+import week2.mvc.validation.DataValidation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,8 +48,8 @@ public class ContactControllerImpl implements ContactController {
         Contact[] contacts = contactDao.all();
 
         for (int i = 0; i < contacts.length; i++) {
-            if (paramIsNumber(keyWord) == true &&
-                    validateNumberFormate(contacts[i].getNumber()).contains(keyWord)) {
+            if (DataValidation.paramIsNumber(keyWord) == true &&
+                    DataValidation.validateNumberFormate(contacts[i].getNumber()).contains(keyWord)) {
                 tempContactsStore[i] = contacts[i];
                 counter++;
             } else if (contacts[i].getName().equals(keyWord)) {
@@ -56,12 +57,24 @@ public class ContactControllerImpl implements ContactController {
                 counter++;
             }
         }
-        return  Arrays.copyOf(tempContactsStore, counter);
+        return Arrays.copyOf(tempContactsStore, counter);
     }
 
     @Override
-    public Contact[] filterByCity(String city) {
-        return new Contact[0];
+    public Contact[] filterByCity(String cityName) {
+        String prepared = DataValidation.validateStringValue(cityName).trim().toLowerCase();
+        Contact[] contacts = contactDao.all();
+        List<Contact> resultCityList = new ArrayList<>();
+
+        for (int i = 0; i < contacts.length; i++) {
+            Contact curr = contacts[i];
+            String city = curr.getCity().toLowerCase();
+            if (city.equals(prepared)) {
+                resultCityList.add(curr);
+            }
+        }
+
+        return resultCityList.toArray(new Contact[resultCityList.size()]);
     }
 
     @Override
@@ -109,7 +122,7 @@ public class ContactControllerImpl implements ContactController {
         // java8
         for (int i = 0; i < contacts.length; i++) {
             for (int j = i + 1; j < contacts.length; j++) {
-                if(contacts[i].getNumber().equals(contacts[j].getNumber())){
+                if (contacts[i].getNumber().equals(contacts[j].getNumber())) {
                     duplicates.add(contacts[i]);
                     duplicates.add(contacts[j]);
                 }
@@ -122,15 +135,5 @@ public class ContactControllerImpl implements ContactController {
     @Override
     public Contact[] getAll() {
         return contactDao.all();
-    }
-
-    private boolean paramIsNumber(String param) {
-        if (param == null) return false;
-        return StringUtils.isNumericSpace(validateNumberFormate(param));
-    }
-
-    private String validateNumberFormate(String param) {
-        if (param == null) return param;
-        return param.substring(1);
     }
 }

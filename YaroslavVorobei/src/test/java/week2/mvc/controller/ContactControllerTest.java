@@ -122,4 +122,29 @@ public class ContactControllerTest {
         assertEquals(2, contactController.findByNameOrNumber("Oleg").length);
     }
 
+    @Test
+    public void filterByCity(){
+        Contact user1 = new Contact("Lolia", "+380933091219", "Kyiv");
+        Contact user2 = new Contact("Ivan", "+38093","Poninka");
+        Contact user3 = new Contact("Den", "+38093878","Poninka");
+
+        contactController.addContact(user1);
+        contactController.addContact(user2);
+        contactController.addContact(user3);
+
+        assertEquals(2, contactController.filterByCity("Poninka").length);
+        assertEquals(1, contactController.filterByCity("Kyiv").length);
+    }
+    @Test
+    public void filterByCityNeg(){
+        Contact user1 = new Contact("Lolia", "+380933091219", "Kyiv");
+        Contact user2 = new Contact("Ivan", "+38093","Poninka");
+        Contact user3 = new Contact("Den", "+38093878","Poninka");
+
+        contactController.addContact(user1);
+        contactController.addContact(user2);
+        contactController.addContact(user3);
+
+        assertEquals(0, contactController.filterByCity("Polonne").length);
+    }
 }

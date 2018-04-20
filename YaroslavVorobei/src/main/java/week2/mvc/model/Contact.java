@@ -8,12 +8,27 @@ public class Contact {
     private int id;
     private String name;
     private String number;
+    private String city;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     private String notes;
 
     public Contact(String name, String number) {
         this.name = name;
         this.number = number;
+    }
+
+    public Contact(String name, String number, String city) {
+        this.name = name;
+        this.number = number;
+        this.city = city;
     }
 
     public int getId() {
