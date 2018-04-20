@@ -1,9 +1,11 @@
 package week2.mvc.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import week2.mvc.dao.ContactDao;
 import week2.mvc.model.Contact;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,9 +42,21 @@ public class ContactControllerImpl implements ContactController {
 
     @Override
     public Contact[] findByNameOrNumber(String keyWord) {
+        int counter = 0;
+        Contact[] tempContactsStore = new Contact[15];
+        Contact[] contacts = contactDao.all();
 
-
-        return new Contact[0];
+        for (int i = 0; i < contacts.length; i++) {
+            if (paramIsNumber(keyWord) == true &&
+                    validateNumberFormate(contacts[i].getNumber()).contains(keyWord)) {
+                tempContactsStore[i] = contacts[i];
+                counter++;
+            } else if (contacts[i].getName().equals(keyWord)) {
+                tempContactsStore[i] = contacts[i];
+                counter++;
+            }
+        }
+        return  Arrays.copyOf(tempContactsStore, counter);
     }
 
     @Override
@@ -108,5 +122,15 @@ public class ContactControllerImpl implements ContactController {
     @Override
     public Contact[] getAll() {
         return contactDao.all();
+    }
+
+    private boolean paramIsNumber(String param) {
+        if (param == null) return false;
+        return StringUtils.isNumericSpace(validateNumberFormate(param));
+    }
+
+    private String validateNumberFormate(String param) {
+        if (param == null) return param;
+        return param.substring(1);
     }
 }

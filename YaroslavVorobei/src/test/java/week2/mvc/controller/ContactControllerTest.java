@@ -106,4 +106,20 @@ public class ContactControllerTest {
 
     }
 
+    @Test
+    public void findByNameOrNumber() throws Exception {
+        Contact user1 = new Contact("Lolia", "+380933091219");
+        Contact user2 = new Contact("Ivan", "+38093");
+        Contact user3 = new Contact("Oleg", "+380933091233");
+        Contact user4 = new Contact("Oleg", "+380773091233");
+
+        contactController.addContact(user1);
+        contactController.addContact(user2);
+        contactController.addContact(user3);
+        contactController.addContact(user4);
+
+        assertEquals(3, contactController.findByNameOrNumber("093").length);
+        assertEquals(2, contactController.findByNameOrNumber("Oleg").length);
+    }
+
 }
