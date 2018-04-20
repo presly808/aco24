@@ -9,12 +9,16 @@ import java.util.Arrays;
  */
 public class ContactList {
 
-    private final int DEFAULT_CONTACT_LIST_SIZE = 15;
-    private Contact[] tempContactsStore = new Contact[DEFAULT_CONTACT_LIST_SIZE];
+    private static final int DEFAULT_CONTACT_LIST_SIZE = 15;
+    private Contact[] tempContactsStore;
     private Contact[] contactsStore;
-    private Contact[] listContactsByName;
     private int size;
-    private int removeContactIndex = 0;
+    private int removeContactIndex;
+
+    public ContactList() {
+        tempContactsStore = new Contact[DEFAULT_CONTACT_LIST_SIZE];
+        removeContactIndex = 0;
+    }
 
     public void clearContactsStore() {
         contactsStore = null;
@@ -22,17 +26,18 @@ public class ContactList {
     }
 
     public boolean addContact(Contact contact) {
-        if (!contact.getNumber().substring(0, 3).equals("+38")) {
-            return false;
-        }
-
         if (contact == null) {
             System.out.println("Contact is NULL!!!");
             return false;
         }
 
+        if (!contact.getNumber().substring(0, 3).equals("+38")) {
+            return false;
+        }
+
         if (size == tempContactsStore.length) {
             System.out.println("Contact list is already FULL!!!");
+            return false;
         }
 
         tempContactsStore[size] = contact;
@@ -75,58 +80,45 @@ public class ContactList {
     }
 
     private boolean findContactByID(int id) {
-        boolean searchFlag = false;
-
         for (int i = 0; i < contactsStore.length; i++) {
             if (contactsStore[i].getId() == id) {
                 return true;
             }
         }
-
-        if (searchFlag == false) {
-            System.out.println("We don't have user with id = " + id);
-        }
-        return searchFlag;
+        System.out.println("We don't have user with id = " + id);
+        return false;
     }
 
-    private Contact[] findContactByNumber(String number) {
+    public Contact[] findByNameOrNumber(String param) {
         int counter = 0;
+        Contact[] foundContactList;
+
         for (int i = 0; i < contactsStore.length; i++) {
-            if (contactsStore[i].getNumber().substring(1).contains(number)) {
+            if (paramIsNumber(param) == true &&
+                    validateNumberFormate(contactsStore[i].getNumber()).contains(param)) {
                 tempContactsStore[i] = contactsStore[i];
                 counter++;
-            }
-            listContactsByName = Arrays.copyOf(tempContactsStore, counter);
-        }
-        return listContactsByName;
-    }
-
-    private Contact[] findContactByName(String name) {
-        int counter = 0;
-        for (int i = 0; i < contactsStore.length; i++) {
-            if (contactsStore[i].getName().equals(name)) {
+            } else if (contactsStore[i].getName().equals(param)) {
                 tempContactsStore[i] = contactsStore[i];
                 counter++;
             }
         }
-        listContactsByName = Arrays.copyOf(tempContactsStore, counter);
-        return listContactsByName;
+
+        foundContactList = Arrays.copyOf(tempContactsStore, counter);
+        return foundContactList;
     }
 
-    public Contact[] findByNameOrNumber(String nameOrNumber) {
-
-        if (StringUtils.isNumericSpace(nameOrNumber.substring(1))) {
-            return findContactByNumber(nameOrNumber.substring(1));
-        }
-
-        return findContactByName(nameOrNumber);
+    private boolean paramIsNumber(String param) {
+        if (param == null) return false;
+        return StringUtils.isNumericSpace(validateNumberFormate(param));
     }
 
+    private String validateNumberFormate(String param) {
+        if (param == null) return param;
+        return param.substring(1);
+    }
 
     public Contact[] getAll() {
-        for (int i = 0; i < contactsStore.length; i++) {
-            System.out.println("userID = " + contactsStore[i].getId());
-        }
         return contactsStore;
     }
 }
