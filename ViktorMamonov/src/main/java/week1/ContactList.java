@@ -5,25 +5,19 @@ package week1;
  */
 public class ContactList {
 
-    //private int defaultSize = 7;
-    private Contact[] contacts = new Contact[10];
+    private int defaultSize = 10;
+    private Contact[] contacts = new Contact[defaultSize];
     private int size = 0;
-
-    //private int[] serchName = new int [size];
-
-    //public int getSize() {
-    //     return size;
-    //}
-
 
     public boolean addContact(Contact contact) {
 
-        if (contact.getNumber().matches("^[a-zA-Z]+$")) return false;
-
+        if (contact.getNumber().matches("[0-9]")) return true;
         if (contact != null
-                && contact.getId()!= 0 && contact.getName() != null
-                && contact.getNumber() != null) {
-
+                && contact.getId()!= 0
+                && contact.getName() != null
+                && contact.getNumber() != null
+                && contact.getNumber().length() == 13
+                && size <= defaultSize) {
             contacts[size] = contact;
             size++;
             return true;
@@ -32,48 +26,37 @@ public class ContactList {
     }
 
     public Contact[] findByNameOrNumber(String nameOrNumber) {
-        Contact[] userSearch = new Contact[size];
-        int users = 0;
-        for (int i = 0; i < contacts.length; i ++) {
-            if (contacts[i] != null ){
+        Contact[] indexUserSearch = new Contact[size];
+        int userIndex = 0;
+        for (int i = 0; i < contacts.length && contacts[i] != null ; i ++) {
                 if (contacts[i].getName().contains(nameOrNumber) ||
                         contacts[i].getNumber().contains(nameOrNumber)) {
-                    userSearch[i] = contacts[i];
-                    users++;
+                    indexUserSearch[userIndex] = contacts[i];
+                    userIndex++;
                 }
-            }
         }
-        Contact[] usersFound = new Contact[users];
-        for (int i = 0 ; i < usersFound.length; i ++ ) {
-            usersFound[i] = userSearch[i];
+        Contact[] indexUsersFound = new Contact[userIndex];
+        for (int i = 0 ; i < indexUserSearch.length; i ++ ) {
+            indexUserSearch[i] = indexUserSearch[i];
         }
-        return usersFound;
+        return indexUsersFound;
     }
 
-
-    public boolean  removeContact(int id){
-        for (int i = 0; i < contacts.length; i++) {
-            if (contacts[i] != null) {
+    public boolean removeContact(int id){
+        for (int i = 0; i < contacts.length && contacts[i] != null; i++) {
                 if (id == contacts[i].getId()) {
                     contacts[i] = null;
                     size--;
-
                     return true;
                 }
-            }
-
         }
         return false;
     }
 
     public Contact[] getAll() {
         Contact[] allUsers = new Contact[size];
-        for (int i = 0; i < contacts.length; i++) {
-            for (int k = 0; k < size; k ++){
-                if (contacts[i] != null && allUsers[k] == null) {
-                    allUsers[k] = contacts[i];
-                }
-            }
+        for (int i = 0; i < size; i++) {
+            allUsers[i] = contacts[i];
         }
         return allUsers;
     }
