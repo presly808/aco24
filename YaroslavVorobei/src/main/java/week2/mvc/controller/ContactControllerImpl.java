@@ -109,6 +109,7 @@ public class ContactControllerImpl implements ContactController {
     }
 
     @Override
+    //TODO
     public boolean mergeContacts(Contact cont1, Contact cont2) {
         return false;
     }
