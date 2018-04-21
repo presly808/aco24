@@ -102,8 +102,6 @@ public class ContactControllerTest {
         contactController.addContact(new Contact("Ivan", "+380507869078"));
 
         assertEquals(5, contactController.getAll().length);
-
-
     }
 
     @Test
@@ -146,5 +144,17 @@ public class ContactControllerTest {
         contactController.addContact(user3);
 
         assertEquals(0, contactController.filterByCity("Polonne").length);
+    }
+
+    @Test
+    public void mergeContacts(){
+        Contact user1 = new Contact("Ivan", "+380933091219");
+        Contact user2 = new Contact("Ivan2", "+38097720922");
+
+        contactController.addContact(user1);
+        contactController.addContact(user2);
+
+        contactController.mergeContacts(user1, user2);
+        assertEquals(1, contactController.findByNameOrNumber("Ivan").length);
     }
 }

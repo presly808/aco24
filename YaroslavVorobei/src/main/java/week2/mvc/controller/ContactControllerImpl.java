@@ -23,16 +23,10 @@ public class ContactControllerImpl implements ContactController {
 
     @Override
     public int addContact(Contact contact) {
-
-        // validation
-
-        // generate id
         int idCount = ID_COUNT;
         contact.setId(idCount);
         ID_COUNT++;
-
         contactDao.create(contact);
-
         return idCount;
     }
 
@@ -109,9 +103,17 @@ public class ContactControllerImpl implements ContactController {
     }
 
     @Override
-    //TODO
-    public boolean mergeContacts(Contact cont1, Contact cont2) {
-        return false;
+    public int mergeContacts(Contact cont1, Contact cont2) {
+        String mergedNumber = cont1.getNumber() + cont2.getNumber();
+        String mergedName = cont1.getName();
+        Contact mergedContact = new Contact(mergedName, mergedNumber);
+        int idMergedContact = addContact(mergedContact);
+
+        //delete merged contacts
+        removeContact(cont1.getId());
+        removeContact(cont2.getId());
+
+        return idMergedContact;
     }
 
     @Override

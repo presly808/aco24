@@ -17,7 +17,7 @@ public interface ContactController {
 
     Contact[] findByKeyWord(String keyWord);
 
-    boolean mergeContacts(Contact cont1, Contact cont2);
+    int mergeContacts(Contact cont1, Contact cont2);
 
     Contact[] findDuplicates();
 
