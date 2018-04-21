@@ -32,7 +32,7 @@ public class ContactList {
             return false;
         }
 
-        if(contact.getNumber().length() != 13){
+        if(!contact.getNumber().matches("[+][0-9]{12}")){
             System.out.println("Enter valid phone number");
             return false;
         }
