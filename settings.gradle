@@ -2,4 +2,5 @@ include 'functional-tests'
 include 'common'
 include 'YaroslavVorobei'
 include 'VadymHarashchuk'
+include 'Eytereschenko'
 
