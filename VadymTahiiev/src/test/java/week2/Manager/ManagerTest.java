@@ -35,5 +35,4 @@ public class ManagerTest {
 
         Assert.assertThat(manager.getSubworkers().size(), CoreMatchers.equalTo(3));
     }
-
 }

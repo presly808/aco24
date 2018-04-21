@@ -18,8 +18,12 @@ public class ContactList {
     }
 
     public boolean addContact(Contact contact){
-        if (contact == null) return false;
-        if (!contact.getNumber().contains("+380")) return false;
+        if (contact == null) {
+            return false;
+        }
+        if (!contact.getNumber().contains("+380")) {
+            return false;
+        }
         return contactStorage.add(contact);
     }
 
