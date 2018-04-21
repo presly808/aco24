@@ -8,6 +8,9 @@ import java.util.Arrays;
  */
 public class ContactList {
 
+    private static final int DEFAULT_LIST_SIZE = 50;
+    private Contact[] contactList = new Contact[DEFAULT_LIST_SIZE];
+    private int size;
 
 
     public ContactList(){
@@ -17,10 +20,6 @@ public class ContactList {
     public ContactList(int size){
         Contact[] contactList = new Contact[size];
     }
-
-    private static final int DEFAULT_LIST_SIZE = 50;
-    private Contact[] contactList = new Contact[DEFAULT_LIST_SIZE];
-    private int size;
 
     public boolean addContact(Contact contact){
         if(contact == null){
@@ -102,32 +101,17 @@ public class ContactList {
     }
 
     public Contact[] getAll(){
-        int contactIndex = 0;
-
-        for (int i = contactList.length - 1; contactList[i] != null && i >= 0 ; i--) {
-
-                moveElement(contactList, i);
-
-        }
-
-        for (int i = 0; i < contactList.length; i++) {
-            if (contactList[i] != null) {
-                contactIndex++;
+        Contact[] contactListRes = new Contact[size];
+        int index = 0;
+        for (int i = 0; i < DEFAULT_LIST_SIZE; i++) {
+            if(contactList[i] != null){
+                contactListRes[index] = contactList[i];
+                index++;
             }
         }
 
-        return Arrays.copyOf(contactList, contactIndex);
+        return contactListRes;
 
-    }
-
-    private void moveElement(Contact[] contactList, int i) {
-        for(int j = i - 1; j >= 0; j--){
-            if(contactList[j] == null){
-                Contact tmp = contactList[i];
-                contactList[i] = contactList[j];
-                contactList[j] = tmp;
-            }
-        }
     }
 
 }
