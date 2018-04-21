@@ -69,8 +69,8 @@ public class ContactList {
 
         int index = 0;
 
-        for (int i = 0; i < contactList.length; i++) {
-            if(contactList[i] != null &&
+        for (int i = 0; contactList[i] != null && i < contactList.length; i++) {
+            if(
                     (contactList[i].getName().contains(nameOrNumber)
                             || contactList[i].getNumber().contains(nameOrNumber))
                     ){
@@ -83,38 +83,40 @@ public class ContactList {
     }
 
     public boolean removeContact(int id){
-        int count = 0;
+        int check = 0;
 
-        for (int i = 0; i < contactList.length; i++) {
-            if(contactList[i] != null && contactList[i].getId() == id){
+        for (int i = 0; i < contactList.length && contactList[i] != null; i++) {
+            if(contactList[i].getId() == id){
                 contactList[i] = null;
-                count++;
+                check++;
             }
         }
 
-        if(count == 0) {
+        if(check == 0) {
             return false;
         }
+
+        size--;
 
         return true;
     }
 
     public Contact[] getAll(){
-        int count = 0;
+        int contactIndex = 0;
 
-        for (int i = contactList.length - 1; i >= 0 ; i--) {
-            if(contactList[i] != null){
+        for (int i = contactList.length - 1; contactList[i] != null && i >= 0 ; i--) {
+
                 moveElement(contactList, i);
-            }
+
         }
 
         for (int i = 0; i < contactList.length; i++) {
             if (contactList[i] != null) {
-                count++;
+                contactIndex++;
             }
         }
 
-        return Arrays.copyOf(contactList, count);
+        return Arrays.copyOf(contactList, contactIndex);
 
     }
 
