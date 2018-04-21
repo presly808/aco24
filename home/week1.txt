@@ -8,7 +8,7 @@
 
 2.1. Perform tasks in ```gradlew showAllTasks``` (contactList) (2h)
 
-3. Add libs(junit) to your module via IDEA and see how to work with Junit Tests (2h)
+?3. Add libs(junit) to your module via IDEA and see how to work with Junit Tests (2h)
     https://www.youtube.com/watch?v=Bld3644bIAo
     https://www.youtube.com/watch?v=UqtorhWcjPM
     Add Test to Salesman application
@@ -18,4 +18,4 @@
     https://www.youtube.com/watch?v=lb0N2Li_Fbk&list=PLvmHg49t5OCRWqG58bycrLoAr85e-e9dd&index=4
     https://www.youtube.com/watch?v=h1G83mlG3wI&index=5&list=PLvmHg49t5OCRWqG58bycrLoAr85e-e9dd
 
-5. task from ```gradlew showAllTasks``` (week2) (3h)
+5. task from ```gradlew showAllTasks``` (exclude.week2) (3h)
