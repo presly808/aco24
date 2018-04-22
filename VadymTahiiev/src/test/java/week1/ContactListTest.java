@@ -21,7 +21,7 @@ public class ContactListTest {
 
     @Test
     public void addContactNeg() throws Exception {
-        assertFalse(contactList.addContact(new Contact(1, "Lolia", "lkjhsdksdkjf")));
+        assertFalse(contactList.addContact(new Contact(1, "Lolia", "lkjhksdkjf")));
     }
 
 
