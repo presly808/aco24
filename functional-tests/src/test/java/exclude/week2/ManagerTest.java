@@ -8,7 +8,7 @@ import org.junit.Test;
  * Created by serhii on 19.01.18.
  */
 public class ManagerTest {
-    @Test
+  /*  @Test
     public void calculateSalary() throws Exception {
         Manager manager = new Manager("Oleg", 3000);
         manager.addSubworker(new Employee("Ivan", 2000));
@@ -35,5 +35,5 @@ public class ManagerTest {
 
         Assert.assertThat(manager.getSubworkers().size(), CoreMatchers.equalTo(3));
     }
-
+*/
 }
