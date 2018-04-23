@@ -2,11 +2,13 @@ package week3.servicecenter.model;
 
 public class Ticket {
 
+    private int id;
     private Worker worker;
     private User user;
     private Item item;
 
-    private Ticket(Item item, User user){
+    public Ticket(Item item, User user){
+        id++;
         this.item = item;
         this.user = user;
     }
