@@ -7,11 +7,10 @@ public class Item {
     private Worker worker;
     private Ticket ticket;
 
-    private Item(String name, User user, Ticket ticket){
+    protected Item(String name, User user, Ticket ticket){
         this.name = name;
         this.user = user;
         this.ticket = ticket;
     }
-
 
 }

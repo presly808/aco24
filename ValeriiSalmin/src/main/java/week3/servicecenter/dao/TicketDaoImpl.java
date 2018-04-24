@@ -2,7 +2,18 @@ package week3.servicecenter.dao;
 
 import week3.servicecenter.model.Ticket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TicketDaoImpl implements TicketDao {
+
+    private Ticket ticket;
+
+    private TicketDaoImpl(){
+
+    }
+
+
 
     @Override
     public Ticket create() {
@@ -10,17 +21,17 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void read() {
-
+    public List<Ticket> read() {
+        return new ArrayList<Ticket>();
     }
 
     @Override
-    public void update() {
-
+    public boolean update(int id) {
+        return false;
     }
 
     @Override
-    public void delete(int id) {
-        ticket = null;
+    public boolean delete(int id) {
+        return false;
     }
 }

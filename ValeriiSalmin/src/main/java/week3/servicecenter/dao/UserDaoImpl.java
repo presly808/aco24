@@ -2,6 +2,8 @@ package week3.servicecenter.dao;
 
 public class UserDaoImpl implements UserDao {
 
+    private TicketDao ticketDao;
+
     @Override
     public void create() {
 

@@ -1,17 +1,22 @@
 package week3.servicecenter.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User extends Human{
 
+    private List<Item> items = new ArrayList<Item>();
+
     public User(String name, String phone) {
+        this.name = name;
+        this.phoneNumber = phone;
     }
 
-    private Item giveItem(){
-        return new Item();
+    private Item giveItem(String name, User user, Ticket ticket){
+        return new Item(name,user,ticket);
     }
 
-    private void checkTicketStatus(Ticket ticket){
 
-    }
 
     private void takeItemBack(Item item){
 

@@ -2,10 +2,12 @@ package week3.servicecenter.dao;
 
 import week3.servicecenter.model.Ticket;
 
+import java.util.List;
+
 public interface TicketDao {
 
     public Ticket create();
-    public void read();
-    public void update();
-    public void delete(int id);
+    public List<Ticket> read();
+    public boolean update(int id);
+    public boolean delete(int id);
 }
