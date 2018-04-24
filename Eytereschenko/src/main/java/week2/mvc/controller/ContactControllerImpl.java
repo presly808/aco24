@@ -117,10 +117,7 @@ public class ContactControllerImpl implements ContactController {
         }
 
 
-        List<Contact> list = new ArrayList<>();
-        for (int i = 0; i < contacts1.length; i++) {
-            list.add(contacts1[i]);
-        }
+        List<Contact> list = new ArrayList<>(Arrays.asList(contacts1));
 
         for (int i = 0; i < contacts2.length; i++) {
             if (!list.contains(contacts2[i])) {
