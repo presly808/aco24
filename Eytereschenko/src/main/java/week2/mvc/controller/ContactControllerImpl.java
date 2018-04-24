@@ -25,7 +25,7 @@ public class ContactControllerImpl implements ContactController {
     public int addContact(Contact contact) {
 
         // validation
-        if(!ContactValidator.validate(contact)){
+        if (!ContactValidator.validate(contact)) {
             return -1;
         }
 
@@ -84,7 +84,7 @@ public class ContactControllerImpl implements ContactController {
         // java8
         for (int i = 0; i < contacts.length; i++) {
             for (int j = i + 1; j < contacts.length; j++) {
-                if(contacts[i].getNumber().equals(contacts[j].getNumber())){
+                if (contacts[i].getNumber().equals(contacts[j].getNumber())) {
                     duplicates.add(contacts[i]);
                     duplicates.add(contacts[j]);
                 }
@@ -102,14 +102,39 @@ public class ContactControllerImpl implements ContactController {
     @Override
     public Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2) {
 
+        //validation
+        if (contacts1 == null) {
+            if (contacts2 == null) {
+                System.out.println("arrays are null!");
+                return null;
+            } else {
+                System.out.println("1st list is null!");
+                return contacts2;
+            }
+        } else if (contacts2 == null) {
+            System.out.println("2nd list is null");
+            return contacts1;
+        }
 
-        return new Contact[0];
+
+        List<Contact> list = new ArrayList<>();
+        for (int i = 0; i < contacts1.length; i++) {
+            list.add(contacts1[i]);
+        }
+
+        for (int i = 0; i < contacts2.length; i++) {
+            if (!list.contains(contacts2[i])) {
+                list.add(contacts2[i]);
+            }
+        }
+
+        return list.toArray(new Contact[list.size()]);
     }
 
     @Override
     public Contact[] findByCity(String city) {
 
-        if(city == null || city.isEmpty()){
+        if (city == null || city.isEmpty()) {
             System.out.println("please, enter correct city");
             return new Contact[0];
         }
@@ -121,11 +146,13 @@ public class ContactControllerImpl implements ContactController {
         List<Contact> list = new ArrayList<>();
 
         for (int i = 0; i < contacts.length; i++) {
-            if(contacts[i].getNotes().toLowerCase().equals(cityToBeFind)){
+            if (contacts[i].getNotes().toLowerCase().equals(cityToBeFind)) {
                 list.add(contacts[i]);
             }
         }
 
         return list.toArray(new Contact[list.size()]);
     }
+
+
 }

@@ -17,4 +17,5 @@ public interface ContactController {
     Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2);
 
     Contact[] findByCity(String city);
+
 }

@@ -15,13 +15,13 @@ public class ContactControllerTest {
     private ContactController contactController;
 
     @Before
-    public void before(){
+    public void before() {
         contactController = new ContactControllerImpl(new ContactDaoImpl());
         // init data, in particular create contactController
     }
 
     @After
-    public void after(){
+    public void after() {
         // delete all data, remove contactController
         contactController = null;
     }
@@ -70,10 +70,10 @@ public class ContactControllerTest {
         contactController.addContact(new Contact("Ivan", "+380507869078"));
 
         Contact[] contacts = contactController.findByKeyWord("an");
-        Assert.assertEquals(2,contacts.length);
+        Assert.assertEquals(2, contacts.length);
 
         Contact[] contactsNum = contactController.findByKeyWord("093");
-        Assert.assertEquals(2,contactsNum.length);
+        Assert.assertEquals(2, contactsNum.length);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ContactControllerTest {
         contactController.addContact(new Contact("Ivan", "+380507869078"));
 
         Contact[] contacts = contactController.findByKeyWord("x");
-        Assert.assertEquals(0,contacts.length);
+        Assert.assertEquals(0, contacts.length);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ContactControllerTest {
         contactController.addContact(new Contact("Ivan", "+380507869078"));
 
         Contact[] contacts = contactController.findDuplicates();
-        Assert.assertEquals(2,contacts.length);
+        Assert.assertEquals(2, contacts.length);
     }
 
     @Test
@@ -138,6 +138,26 @@ public class ContactControllerTest {
 
         Assert.assertEquals(0, contactController.findByCity("KOZIN").length);
 
+    }
+
+    @Test
+    public void mergeContacts() throws Exception {
+        contactController.addContact(new Contact("Anton", "+380931234567", "Kiev"));
+        contactController.addContact(new Contact("Petro", "+380931234567", "kHarkiv"));
+        contactController.addContact(new Contact("Andrey", "+380939876543", "DOnetsk"));
+        contactController.addContact(new Contact("Oleg", "+380974536723", "Slavyansk"));
+        contactController.addContact(new Contact("Oleg", "+380941516121", "SlavYansk"));
+        contactController.addContact(new Contact("Ivan", "+380507869078", "lVIV"));
+
+        Contact[] contacts1 = contactController.getAll();
+
+        contactController.addContact(new Contact("Jenya", "+380507869078", "EREVAN"));
+        contactController.addContact(new Contact("Vadim", "+380941516121", "DUSHANBE"));
+
+        Contact[] contacts2 = contactController.getAll();
+        Contact[] contacts3 = contactController.mergeContacts(contacts1, contacts2);
+
+        Assert.assertEquals(8, contacts3.length);
     }
 
 }
