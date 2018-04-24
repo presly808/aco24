@@ -13,12 +13,13 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public String checkTicketStatus(Ticket ticket) {
-        return ticketDao.getStatus();
+    public String checkTicketStatus(int id) {
+        return ticketDao.getStatus(id);
     }
 
     @Override
     public boolean giveItem(Item item) {
+
         return false;
     }
 
@@ -28,9 +29,13 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public boolean leaveComment(Ticket ticket, String comment) {
+    public boolean leaveComment(int id, String comment) {
+        for (Ticket ticket: ticketDao.read()) {
+            if (ticket.getId() == id){
+                ticket.setComment(comment);
+                return true;
+            }
+        }
         return false;
     }
-
-
 }

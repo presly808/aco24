@@ -11,5 +11,7 @@ public class DB {
     private List<Ticket> itemList = new ArrayList<>();
     private List<Ticket> userList = new ArrayList<>();
     private List<Ticket> workerList = new ArrayList<>();
-    private List<ActionLog> log = new ArrayList<>();
+    //private List<ActionLog> log = new ArrayList<>();
+
+    //createWorker means db.addToWorkerList
 }

@@ -8,23 +8,29 @@ import java.util.List;
 
 public class WorkerDaoImpl implements WorkerDao {
 
+    private final List<Worker> workerList;
+
+    private WorkerDaoImpl(){
+        this.workerList = new ArrayList<>();
+    }
+
     @Override
-    public Worker create(String name, String phoneNumber, String salary, Date startWorkDate) {
-        return new Worker(name, phoneNumber, salary, startWorkDate);
+    public boolean create(Worker worker) {
+        return workerList.add(worker);
     }
 
     @Override
     public List<Worker> read() {
-        return new ArrayList<Worker>();
+        return workerList;
     }
 
     @Override
-    public boolean update(String name) {
-        return false;
+    public void update(Worker worker) {
+
     }
 
     @Override
-    public boolean delete(String name) {
-        return false;
+    public boolean delete(Worker worker) {
+        return workerList.remove(worker);
     }
 }

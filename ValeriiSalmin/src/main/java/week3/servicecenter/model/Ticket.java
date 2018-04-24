@@ -2,16 +2,21 @@ package week3.servicecenter.model;
 
 public class Ticket {
 
-    private static int id;
+    private static int ID_COUNT=1;
+    private int id;
     private Worker worker;
     private User user;
     private Item item;
     private String status;
+    private String comment;
 
     public Ticket(Item item, User user){
-        id++;
         this.item = item;
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getStatus() {
@@ -30,4 +35,7 @@ public class Ticket {
         this.worker = worker;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

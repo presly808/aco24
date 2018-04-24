@@ -1,6 +1,8 @@
 package week3.servicecenter.dao;
 
+import week3.servicecenter.model.Item;
 import week3.servicecenter.model.Ticket;
+import week3.servicecenter.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,19 @@ public class TicketDaoImpl implements TicketDao {
 
     }
 
-
+    @Override
+    public void leaveComment(int id, String comment){
+        ticket.setComment(comment);
+    }
 
     @Override
-    public Ticket create() {
-        return new Ticket();
+    public String getStatus(int id){
+        return ticket.getStatus();
+    }
+
+    @Override
+    public boolean create(Item item, User user) {
+        return false;
     }
 
     @Override

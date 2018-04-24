@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface WorkerDao {
 
-    public Worker create(String name, String phoneNumber, String salary, Date startWorkDate);
+    public boolean create(Worker worker);
     public List<Worker> read();
-    public boolean update(String name);
-    public boolean delete(String name);
+    public void update(Worker worker);
+    public boolean delete(Worker worker);
 }
