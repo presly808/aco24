@@ -1,26 +1,28 @@
 package week3.servicecenter.dao;
 
+import week3.servicecenter.model.DB;
 import week3.servicecenter.model.Item;
+import week3.servicecenter.utils.ObjectFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDaoImpl implements ItemDao {
 
-    private final List<Item> itemList;
+    private DB db;
 
-    public ItemDaoImpl(List<Item> itemList) {
-        this.itemList = new ArrayList<>();
+    public ItemDaoImpl() {
+        db = (DB) ObjectFactory.get("DB");
     }
 
     @Override
     public boolean create(Item item) {
-        return itemList.add(item);
+        return db.getItemList().add(item);
     }
 
     @Override
     public List<Item> read() {
-        return itemList;
+        return db.getItemList();
     }
 
     @Override
@@ -29,7 +31,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void delete() {
-
+    public boolean delete(Item item) {
+        return db.getItemList().remove(item);
     }
 }

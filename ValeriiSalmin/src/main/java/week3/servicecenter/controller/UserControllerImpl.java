@@ -1,15 +1,19 @@
 package week3.servicecenter.controller;
 
+import week3.servicecenter.dao.ItemDao;
 import week3.servicecenter.dao.TicketDao;
 import week3.servicecenter.model.Item;
 import week3.servicecenter.model.Ticket;
+import week3.servicecenter.utils.ObjectFactory;
 
 public class UserControllerImpl implements UserController {
 
     private TicketDao ticketDao;
+    private ItemDao itemDao;
 
-    private UserControllerImpl(TicketDao ticketDao){
-        this.ticketDao = ticketDao;
+    public UserControllerImpl(){
+        this.ticketDao = (TicketDao) ObjectFactory.get("TicketDao");
+        this.itemDao = (ItemDao) ObjectFactory.get("ItemDao");
     }
 
     @Override
@@ -19,13 +23,12 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public boolean giveItem(Item item) {
-
-        return false;
+        return itemDao.create(item);
     }
 
     @Override
     public boolean takeItemBack(Item item) {
-        return false;
+        return itemDao.delete(item);
     }
 
     @Override

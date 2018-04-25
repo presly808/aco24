@@ -9,5 +9,5 @@ public interface ItemDao {
     public boolean create(Item item);
     public List<Item> read();
     public void update();
-    public void delete();
+    public boolean delete(Item item);
 }

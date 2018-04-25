@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface AdminController {
 
-    public void hireWorker();
+    public boolean hireWorker(Worker worker);
     public List<Human> read();
     public void update();
-    public void fireWorker();
+    public boolean fireWorker(Worker worker);
+    public void paySalary();
+    public Double getSalaryInfoByWorkers();
+    public void getWorkedHoursByWorker();
+    public void otherFilteringActionsOverWorkersTicketsUsers();
 }

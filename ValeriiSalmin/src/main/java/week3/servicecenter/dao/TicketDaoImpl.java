@@ -1,8 +1,10 @@
 package week3.servicecenter.dao;
 
+import week3.servicecenter.model.DB;
 import week3.servicecenter.model.Item;
 import week3.servicecenter.model.Ticket;
 import week3.servicecenter.model.User;
+import week3.servicecenter.utils.ObjectFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +12,10 @@ import java.util.List;
 public class TicketDaoImpl implements TicketDao {
 
     private Ticket ticket;
+    private DB db;
 
-    private TicketDaoImpl(){
-
+    public TicketDaoImpl(){
+        db = (DB) ObjectFactory.get("DB");
     }
 
     @Override
