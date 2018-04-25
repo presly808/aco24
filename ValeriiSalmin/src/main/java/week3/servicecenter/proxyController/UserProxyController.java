@@ -1,19 +1,26 @@
 package week3.servicecenter.proxyController;
 
+import week3.servicecenter.controller.Listener;
 import week3.servicecenter.controller.UserController;
-import week3.servicecenter.controller.UserControllerImpl;
 import week3.servicecenter.model.Item;
 
-public class UserProxyController implements UserController{
+import java.awt.*;
+
+public class UserProxyController implements UserController, Listener {
 
     private UserController userController;
+
+    @Override
+    public void listen(Event event) {
+
+    }
 
     public UserProxyController(UserController userController){
         this.userController = userController;
     }
 
     public String checkTicketStatus(int id){
-        System.out.println("vitalik proxy checkTicketStatus");
+        //listener(userController.checkTicketStatus(id));
         return userController.checkTicketStatus(id);
     }
 
@@ -31,4 +38,5 @@ public class UserProxyController implements UserController{
         System.out.println("vitalik proxy leaveComment");
         return userController.leaveComment(id, comment);
     }
+
 }

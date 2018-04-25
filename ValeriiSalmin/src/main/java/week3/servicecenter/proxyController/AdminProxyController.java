@@ -15,11 +15,11 @@ public class AdminProxyController implements AdminController {
     }
 
     public boolean hireWorker(Worker worker){
-
+        return adminController.hireWorker(worker);
     }
 
     public List<Human> read(){
-
+        //return
     }
 
     public void update(){
@@ -27,7 +27,7 @@ public class AdminProxyController implements AdminController {
     }
 
     public boolean fireWorker(Worker worker){
-
+        return adminController.fireWorker(worker);
     }
 
     public void paySalary(){

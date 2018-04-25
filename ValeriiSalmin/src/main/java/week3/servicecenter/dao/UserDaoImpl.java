@@ -11,7 +11,7 @@ public class UserDaoImpl implements UserDao {
     private TicketDao ticketDao;
     private DB db;
 
-    private UserDaoImpl(){
+    public UserDaoImpl(){
         db = (DB) ObjectFactory.get("DB");
     }
 
