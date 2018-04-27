@@ -19,7 +19,7 @@ public class AdminProxyController implements AdminController {
     }
 
     public List<Human> read(){
-        //return
+        return null;
     }
 
     public void update(){
@@ -35,7 +35,7 @@ public class AdminProxyController implements AdminController {
     }
 
     public Double getSalaryInfoByWorkers(){
-
+        return null;
     }
 
     public void getWorkedHoursByWorker(){
