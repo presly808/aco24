@@ -51,10 +51,22 @@ public class NodeUtilsImpl implements NodeUtils {
 
     @Override
     public Node createNodeR(Object... mas) {
-        if(mas.length == 0) return null;
-        Node node = new Node(createNodeR(Arrays.copyOf(mas, mas.length - 1)), mas[mas.length - 1]);
 
-        return node;
+        if(mas.length == 0) {
+            return null;
+        }else {
+            Object[] newMas = partArray(mas);
+            return new Node(createNode(newMas), mas[0]);
+        }
+    }
+
+    private Object[] partArray(Object[] mas) {
+
+        Object[] newMas = new Object[mas.length - 1];
+        for (int i = 1; i < mas.length; i++) {
+            newMas[i - 1] = mas[i];
+        }
+        return newMas;
     }
 
     @Override
@@ -73,15 +85,20 @@ public class NodeUtilsImpl implements NodeUtils {
     public Node remove(Node chain, Object val) {
 
 
-        Node prev = new Node();
+        Node nodeTmp = chain;
 
-        if (chain.value.equals(val)) {
-            prev.next = chain.next;
+        if(chain.value.equals(val)){
+            chain = chain.next;
+            return nodeTmp;
+        } else if(chain.next.value.equals(val)){
+            Node result = chain.next;
+            chain.next = chain.next.next;
+            return result;
         } else {
-            remove(chain.next, val);
+            return remove(chain.next, val);
         }
 
-        return chain;
+
 
     }
 
