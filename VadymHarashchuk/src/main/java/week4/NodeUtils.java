@@ -1,29 +1,29 @@
 package week4;
 
-public interface NodeUtils {
+public interface NodeUtils<T> {
 
 
-    void addToTail(Node first, Object val);
+    void addToTail(Node<T> first, T val);
 
-    Node addToHead(Node chain, Object val);
+    Node addToHead(Node<T> chain, T val);
 
-    String toString(Node chain);
+    String toString(Node<T> chain);
 
-    Node createNode(Object... mas);
+    Node createNode(T... mas);
 
-    Node createNodeR(Object... mas);
+    Node createNodeR(T... mas);
 
-    int count(Node chain);
+    int count(Node<T> chain);
 
-    Node remove(Node chain, Object val);
+    Node remove(Node<T> chain, T val);
 
-    Object[] toArray(Node chain);
+    T[] toArray(Node<T> chain);
 
     //reverse using loop
-    Node reverse(Node curr);
+    Node<T> reverse(Node<T> curr);
 
     //reverse usin recursion
-    Node reverse(Node curr, Node next, Node prev);
+    Node<T> reverse(Node<T> curr, Node<T> next, Node<T> prev);
 
 
 }

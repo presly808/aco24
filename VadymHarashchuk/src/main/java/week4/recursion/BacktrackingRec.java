@@ -11,7 +11,21 @@ public class BacktrackingRec {
 
     // [1,5,10,20,9,7] , 14-> true
     public static boolean canFindSum(int[] mas, int target){
-        return true;
+
+        if (target == 0) {
+            return true;
+        }
+        if(mas.length == 0) {
+            return false;
+        }
+
+        int a = target - mas[0];
+        mas = Arrays.copyOfRange(mas,1, mas.length);
+
+        boolean rec1 = canFindSum(mas, a);
+        boolean rec2 = canFindSum(mas, target);
+
+        return rec1 || rec2;
     }
 
     // [1,5,10,20,9,7] , 13 -> [1,5,7]
@@ -40,6 +54,8 @@ public class BacktrackingRec {
 
     // more complex solution based on above method
     public static Map<Integer, List<Integer>> allPossibleCombination(int[] income, int[] targets){
+        
+
         return null;
     }
 
