@@ -1,6 +1,7 @@
 package week4;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by serhii on 03.02.18.
@@ -36,13 +37,17 @@ public class NodeUtilsImpl implements NodeUtils {
 
     @Override
     public Node createNode(Object... mas) {
-        return null;
+        //return null;
+        if (mas.length == 0) return null;
+        Node node = new Node(createNodeR(Arrays.copyOfRange(mas,1,mas.length)),mas[0]);
+        return node;
     }
 
     @Override
     public Node createNodeR(Object... mas) {
-        if ()
-        return null;
+        if (mas.length == 0) return null;
+        Node node = new Node(createNodeR(Arrays.copyOfRange(mas,1,mas.length)),mas[0]);
+        return node;
     }
 
     @Override
