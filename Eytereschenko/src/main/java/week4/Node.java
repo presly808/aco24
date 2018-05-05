@@ -3,15 +3,15 @@ package week4;
 /**
  * Created by serhii on 03.02.18.
  */
-public class Node {
+public class Node<T> {
 
     public Node next;
-    public Object value;
+    public T value;
 
     public Node() {
     }
 
-    public Node(Node next, Object value) {
+    public Node(Node next, T value) {
         this.next = next;
         this.value = value;
     }

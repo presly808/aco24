@@ -5,13 +5,13 @@ import java.util.Arrays;
 /**
  * Created by serhii on 03.02.18.
  */
-public class NodeUtilsImpl implements NodeUtils {
+public class NodeUtilsImpl<T> implements NodeUtils<T> {
 
     @Override
-    public void addToTail(Node first, Object val) {
+    public void addToTail(Node<T> first, T val) {
 
         if (first.next == null) {
-            first.next = new Node(null, val);
+            first.next = new Node<T>(null, val);
         } else {
             addToTail(first.next, val);
         }
@@ -19,9 +19,9 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Node addToHead(Node chain, Object val) {
+    public Node<T> addToHead(Node<T> chain, T val) {
 
-        return new Node(chain, val);
+        return new Node<T>(chain, val);
 
     }
 
@@ -38,9 +38,9 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Node createNode(Object... mas) {
+    public Node<T> createNode(T... mas) {
 
-        Node node = new Node(null, mas[mas.length - 1]);
+        Node<T> node = new Node<>(null, mas[mas.length - 1]);
         for (int i = mas.length - 2; i >= 0; i--) {
             node = addToHead(node, mas[i]);
         }
@@ -50,19 +50,19 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Node createNodeR(Object... mas) {
+    public Node<T> createNodeR(T... mas) {
 
         if(mas.length == 0) {
             return null;
         }else {
-            Object[] newMas = partArray(mas);
-            return new Node(createNode(newMas), mas[0]);
+            T[] newMas = partArray(mas);
+            return new Node<T>(createNode(newMas), mas[0]);
         }
     }
 
-    private Object[] partArray(Object[] mas) {
+    private T[] partArray(T[] mas) {
 
-        Object[] newMas = new Object[mas.length - 1];
+        T[] newMas = (T[]) new Object[mas.length - 1];
         for (int i = 1; i < mas.length; i++) {
             newMas[i - 1] = mas[i];
         }
@@ -70,7 +70,7 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public int count(Node chain) {
+    public int count(Node<T> chain) {
 
 
         if (chain.next == null) {
@@ -82,16 +82,16 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Node remove(Node chain, Object val) {
+    public Node<T> remove(Node<T> chain, T val) {
 
 
-        Node nodeTmp = chain;
+        Node<T> nodeTmp = chain;
 
         if(chain.value.equals(val)){
             chain = chain.next;
             return nodeTmp;
         } else if(chain.next.value.equals(val)){
-            Node result = chain.next;
+            Node<T> result = chain.next;
             chain.next = chain.next.next;
             return result;
         } else {
@@ -103,10 +103,10 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Object[] toArray(Node chain) {
+    public T[] toArray(Node<T> chain) {
 
         int size = count(chain);
-        Object[] result = new Object[size];
+        T[] result = (T[]) new Object[size];
         int i = 0;
 
         while (chain.next != null){
@@ -120,10 +120,10 @@ public class NodeUtilsImpl implements NodeUtils {
 
     // 1,2,3,4,5 -> 5,4,3,2,1
     @Override
-    public Node reverse(Node curr) {
+    public Node<T> reverse(Node<T> curr) {
 
-        Node next = null;
-        Node prev = null;
+        Node<T> next = null;
+        Node<T> prev = null;
 
         while (curr != null) {
             next = curr.next;
@@ -136,7 +136,7 @@ public class NodeUtilsImpl implements NodeUtils {
     }
 
     @Override
-    public Node reverse(Node curr, Node next, Node prev) {
+    public Node<T> reverse(Node<T> curr, Node<T> next, Node<T> prev) {
 
         if (curr == null) {
             return prev;
