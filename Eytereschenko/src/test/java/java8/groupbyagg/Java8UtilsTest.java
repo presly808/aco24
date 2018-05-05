@@ -21,6 +21,9 @@ import static org.junit.Assert.*;
 public class Java8UtilsTest {
 
     private List<User> userList;
+    private User user1;
+    private User user2;
+    private User user3;
 
     @Before
     public void before(){
@@ -31,6 +34,10 @@ public class Java8UtilsTest {
         Department test = new Department(3,"TEST","ODESSA");
         Department man = new Department(4,"MAN","ODESSA");
 
+        user1 = new User(11, "Perviy", 0, man);
+        user2 = new User(11, "Vtoroi", 1000, man);
+        user3 = new User(12, "Stajer", -500, man);
+
 
         userList.add(new User(1,"Kolia", 3000, it));
         userList.add(new User(2,"Oleg", 2000, test));
@@ -38,6 +45,7 @@ public class Java8UtilsTest {
         userList.add(new User(4,"Olesia", 1000, support));
         userList.add(new User(5,"Petro", 2500, test));
         userList.add(new User(6,"Jenia", 3500, support));
+
     }
 
     @After
@@ -79,6 +87,10 @@ public class Java8UtilsTest {
         Map<String, List<User>> stringListMap = Java8Utils.groupByCityName(userList);
         assertThat(stringListMap.keySet().size(), equalTo(2));
         assertThat(stringListMap.get("KIEV").size(), equalTo(4));
+        assertThat(stringListMap.get("ODESSA").size(), equalTo(2));
+
+
+
     }
 
     @Test
@@ -93,5 +105,15 @@ public class Java8UtilsTest {
         Double res = Java8Utils.maxSalariesViaCollector(userList);
         assertEquals(5000, res, 0);
     }
+
+    @Test
+    public void equals() throws Exception {
+
+
+        assertTrue(user1.equals(user2));
+        assertFalse(user1.equals(user3));
+
+    }
+
 
 }
