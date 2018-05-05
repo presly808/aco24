@@ -1,30 +1,48 @@
 package week3.data;
 
 import week3.model.Ticket;
-import java.util.List;
 
 public class TicketDao {
 
-    public static boolean createTicket(Ticket ticket) {
+    public static Ticket createTicket(Ticket ticket) {
+        if (ticket == null) return null;
         DataBase.tickets.add(ticket);
-        return true;
+        int index = DataBase.tickets.indexOf(ticket);
+        return DataBase.tickets.get(index);
     }
 
-    public static List<Ticket> readTickets() {
-        if (DataBase.tickets == null) {
-            return null;
+    public static Ticket readTicket(int id) {
+        if (id <= 0) return null;
+        for (int i = 0; i < DataBase.tickets.size(); i++) {
+            if (DataBase.tickets.get(i).getId() == id) return DataBase.tickets.get(i);
         }
-        return DataBase.tickets;
+        return null;
     }
 
-    public static boolean updateTicket(Ticket ticket, Ticket newTicket) {
-        if (ticket == null || newTicket == null) return false;
-        for (int i = 0; i < DataBase.users.size(); i++) {
-            if (DataBase.tickets.get(i).equals(ticket)) {
-                ticket = newTicket;
-                return true;
+    public static String updateTicket(Ticket updatedTicket) {
+        if (updatedTicket == null || updatedTicket.getId() <=0 ) return null;
+        for (int i = 0; i < DataBase.tickets.size(); i++) {
+            if (DataBase.tickets.get(i).getId() == updatedTicket.getId()) {
+                DataBase.tickets.get(i).setProductName(updatedTicket.getProductName());
+                DataBase.tickets.get(i).setProductModel(updatedTicket.getProductModel());
+                DataBase.tickets.get(i).setProductPrice(updatedTicket.getProductPrice());
+                DataBase.tickets.get(i).setRepairingPrice(updatedTicket.getRepairingPrice());
+                DataBase.tickets.get(i).setNotes(updatedTicket.getNotes());
+                DataBase.tickets.get(i).setStatus(updatedTicket.isStatus());
+                DataBase.tickets.get(i).setId(updatedTicket.getId());
+                return DataBase.tickets.get(i).getNotes();
             }
         }
-        return false;
+        return null;
+    }
+
+    public static Ticket deleteTicket(Ticket ticket) {
+        if (ticket == null) return null;
+        for (int i = 0; i < DataBase.tickets.size(); i++) {
+            if (DataBase.tickets.get(i).equals(ticket)) {
+                return DataBase.tickets.remove(i);
+            }
+        }
+        return null;
     }
 }

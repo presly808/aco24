@@ -4,8 +4,18 @@ public class Ticket {
     private String productName;
     private String productModel;
     private double productPrice;
+    private double repairingPrice;
     private String notes;
     private boolean status;
+    private int id;
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
+    public double getRepairingPrice() { return repairingPrice; }
+
+    public void setRepairingPrice(double repairingPrice) { this.repairingPrice = repairingPrice; }
 
     public String getProductName() {
         return productName;
@@ -53,8 +63,10 @@ public class Ticket {
                 "productName='" + productName + '\'' +
                 ", productModel='" + productModel + '\'' +
                 ", productPrice=" + productPrice +
+                ", repairingPrice=" + repairingPrice +
                 ", notes='" + notes + '\'' +
                 ", status=" + status +
+                ", id=" + id +
                 '}';
     }
 }

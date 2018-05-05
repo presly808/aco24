@@ -1,18 +1,10 @@
 package week3.model;
 
-
-public class User {
+public class Worker {
     private String name;
     private String phoneNumber;
+    private double salary;
     private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -30,11 +22,28 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "Worker{" +
                 "name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", salary=" + salary +
                 ", id=" + id +
                 '}';
     }
