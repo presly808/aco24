@@ -1,82 +1,76 @@
 package week1;
 
+import java.util.Arrays;
+
 /**
  * Created by serhii on 31.03.18.
  */
 public class ContactList {
 
-    Contact[] contactArray = new Contact[10];
+    private Contact[] contactArray = new Contact[10];
+    private int lastContactIndex = 0;
+    private int phoneNumberSize = 13;
 
-    public boolean addContact(Contact contact){
-        if (isValidContact(contact)){
-            Contact.n++;
-            for (int i = 0; i < contactArray.length; i++) {
-                if (contactArray[i]==null){
-                    contactArray[i]=contact;
-                    return true;
+    public boolean addContact(Contact contact) {
+        if (isValidContact(contact)) {
+            if (lastContactIndex == contactArray.length - 1) {
+                increaseArrayCapacity();
+            }
+            contactArray[lastContactIndex] = contact;
+            lastContactIndex++;
+            return true;
+        }
+        return false;
+    }
+
+    public Contact[] findByNameOrNumber(String nameOrNumber) {
+        Contact[] contactsFoundTemp = new Contact[contactArray.length];
+        int iPoint = 0;
+        for (int i = 0; i < lastContactIndex; i++) {
+            if (contactArray[i] != null) {
+                if (contactArray[i].getNumber().contains(nameOrNumber) || contactArray[i].getName().contains(nameOrNumber)) {
+                    contactsFoundTemp[iPoint] = contactArray[i];
+                    iPoint++;
                 }
             }
         }
+        return Arrays.copyOf(contactsFoundTemp, iPoint);
+    }
+
+    public boolean removeContact(int id) {
+        for (int i = 0; i < lastContactIndex; i++) {
+            if (contactArray[i] != null && id == contactArray[i].getId()) {
+                contactArray[i] = null;
+                lastContactIndex--;
+                return true;
+            }
+        }
         return false;
     }
 
-    public Contact[] findByNameOrNumber(String nameOrNumber){
-        Contact[] contactsFoundTemp = new Contact[contactArray.length];
-        int iPoint=0;
-        for (int i=0;i<contactArray.length;i++){
-            if ((nameOrNumber==contactArray[i].getName())||(nameOrNumber==contactArray[i].getNumber())){
-                contactsFoundTemp[i]=contactArray[i];
-                iPoint=i;
-            }
-        }
-        Contact[] contactsFound = new Contact[iPoint];
-        for (int i=0;i<iPoint;i++) {
-            contactsFound[i]=contactsFoundTemp[i];
-        }
-        return contactsFound;
-    }
-
-    public boolean removeContact(int id){
-        boolean flag=false;
-        for (int i=0;i<contactArray.length;i++){
-            if (id==contactArray[i].getId()){
-                Contact.n--;
-                contactArray[i]=null;
-                //return true;
-                flag=true;
-            }
-        }
-        Contact[] contactArrayTemp = new Contact[Contact.n];
-        for (int i = 0; i < contactArray.length; i++) {
-            if (contactArray[i]!=null) {
-                contactArrayTemp[i]=contactArray[i];
-
-            }
-        }
-
-        return flag;
-    }
-
-    public Contact[] getAll(){
-        Contact[] contactArrayTemp = new Contact[Contact.n];
-        System.arraycopy(contactArray,0,contactArrayTemp,0,Contact.n);
+    public Contact[] getAll() {
+        Contact[] contactArrayTemp = Arrays.copyOf(contactArray, lastContactIndex);
         return contactArrayTemp;
     }
 
-    public boolean isValidContact(Contact contact){
-        if ((contact.getId()!=0)&&(contact.getName()!=null)&&isValidNumber(contact.getNumber())){
+    public boolean isValidContact(Contact contact) {
+        if (contact != null && contact.getId() != 0 && contact.getName() != null && isValidNumber(contact.getNumber())) {
             return true;
         }
         return false;
     }
 
-    public boolean isValidNumber(String number){
-
+    public boolean isValidNumber(String number) {
         String regex = "\\d+";
-
-        if ((number.length()==13)&&(number.substring(1).matches(regex))){
+        if ((number.length() == phoneNumberSize) && (number.substring(1).matches(regex))) {
             return true;
         }
         return false;
+    }
+
+    public void increaseArrayCapacity() {
+        Contact[] increasedContactsArray = new Contact[contactArray.length + 10];
+        System.arraycopy(contactArray, 0, increasedContactsArray, 0, contactArray.length);
+        contactArray = increasedContactsArray;
     }
 }
