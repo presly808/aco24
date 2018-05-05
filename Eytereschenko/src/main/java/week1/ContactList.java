@@ -103,7 +103,7 @@ public class ContactList {
     public Contact[] getAll(){
         Contact[] contactListRes = new Contact[size];
         int index = 0;
-        for (int i = 0; i < DEFAULT_LIST_SIZE; i++) {
+        for (int i = 0; i < contactList.length; i++) {
             if(contactList[i] != null){
                 contactListRes[index] = contactList[i];
                 index++;
