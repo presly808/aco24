@@ -53,7 +53,6 @@ public class ContactControllerImpl implements ContactController {
         String prepared = keyWord.trim().toLowerCase();
 
         Contact[] contacts = contactDao.all();
-
         List<Contact> resultList = new ArrayList<>();
 
         for (int i = 0; i < contacts.length; i++) {

@@ -4,6 +4,8 @@ import week2.mvc.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 
 public class ContactDaoImpl implements ContactDao {
@@ -22,17 +24,8 @@ public class ContactDaoImpl implements ContactDao {
     @Override
     public Contact read(int id) {
 
-        // java8
-        for (int i = 0; i < arrayList.size(); i++) {
-            Contact contact = arrayList.get(i);
-            if(contact.getId() == id){
-                return contact;
-            }
-        }
+        return arrayList.stream().filter(contact -> contact.getId() == id).findFirst().orElse(null);
 
-        // arrayList.stream().filter(contact -> contact.getId() == id).findFirst().orElseGet(null);
-
-        return null;
     }
 
     @Override
@@ -46,23 +39,22 @@ public class ContactDaoImpl implements ContactDao {
         arrayList.set(indexInArr, updatedContact);
 
         return true;
+
+
     }
 
     @Override
     public Contact delete(int id) {
-        Contact contact = read(id);
 
-        if(contact == null){
-            return null;
-        }
+        Contact res = arrayList.stream().filter(contact -> contact.getId() == id).findFirst().orElse(null);
+        arrayList.removeIf(contact -> contact.getId() == id);
+        return res;
 
-        arrayList.remove(contact);
-
-        return contact;
     }
 
     @Override
     public Contact[] all() { // pagination
         return arrayList.toArray(new Contact[arrayList.size()]);
+
     }
 }
