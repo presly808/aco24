@@ -38,7 +38,7 @@ public class UserView {
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
 
-        accessKey = loginController.loginAsUser(username, password);
+        accessKey = loginController.login("user", username, password);
 
         if (accessKey != null) {
             System.out.println("Enter your phone number: ");

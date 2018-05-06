@@ -9,7 +9,7 @@ import week3.mvc.view.WorkerView;
 public class ServiceCenterControllerImpl {
 
     //database
-    DataBase dataBase;
+    public DataBase dataBase;
 
     //controllers
     private AdminController adminController;

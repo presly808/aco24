@@ -7,7 +7,6 @@ import week3.mvc.model.human.User;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Ticket;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -40,7 +39,7 @@ public class AdminView {
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
 
-        accessKey = loginController.loginAsAdmin(username, password);
+        accessKey = loginController.login("admin", username, password);
         if (accessKey != null) {
             adminController = (AdminController) ServiceFactory.get("adminController");
             return;

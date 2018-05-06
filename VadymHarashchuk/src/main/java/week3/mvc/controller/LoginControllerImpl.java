@@ -10,11 +10,8 @@ public class LoginControllerImpl implements LoginController {
     private final static Map<String, String> admins = new HashMap<>();
     private final static Map<String, String> users = new HashMap<>();
     private final static Map<String, String> workers = new HashMap<>();
-    private String adminAccessKey;
 
-
-    private String userAccessKey;
-    private String workerAccessKey;
+    private String accessKey;
 
     static {
         admins.put("admin_Vadym", "123456");
@@ -28,63 +25,35 @@ public class LoginControllerImpl implements LoginController {
         workers.put("Nazar", "id1024");
     }
 
+    @Override
+    public String login(String typeOfuser, String username, String password) {
+        Map<String, String> credentials = new HashMap<>();
+        switch (typeOfuser) {
+            case "user":
+                credentials = admins;
+                break;
+            case "admin":
+                credentials = admins;
+                break;
+            case "worker":
+                credentials = workers;
+        }
 
-    public String loginAsAdmin(String username, String password) {
-        for (Map.Entry<String, String> pair : admins.entrySet()) {
+        for (Map.Entry<String, String> pair : credentials.entrySet()) {
             if (pair.getKey().equals(username) && pair.getValue().equals(password)) {
-                setAdminAccessKey(Base64.getEncoder().encodeToString(password.getBytes())
+                setAccessKey(Base64.getEncoder().encodeToString(password.getBytes())
                         + Base64.getEncoder().encodeToString(username.getBytes())
                         + Base64.getEncoder().encodeToString(new Date().toString().getBytes()));
             }
         }
-        return adminAccessKey;
+        return accessKey;
     }
 
-    public String loginAsWorker(String username, String password) {
-        for (Map.Entry<String, String> pair : workers.entrySet()) {
-            if (pair.getKey().equals(username) && pair.getValue().equals(password)) {
-                setAdminAccessKey(Base64.getEncoder().encodeToString(password.getBytes())
-                        + Base64.getEncoder().encodeToString(username.getBytes())
-                        + Base64.getEncoder().encodeToString(new Date().toString().getBytes()));
-            }
-        }
-        return workerAccessKey;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public String loginAsUser(String username, String password) {
-        for (Map.Entry<String, String> pair : users.entrySet()) {
-            if (pair.getKey().equals(username) && pair.getValue().equals(password)) {
-                setUserAccessKey(Base64.getEncoder().encodeToString(password.getBytes())
-                        + Base64.getEncoder().encodeToString(username.getBytes())
-                        + Base64.getEncoder().encodeToString(new Date().toString().getBytes()));
-            }
-        }
-        return userAccessKey;
-
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
     }
-
-    public String getAdminAccessKey() {
-        return adminAccessKey;
-    }
-
-    public void setAdminAccessKey(String adminAccessKey) {
-        this.adminAccessKey = adminAccessKey;
-    }
-
-    public String getUserAccessKey() {
-        return userAccessKey;
-    }
-
-    public void setUserAccessKey(String userAccessKey) {
-        this.userAccessKey = userAccessKey;
-    }
-
-    public String getWorkerAccessKey() {
-        return workerAccessKey;
-    }
-
-    public void setWorkerAccessKey(String workerAccessKey) {
-        this.workerAccessKey = workerAccessKey;
-    }
-
 }

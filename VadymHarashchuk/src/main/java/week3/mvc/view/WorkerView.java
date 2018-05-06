@@ -38,7 +38,7 @@ public class WorkerView {
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
 
-        accessKey = loginController.loginAsWorker(username, password);
+        accessKey = loginController.login("worker", username, password);
         if (accessKey != null) {
 
             System.out.println("Enter your phone number: ");
@@ -52,7 +52,6 @@ public class WorkerView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public Item takeForRepair(){
