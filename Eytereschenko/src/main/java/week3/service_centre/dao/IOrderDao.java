@@ -5,14 +5,12 @@ import week3.service_centre.model.Order;
 
 public interface IOrderDao {
 
-    int createOrder(Client client);
+    int createOrder(Client client, String product);
 
     Order readOrder(int id);
 
     boolean updateOrder(Order updatedOrder);
 
-
     boolean deleteOrder(int id);
-
 
 }

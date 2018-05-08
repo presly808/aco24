@@ -6,20 +6,22 @@ public class Order {
 
     private int orderId;
     private Client client;
-    private OrderStatus status;
+    private Status status;
+    private String product;
     private Date createTime;
 
 
     private static int lastOrderId;
 
-    enum OrderStatus {NEW, IN_PROGRESS, CLOSED_SUCCESSFUL, UNSUCCESSFUL}
 
-    public Order(Client client) {
+
+    public Order(Client client, String product) {
 
         this.orderId = lastOrderId++;
         this.client = client;
-        this.status = OrderStatus.NEW;
+        this.status = Status.NEW;
         this.createTime = new Date();
+        this.product = product;
 
     }
 
@@ -43,12 +45,16 @@ public class Order {
         this.client = client;
     }
 
-    public OrderStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getProduct() {
+        return product;
     }
 
 }

@@ -9,12 +9,12 @@ import week3.service_centre.model.Order;
 public class OrderDao implements IOrderDao{
 
     @Override
-    public int createOrder(Client client){
+    public int createOrder(Client client, String product){
         if(client == null){
             System.out.println("Null client");
             return -1;
         }
-        Order order = new Order(client);
+        Order order = new Order(client, product);
         Database.orders.add(order);
         return order.getOrderId();
     };
