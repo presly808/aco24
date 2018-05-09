@@ -4,7 +4,7 @@ import week3.mvc.db.DataBase;
 import week3.mvc.model.human.Worker;
 import week3.mvc.view.AdminView;
 import week3.mvc.view.UserView;
-import week3.mvc.view.WorkerView;
+import week3.mvc.view.WorkerViewImpl;
 
 public class ServiceCenterControllerImpl {
 
@@ -18,9 +18,9 @@ public class ServiceCenterControllerImpl {
 
 
     //views
-    AdminView adminView;
-    WorkerView workerView;
-    UserView userView;
+    AdminView adminViewImpl;
+    WorkerViewImpl workerViewImpl;
+    UserView userViewImpl;
 
     public ServiceCenterControllerImpl(){
 
@@ -30,9 +30,9 @@ public class ServiceCenterControllerImpl {
         userController = (UserController) ServiceFactory.get("userController");
         workerController = (WorkerController) ServiceFactory.get("workerController");
 
-        adminView = (AdminView) ServiceFactory.get("adminView");
-        workerView = (WorkerView) ServiceFactory.get("workerView");
-        userView = (UserView) ServiceFactory.get("userView");
+        adminViewImpl = (AdminView) ServiceFactory.get("adminViewImpl");
+        workerViewImpl = (WorkerViewImpl) ServiceFactory.get("workerViewImpl");
+        userViewImpl = (UserView) ServiceFactory.get("userViewImpl");
     }
 
     public static void main(String[] args) {
@@ -45,9 +45,13 @@ public class ServiceCenterControllerImpl {
         Worker worker3 = new Worker("Vasyl", "+380123456789", 8000);
 
         //hire workers - add to database
-        serviceCenter.adminView.hireWorker(worker1);
-        serviceCenter.adminView.hireWorker(worker2);
-        serviceCenter.adminView.hireWorker(worker3);
+        serviceCenter.adminViewImpl.login();
+        serviceCenter.adminViewImpl.hireWorker(worker1);
+        serviceCenter.adminViewImpl.hireWorker(worker2);
+        serviceCenter.adminViewImpl.hireWorker(worker3);
+
+        serviceCenter.userViewImpl.login();
+        serviceCenter.userViewImpl.leaveComment("Hello");
 
 
 

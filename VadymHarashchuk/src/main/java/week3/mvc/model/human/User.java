@@ -3,6 +3,7 @@ package week3.mvc.model.human;
 import week3.mvc.model.repair.Item;
 import week3.mvc.model.repair.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -15,6 +16,8 @@ public class User {
     public User(String name, String phoneNumber, Ticket ticket){
         this.name = name;
         this.phoneNumber = phoneNumber;
+        tickets = new ArrayList<>();
+        items = new ArrayList<>();
         tickets.add(ticket);
         items.add(ticket.getItem());
     }

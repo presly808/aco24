@@ -2,9 +2,7 @@ package week3.mvc.controller;
 
 import week3.mvc.dao.*;
 import week3.mvc.db.DataBase;
-import week3.mvc.view.AdminView;
-import week3.mvc.view.UserView;
-import week3.mvc.view.WorkerView;
+import week3.mvc.view.*;
 
 import java.lang.reflect.Proxy;
 
@@ -13,9 +11,9 @@ public class ServiceFactory {
     static DataBase database;
 
     //VIEWS
-    private static AdminView adminView;
-    private static UserView userView;
-    private static WorkerView workerView;
+    private static AdminView adminViewImpl;
+    private static UserViewImpl userViewImpl;
+    private static WorkerViewImpl workerViewImpl;
 
     //CONTROLLERS
     private static AdminController adminController;
@@ -34,12 +32,13 @@ public class ServiceFactory {
         switch (parameter) {
             case "database":
                 return database == null ? database = new DataBase() : database;
-            case "adminView":
+            case "adminViewImpl":
                 return proxyForAdmin();
-            case "userView":
-                return userView == null ? userView = new UserView() : userView;
-            case "workerView":
-                return workerView == null ? workerView = new WorkerView() : workerView;
+            case "userViewImpl":
+                return proxyForUser();
+         //       return userViewImpl == null ? userViewImpl = new UserViewImpl() : userViewImpl;
+            case "workerViewImpl":
+                return workerViewImpl == null ? workerViewImpl = new WorkerViewImpl() : workerViewImpl;
             case "adminController":
                 return adminController == null ? adminController = new AdminControllerImpl() : adminController;
             case "userController":
@@ -64,17 +63,30 @@ public class ServiceFactory {
 
     public static AdminView proxyForAdmin(){
 
-        if(adminView == null)
-        adminView = new AdminView();
+        if(adminViewImpl == null)
+        adminViewImpl = new AdminViewImpl();
 
-        ClassLoader classLoader = adminView.getClass().getClassLoader();
-        Class<?>[] interfaces = adminView.getClass().getInterfaces();
-        LogActionsProxy invocationHandler = new LogActionsProxy(adminView);
+        ClassLoader classLoader = adminViewImpl.getClass().getClassLoader();
+        Class<?>[] interfaces = adminViewImpl.getClass().getInterfaces();
+        LogActionsProxy invocationHandler = new LogActionsProxy(adminViewImpl);
 
         AdminView proxyAdmin = (AdminView) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
 
         return proxyAdmin;
+    }
 
+    public static UserView proxyForUser(){
+
+        if(userViewImpl == null)
+            userViewImpl = new UserViewImpl();
+
+        ClassLoader classLoader = userViewImpl.getClass().getClassLoader();
+        Class<?>[] interfaces = userViewImpl.getClass().getInterfaces();
+        LogActionsProxy invocationHandler = new LogActionsProxy(userViewImpl);
+
+        UserView proxyUser = (UserView) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
+
+        return proxyUser;
     }
 
 
