@@ -15,6 +15,11 @@ public class ClientController implements IClientController {
     private IClientDao clientDao;
     private IOrderDao orderDao;
 
+    public ClientController(Client client, IClientDao clientDao, IOrderDao orderDao) {
+        this.client = client;
+        this.clientDao = clientDao;
+        this.orderDao = orderDao;
+    }
 
     @Override
     public boolean loginInto(String email, String phone) throws LoginException {
@@ -29,7 +34,7 @@ public class ClientController implements IClientController {
             }
         }
         if (check) {
-            Database.logfile.add("Client " + client.getName() + " logged in at " + new Date());
+            Database.logfile.add("Client " + this.client.getName() + " logged in at " + new Date());
             return true;
         } else {
             throw new LoginException("Incorrect email or phone");

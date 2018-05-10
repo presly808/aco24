@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface IAdminController {
 
+    boolean loginInto(String login, String password);
+
     boolean hireWorker(String name, int age, String login, String password, double salary);
 
-    Ticket createTicketFromOrder(Order order);
+    Ticket createTicketFromOrder(Order order) throws Exception;
 
     boolean fireWorker(int id);
 
