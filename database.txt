@@ -1,0 +1,1 @@
+{"name":"Tester","phoneNumber":"+38093","tickets":[{"item":{"model":"Honda","type":"moto","state":"FIXED"},"id":1,"status":"open","fixHours":4}],"items":[{"model":"Honda","type":"moto","state":"FIXED"}]}

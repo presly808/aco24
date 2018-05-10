@@ -1,6 +1,7 @@
 package week3.mvc.controller;
 
 import week3.mvc.dao.*;
+import week3.mvc.model.human.User;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Ticket;
 import java.util.List;
@@ -59,6 +60,14 @@ public class AdminControllerImpl implements AdminController {
     public List<Ticket> getOpenTickets() {
 
         return ticketDao.getOpenTickets();
+    }
+
+    public boolean createUser(User user) {
+        return userDao.createUser(user);
+    }
+
+    public List<User> findUsers(String key) {
+        return userDao.findUsers(key);
     }
 
 }

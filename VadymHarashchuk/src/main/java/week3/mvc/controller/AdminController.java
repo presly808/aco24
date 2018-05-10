@@ -1,5 +1,6 @@
 package week3.mvc.controller;
 
+import week3.mvc.model.human.User;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Ticket;
 
@@ -23,5 +24,9 @@ public interface AdminController {
     List<Ticket> getclosedTickets();
 
     List<Ticket> getOpenTickets();
+
+    boolean createUser(User user);
+
+    List<User> findUsers(String key);
 
 }

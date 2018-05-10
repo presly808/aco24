@@ -9,6 +9,8 @@ public interface UserDao {
 
     boolean createUser(User user);
 
+    List<User> findUsers(String key);
+
     List<User> getAllUsers();
 
     User updateUser(User user, String phone, List<Ticket> tickets);

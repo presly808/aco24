@@ -30,7 +30,7 @@ public class LoginControllerImpl implements LoginController {
         Map<String, String> credentials = new HashMap<>();
         switch (typeOfuser) {
             case "user":
-                credentials = admins;
+                credentials = users;
                 break;
             case "admin":
                 credentials = admins;
@@ -53,7 +53,7 @@ public class LoginControllerImpl implements LoginController {
         return accessKey;
     }
 
-    public void setAccessKey(String accessKey) {
+    private void setAccessKey(String accessKey) {
         this.accessKey = accessKey;
     }
 }

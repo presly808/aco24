@@ -19,29 +19,41 @@ public class UserDaoImpl implements UserDao {
 
     public boolean createUser(User user) {
 
-        return database.getUsers().add(user);
+        return database.addUser(user);
 
     }
 
+    public List<User> findUsers(String key) {
+        return database.findUsers(key);
+    }
+
+    public boolean createUsers(List<User> users) {
+
+        return database.addUsers(users);
+
+    }
+
+
+
     public List<User> getAllUsers() {
 
-        return database.getUsers();
+        return database.getAllUsers();
     }
 
     public User updateUser(User user, String phone, List<Ticket> tickets) {
 
-        int index = database.getUsers().indexOf(user);
+        int index = database.getAllUsers().indexOf(user);
 
         user.setPhoneNumber(phone);
         user.setTickets(tickets);
 
-        return database.getUsers().set(index, user);
+        return database.getAllUsers().set(index, user);
     }
 
     public boolean deleteUser(User user) throws Exception {
 
-        if (database.getUsers().indexOf(user) >= 0)
-            return database.getUsers().remove(user);
+        if (database.getAllUsers().indexOf(user) >= 0)
+            return database.getAllUsers().remove(user);
 
         throw new Exception("There is no such user in database");
 
