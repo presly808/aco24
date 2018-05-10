@@ -5,6 +5,8 @@ import week3.service_centre.model.Client;
 import week3.service_centre.model.Order;
 import week3.service_centre.model.Ticket;
 
+import java.util.List;
+
 public class TicketDao implements ITicketDao {
 
 
@@ -61,6 +63,13 @@ public class TicketDao implements ITicketDao {
     public boolean deleteTicket(int id) {
 
         return Database.tickets.remove(readTicket(id));
+
+    }
+
+    @Override
+    public List<Ticket> showAllTickets() {
+
+        return Database.tickets;
 
     }
 }

@@ -4,6 +4,7 @@ import week3.service_centre.db.Database;
 import week3.service_centre.model.Client;
 import week3.service_centre.model.Order;
 
+import java.util.List;
 
 
 public class OrderDao implements IOrderDao{
@@ -50,6 +51,13 @@ public class OrderDao implements IOrderDao{
 
         return Database.orders.remove(readOrder(id));
 
-    };
+    }
+
+    @Override
+    public List<Order> showAllOrders() {
+        return Database.orders;
+    }
+
+    ;
 
 }

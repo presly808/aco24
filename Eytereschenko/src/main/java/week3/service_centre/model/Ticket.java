@@ -7,14 +7,13 @@ public class Ticket {
     private int ticketId;
     private Client client;
     private int orderId;
-    private TicketStatus status;
+    private Status status;
     private Date createTicketTime;
     private Date backTime;
 
 
     private static int lastTicketNo;
 
-    enum TicketStatus {NEW, IN_PROGRESS, FIXED, FINISHED_WITHOUT_FIXING}
 
 
     public Ticket(Client client, int orderId) {
@@ -22,7 +21,7 @@ public class Ticket {
         this.ticketId = lastTicketNo++;
         this.client = client;
         this.orderId = orderId;
-        this.status = TicketStatus.NEW;
+        this.status = Status.NEW;
         this.createTicketTime = new Date();
 
     }
@@ -51,11 +50,11 @@ public class Ticket {
         this.orderId = orderId;
     }
 
-    public TicketStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(TicketStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

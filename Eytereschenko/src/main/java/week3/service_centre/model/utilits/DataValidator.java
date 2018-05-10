@@ -14,6 +14,25 @@ public class DataValidator {
 
     }
 
+    public static boolean checkWorkersLogin(String login){
+
+        if(login == null || login.isEmpty()){
+            System.out.println("Login is empty or null");
+            return false;
+        }
+
+        for (int i = 0; i < Database.workers.size(); i++) {
+            if(Database.workers.get(i).getLogin().equals(login)){
+                System.out.println("This login is already exist in db");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
     public static boolean checkName(String name){
 
         return name != null && !name.isEmpty() && name.matches("[a-zA-Z]*");
