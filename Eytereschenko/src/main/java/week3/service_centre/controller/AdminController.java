@@ -1,16 +1,10 @@
 package week3.service_centre.controller;
 
-import week3.service_centre.dao.OrderDao;
-import week3.service_centre.dao.TicketDao;
-import week3.service_centre.dao.WorkerDao;
+import week3.service_centre.dao.*;
 import week3.service_centre.db.Database;
-import week3.service_centre.model.Order;
-import week3.service_centre.model.Status;
-import week3.service_centre.model.Ticket;
-import week3.service_centre.model.Worker;
+import week3.service_centre.model.*;
 import week3.service_centre.model.utilits.DataValidator;
 
-import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.List;
 
