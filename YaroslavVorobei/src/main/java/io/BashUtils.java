@@ -26,41 +26,9 @@ public class BashUtils {
             e.printStackTrace();
             return "";
         }
-
-        // Old version
-   /*   String line = "";
-        String res = "";
-
-        FileReader fileReader = new FileReader(path);
-
-        // Always wrap FileReader in BufferedReader.
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-                res += line;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Always close files.
-        try {
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return res; */
     }
 
-    public static boolean writeInto(String path, String src, boolean append)
-            throws IOException {
-
-        /*PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path, append)));
-        writer.println(src);
-        writer.close();
-        */
-
+    public static boolean writeInto(String path, String src, boolean append) throws IOException {
         try (FileWriter fl = new FileWriter(path, append)) {
             fl.write(src);
         }
@@ -75,11 +43,6 @@ public class BashUtils {
         if (file.isDirectory()) {
             //list all files on directory
             String[] files = file.list();
-
-            //print files on filder
-            /*for (String s : files) {
-                System.out.println(s);
-            }*/
             folderList = new ArrayList<String>(Arrays.asList(files));
         }
         return folderList;
@@ -87,24 +50,53 @@ public class BashUtils {
 
     public static boolean copy(String src, String dest) throws Exception {
 
-        writeInto(cat(src), dest, true);
+        //writeInto(cat(src), dest, true);
+        writeInto(dest, cat(src),  true);
 
         return true;
     }
 
     public static boolean move(String src, String dest) throws Exception {
-        return false;
+        writeInto(dest, cat(src),  true);
+        return true;
     }
 
     public static List<String> find(String path, String targetName) throws FileNotFoundException {
-        return null;
+        List<String> res = new ArrayList<>();
+        File file = new File(path);
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                List<String> found = find(f.getAbsolutePath(), targetName);
+
+                found.stream()
+                        .filter(s -> s.equals(targetName))
+                        .forEach(s -> res.add(s));
+            }
+        } else {
+            if (file.getName().equals(targetName)) {
+                res.add(file.getName());
+            }
+        }
+
+        return res;
     }
 
     public static List<String> grep(String lines, String targetWord) {
-        return null;
+
+       List<String> srcLinesList = Arrays.asList(lines.split("\n"));
+       List<String> targetLines = new ArrayList<>();
+
+       srcLinesList.stream()
+               .filter(str -> str.equals(targetWord))
+               .forEach(str -> targetLines.add(str));
+
+       return targetLines;
     }
 
     public static Map<String, String> grepR(String path, String targetWord) {
+
         return null;
     }
 
