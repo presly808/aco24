@@ -2,76 +2,55 @@ package week1;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by serhii on 31.03.18.
  */
 public class ContactList {
 
-    private int size = 0;
-    private Contact[] contactStorage;
-    private Contact[] temporaryStorage;
-
+    private List<Contact> contactStorage;
 
     public ContactList() {
-        contactStorage = new Contact[0];
+        contactStorage = new ArrayList<Contact>();
     }
 
     public boolean addContact(Contact contact){
-        if (contact == null) return false;
-        if (!contact.getNumber().contains("+380")) return false;
-        contactStorage = Arrays.copyOf(contactStorage, size + 1);
-        contactStorage[size] = contact;
-        size++;
-        return true;
+        if (contact == null) {
+            return false;
+        }
+        if (!contact.getNumber().contains("+380")) {
+            return false;
+        }
+        return contactStorage.add(contact);
     }
 
-    public Contact[] findByNameOrNumber(String nameOrNumber){
-        if (nameOrNumber.contains("+380")) {
-            temporaryStorage = new Contact[0];
-            for (int i = 0; i < contactStorage.length; i++) {
-                if (contactStorage[i].getNumber().contains(nameOrNumber)) {
-                    temporaryStorage = Arrays.copyOf(temporaryStorage, temporaryStorage.length + 1);
-                    temporaryStorage[temporaryStorage.length - 1] = contactStorage[i];
-                }
-            }
-        } else {
-            temporaryStorage = new Contact[0];
-            for (int i = 0; i < contactStorage.length; i++) {
-                if (contactStorage[i].getName().contains(nameOrNumber)) {
-                    temporaryStorage = Arrays.copyOf(temporaryStorage, temporaryStorage.length + 1);
-                    temporaryStorage[temporaryStorage.length - 1] = contactStorage[i]; }
+    public Contact[] findByNameOrNumber(String nameOrNumber) {
+        List<Contact> temporaryStorage = new ArrayList<>();
+        for (int i = 0; i < contactStorage.size(); i++) {
+            if (contactStorage.get(i).getNumber().contains(nameOrNumber) ||
+                    contactStorage.get(i).getName().contains(nameOrNumber)) {
+                temporaryStorage.add(contactStorage.get(i));
             }
         }
-        return temporaryStorage;
+        return temporaryStorage.toArray(new Contact[temporaryStorage.size()]);
     }
+
 
     public boolean removeContact(int id){
-        for (int i = 0; i < contactStorage.length; i++) {
-            if (!contactStorage[i].getId().contains(Integer.toString(id))) {
-                return false;
-            } else {
-                Contact[] arrayFirstPart = new Contact[i];
-                Contact[] arraySecondPart = new Contact[contactStorage.length - i - 1];
-                arrayFirstPart = Arrays.copyOf(contactStorage, i);
-                arraySecondPart = Arrays.copyOfRange(contactStorage,i + 1, contactStorage.length);
-                Contact[] ycontactStorage = new Contact[contactStorage.length - 1];
-                for (int j = 0; j < contactStorage.length - 1; j++) {
-                    if (j < arrayFirstPart.length) {
-                        contactStorage[j] = arrayFirstPart[j];
-                    } else {
-                        contactStorage[j] = arraySecondPart[j];
-                    }
-                }
-                contactStorage = Arrays.copyOf(contactStorage, contactStorage.length - 1);
+        for (int i = 0; i < contactStorage.size(); i++) {
+            if (contactStorage.get(i).getId() == id) {
+                contactStorage.remove(i);
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Contact[] getAll(){
-        return contactStorage;
+        return contactStorage.toArray(new Contact[contactStorage.size()]);
     }
 }
 

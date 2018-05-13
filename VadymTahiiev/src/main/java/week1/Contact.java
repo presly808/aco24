@@ -36,9 +36,8 @@ public class Contact {
         this.number = number;
     }
 
-    public String getId() { return Integer.toString(id);}
+    public int getId() { return id;}
 
     public void setId(int id) { this.id = id; }
-
 }
 
