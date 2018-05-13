@@ -7,9 +7,9 @@ import exclude.week2.mvc.model.Contact;
  */
 public interface ContactController {
 
-    int addContact(Contact contact);
+    String addContact(Contact contact);
 
-    Contact removeContact(int id);
+    Contact removeContact(String id);
 
     Contact[] findByKeyWord(String keyWord);
 

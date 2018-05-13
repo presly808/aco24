@@ -1,70 +1,61 @@
 package exclude.week2.mvc.dao;
 
 import exclude.week2.mvc.model.Contact;
-
-import java.util.ArrayList;
-import java.util.List;
+import exclude.week2.mvc.utils.NumberUtil;
+import exclude.week2.mvc.utils.ObjectHolder;
 
 /**
  * Created by serhii on 15.04.18.
  */
-public class ContactDaoImpl implements ContactDao {
+// TODO: 13.05.18 add exceptions
+public class ContactDaoImpl implements Dao<Contact> {
 
-    private final List<Contact> arrayList;
+    private DbContainer container = (DbContainer) ObjectHolder.getBean("db");
 
     public ContactDaoImpl() {
-        this.arrayList = new ArrayList<>();
     }
 
     @Override
     public boolean create(Contact contact) {
-        return arrayList.add(contact);
+        contact.setId(NumberUtil.generateId());
+        return container.contactList.add(contact);
     }
 
     @Override
-    public Contact read(int id) {
-
-        // java8
-        for (int i = 0; i < arrayList.size(); i++) {
-            Contact contact = arrayList.get(i);
-            if(contact.getId() == id){
-                return contact;
-            }
-        }
-
-        // arrayList.stream().filter(contact -> contact.getId() == id).findFirst().orElseGet(null);
-
-        return null;
+    public Contact read(String id) { // TODO: 13.05.18 add exceptions
+        return container.contactList.stream()
+                        .filter(contact -> contact.getId().equals( id))
+                        .findFirst().orElseGet(null);
     }
 
     @Override
     public boolean update(Contact updatedContact) {
-        int indexInArr = arrayList.indexOf(updatedContact);
+        int indexInArr = container.contactList.indexOf(updatedContact);
 
         if(indexInArr == -1){
             return false;
         }
 
-        arrayList.set(indexInArr, updatedContact);
+        container.contactList.set(indexInArr, updatedContact);
 
         return true;
     }
 
     @Override
-    public Contact delete(int id) {
+    public Contact delete(String id) {
         Contact contact = read(id);
 
         if(contact == null){
             return null;
         }
 
-        arrayList.remove(contact);
+        container.contactList.remove(contact);
 
         return contact;
     }
 
     @Override
     public Contact[] all() { // pagination
-        return arrayList.toArray(new Contact[arrayList.size()]);
+        return container.contactList.toArray(new Contact[container.contactList.size()]);
     }
 }
