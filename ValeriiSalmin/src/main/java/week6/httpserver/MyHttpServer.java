@@ -70,10 +70,10 @@ public class MyHttpServer {
                     StringBuilder sb = new StringBuilder();
                     while (br.ready()){
                         sb.append(br.readLine());
-                                //.append("\n");
                     }
-                    br.close();
-                    String jsonBody = gson.toJson(sb);
+  //                  br.close();
+
+                    String jsonBody = sb.toString();
                     User user = gson.fromJson(jsonBody, User.class);
 
                     userMap.forEach((k,v)->{
@@ -84,9 +84,8 @@ public class MyHttpServer {
                     });
 
                     try (OutputStream outputStream = httpExchange.getResponseBody()) {
-                        String ss = "response";
-                        httpExchange.sendResponseHeaders(200,ss.length());
-                        outputStream.write(ss.getBytes());
+                        httpExchange.sendResponseHeaders(200,accessKey[0].length());
+                        outputStream.write(accessKey[0].getBytes());
                         outputStream.flush();
                         outputStream.close();
                     }
