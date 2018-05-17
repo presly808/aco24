@@ -13,6 +13,7 @@ public class SpecialistDao implements Dao<Specialist> {
 
         specialist.setId(NumberUtils.generateId());
         return container.specialists.add(specialist);
+
     }
 
     @Override
