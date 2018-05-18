@@ -11,84 +11,80 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class MyHttpServer {
 
+    static Map<String, User> accessKeyMap = new HashMap<String,User>();
 
+    Map<String, User> userMap = ObjectHolder.createUserMap();
+
+    public boolean isLoggedIn(String accessToken) {
+        return accessKeyMap.containsKey(accessToken);
+    }
 
     public static void main(String[] args) throws IOException {
 
         Gson gson = new Gson();
         Map<String, User> userMap = ObjectHolder.createUserMap();
 
-        HttpServer httpServer = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(8080), 0);
-
-        httpServer.createContext("/test", new HttpHandler() {
-
-            @Override
-            public void handle(HttpExchange httpExchange) throws IOException {
-                String url = httpExchange.getRequestURI().toString();
-                System.out.println(httpExchange.getProtocol());
-                System.out.println(httpExchange.getRequestMethod());
-
-                System.out.println(url);
-
-                String[] params = url.split("\\?")[1].split("&");
-                String name = params[0].split("=")[1];
-
-                try (OutputStream outputStream = httpExchange.getResponseBody()) {
-                    String ss = "response from "+name;
-                    httpExchange.sendResponseHeaders(200,ss.length());
-                    outputStream.write(ss.getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                }
-            }
-        });
-
-        httpServer.createContext("/postInfo", new HttpHandler() {
-            @Override
-            public void handle(HttpExchange httpExchange) throws IOException {
-                if (httpExchange.getRequestMethod().equals("POST")){
-                    Scanner scanner = new Scanner(httpExchange.getRequestBody());
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    line = scanner.nextLine();
-                    System.out.println(line);
-                }
-            }
-        });
+        HttpServer httpServer = HttpServer.create(new InetSocketAddress(8080), 0);
 
         httpServer.createContext("/login", new HttpHandler() {
             @Override
             public void handle(HttpExchange httpExchange) throws IOException {
-                if (httpExchange.getRequestMethod().equals("POST")){
+                if (httpExchange.getRequestMethod().equals("POST")) {
                     final String[] accessKey = {null};
-                    BufferedReader br = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody()));
-                    StringBuilder sb = new StringBuilder();
-                    while (br.ready()){
-                        sb.append(br.readLine());
-                    }
-  //                  br.close();
 
-                    String jsonBody = sb.toString();
-                    User user = gson.fromJson(jsonBody, User.class);
+                    User user = gson.fromJson(ObjectHolder.getDataFromServer(httpExchange), User.class);
 
-                    userMap.forEach((k,v)->{
-                        if (user.getName().equals(v.getName()) && (user.getPassword().equals(v.getPassword()))){
-                            accessKey[0] = user.getAccessKey(user.getName(),user.getPassword());
-                            System.out.println(accessKey[0]);
-                        }
-                    });
+                    accessKey[0] = user.login(user);
+
+                    Map<Object, Object> response = new HashMap<>();
+                    response.put("accessToken", accessKey[0]);
+                    accessKeyMap.put(accessKey[0],user);
+                    String tt = gson.toJson(response);
 
                     try (OutputStream outputStream = httpExchange.getResponseBody()) {
-                        httpExchange.sendResponseHeaders(200,accessKey[0].length());
-                        outputStream.write(accessKey[0].getBytes());
+                        httpExchange.sendResponseHeaders(200, tt.length());
+                        outputStream.write(tt.getBytes());
                         outputStream.flush();
                         outputStream.close();
                     }
+                }
+            }
+        });
+
+
+        httpServer.createContext("/post/new", new HttpHandler() {
+            @Override
+            public void handle(HttpExchange httpExchange) throws IOException {
+                if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
+                    accessKeyMap.forEach((k, v) -> {
+                        if (k.equals(httpExchange.getRequestHeaders().getFirst("accessToken"))) {
+                            Post post = gson.fromJson(ObjectHolder.getDataFromServer(httpExchange), Post.class);
+
+                            Map<Object, Object> response = new HashMap<>();
+                            response.put("id", post.getId());
+                            response.put("title", post.getTitle());
+                            response.put("body", post.getBody() );
+                            String tt = gson.toJson(response);
+
+                            try (OutputStream outputStream = httpExchange.getResponseBody()) {
+                                httpExchange.sendResponseHeaders(200, tt.length());
+                                outputStream.write(tt.getBytes());
+                                outputStream.flush();
+                                outputStream.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            System.out.println("you aren't logged in");
+                        }
+                    });
+                } else {
+                    System.out.println("There is no access key");
                 }
             }
         });
