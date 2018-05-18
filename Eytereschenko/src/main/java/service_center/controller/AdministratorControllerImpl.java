@@ -103,6 +103,7 @@ public class AdministratorControllerImpl implements AdministratorController {
         }
 
         ticket.setSpecialist(specialist);
+        ticket.setStatus(Status.IN_PROGRESS);
         return specialist.getTicketList().add(ticket);
 
     }
@@ -128,6 +129,7 @@ public class AdministratorControllerImpl implements AdministratorController {
                 return false;
             }
             assignTicketToSpecialist(t.getId(), specialist.getId());
+            t.setStatus(Status.IN_PROGRESS);
         }
 
         return true;
