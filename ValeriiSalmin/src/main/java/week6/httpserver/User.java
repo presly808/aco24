@@ -4,7 +4,7 @@ import java.util.*;
 
 public class User {
 
-    List<Post> postsLists = new ArrayList<>();
+    private List<Post> postsLists = new ArrayList<>();
     private String name;
     private String password;
 
@@ -20,21 +20,24 @@ public class User {
         return name;
     }
 
-    public String getPassword() {
-        return password;
+    public List<Post> getPostsLists() {
+        return postsLists;
     }
 
     public static String login(User user){
         final String[] accessKey = {null};
         createUserMap().forEach((k,v)->{
-            if (user.getName().equals(v.getName()) && (user.getPassword().equals(v.getPassword()))){
-                accessKey[0] = user.getAccessKey(user.getName(),user.getPassword());
+            if (user.getName().equals(v.getName()) && (user.password.equals(v.password))){
+                accessKey[0] = user.getAccessKey();
+            }
+            else{
+                System.out.println("there is no such user");
             }
         });
         return accessKey[0];
     }
 
-    public String getAccessKey(String name, String password){
+    public String getAccessKey(){
         return UUID.randomUUID().toString().substring(0,16);
     }
 

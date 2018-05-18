@@ -7,10 +7,11 @@ import week6.httpserver.User;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObjectHolder {
+public class Helper {
 
     public static Map<String, User> createUserMap() {
         Map<String, User> userMap = new HashMap<>();
@@ -34,5 +35,16 @@ public class ObjectHolder {
             e.printStackTrace();
         }
         return jsonBody;
+    }
+
+    public static void writeResponse(HttpExchange httpExchange, String textResponse){
+        try (OutputStream outputStream = httpExchange.getResponseBody()) {
+            httpExchange.sendResponseHeaders(200, textResponse.length());
+            outputStream.write(textResponse.getBytes());
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

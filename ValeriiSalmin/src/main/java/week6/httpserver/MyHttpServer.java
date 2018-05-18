@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import week6.utils.ObjectHolder;
+import week6.utils.Helper;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -18,16 +16,10 @@ public class MyHttpServer {
 
     static Map<String, User> accessKeyMap = new HashMap<String,User>();
 
-    Map<String, User> userMap = ObjectHolder.createUserMap();
-
-    public boolean isLoggedIn(String accessToken) {
-        return accessKeyMap.containsKey(accessToken);
-    }
-
     public static void main(String[] args) throws IOException {
 
         Gson gson = new Gson();
-        Map<String, User> userMap = ObjectHolder.createUserMap();
+        Helper.createUserMap();
 
         HttpServer httpServer = HttpServer.create(new InetSocketAddress(8080), 0);
 
@@ -37,54 +29,63 @@ public class MyHttpServer {
                 if (httpExchange.getRequestMethod().equals("POST")) {
                     final String[] accessKey = {null};
 
-                    User user = gson.fromJson(ObjectHolder.getDataFromServer(httpExchange), User.class);
+                    User user = gson.fromJson(Helper.getDataFromServer(httpExchange), User.class);
 
                     accessKey[0] = user.login(user);
 
                     Map<Object, Object> response = new HashMap<>();
                     response.put("accessToken", accessKey[0]);
                     accessKeyMap.put(accessKey[0],user);
-                    String tt = gson.toJson(response);
 
-                    try (OutputStream outputStream = httpExchange.getResponseBody()) {
-                        httpExchange.sendResponseHeaders(200, tt.length());
-                        outputStream.write(tt.getBytes());
-                        outputStream.flush();
-                        outputStream.close();
-                    }
+                    Helper.writeResponse(httpExchange, gson.toJson(response));
                 }
             }
         });
 
-
         httpServer.createContext("/post/new", new HttpHandler() {
             @Override
             public void handle(HttpExchange httpExchange) throws IOException {
-                if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
-                    accessKeyMap.forEach((k, v) -> {
-                        if (k.equals(httpExchange.getRequestHeaders().getFirst("accessToken"))) {
-                            Post post = gson.fromJson(ObjectHolder.getDataFromServer(httpExchange), Post.class);
+                if (httpExchange.getRequestMethod().equals("POST")) {
+                    if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
+                        accessKeyMap.forEach((k, v) -> {
+                            if (k.equals(httpExchange.getRequestHeaders().getFirst("accessToken"))) {
+                                Post post = gson.fromJson(Helper.getDataFromServer(httpExchange), Post.class);
+
+                                v.addPost(post);
+
+                                Map<Object, Object> response = new HashMap<>();
+                                response.put("id", post.getId());
+                                response.put("title", post.getTitle());
+                                response.put("body", post.getBody());
+
+                                Helper.writeResponse(httpExchange, gson.toJson(response));
+
+                            } else {
+                                System.out.println("you aren't logged in");
+                            }
+                        });
+                    } else {
+                        System.out.println("There is no access key");
+                    }
+                }else {
+                    String requestURL = httpExchange.getRequestURI().toString();
+                    int postId = Integer.parseInt(requestURL.substring(requestURL.indexOf("/post/")+6));
+                    System.out.println(postId);
+                    if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
+                        accessKeyMap.forEach((k, v) -> {
+                             Post post = v.getPostsLists().stream()
+                                    .filter(p -> p.getId() == postId)
+                                    .findFirst().get();
 
                             Map<Object, Object> response = new HashMap<>();
                             response.put("id", post.getId());
                             response.put("title", post.getTitle());
-                            response.put("body", post.getBody() );
-                            String tt = gson.toJson(response);
+                            response.put("body", post.getBody());
 
-                            try (OutputStream outputStream = httpExchange.getResponseBody()) {
-                                httpExchange.sendResponseHeaders(200, tt.length());
-                                outputStream.write(tt.getBytes());
-                                outputStream.flush();
-                                outputStream.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            System.out.println("you aren't logged in");
-                        }
-                    });
-                } else {
-                    System.out.println("There is no access key");
+                            Helper.writeResponse(httpExchange, gson.toJson(response));
+                        });
+
+                    }
                 }
             }
         });
