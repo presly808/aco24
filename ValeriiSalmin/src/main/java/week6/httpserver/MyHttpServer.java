@@ -73,16 +73,18 @@ public class MyHttpServer {
                     System.out.println(postId);
                     if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
                         accessKeyMap.forEach((k, v) -> {
-                             Post post = v.getPostsLists().stream()
-                                    .filter(p -> p.getId() == postId)
-                                    .findFirst().get();
+                            for (Post post: v.getPostsLists()){
+                                if (post.getId() == postId){
+                                    Map<Object, Object> response = new HashMap<>();
+                                    response.put("id", post.getId());
+                                    response.put("title", post.getTitle());
+                                    response.put("body", post.getBody());
 
-                            Map<Object, Object> response = new HashMap<>();
-                            response.put("id", post.getId());
-                            response.put("title", post.getTitle());
-                            response.put("body", post.getBody());
-
-                            Helper.writeResponse(httpExchange, gson.toJson(response));
+                                    Helper.writeResponse(httpExchange, gson.toJson(response));
+                                } else {
+                                    System.out.println("there is no such post");
+                                }
+                            }
                         });
 
                     }
