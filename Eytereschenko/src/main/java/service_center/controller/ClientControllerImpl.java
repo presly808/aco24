@@ -12,7 +12,6 @@ import service_center.model.Status;
 import service_center.model.Ticket;
 import service_center.utils.Factory;
 
-import javax.security.auth.login.LoginException;
 import java.util.Date;
 
 public class ClientControllerImpl implements ClientController {
@@ -58,7 +57,7 @@ public class ClientControllerImpl implements ClientController {
             throw new LoginOrPwdIncorrectException("Your login or password incorrect");
         }
 
-        return false;
+        return true;
     }
 
     @Override

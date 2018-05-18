@@ -34,4 +34,11 @@ public class Administrator {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "Administrator{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -8,6 +8,9 @@ public class SpecialistDao implements Dao<Specialist> {
 
     DbContainer container = Factory.getItem("db");
 
+    public SpecialistDao() {
+    }
+
     @Override
     public boolean create(Specialist specialist) {
 

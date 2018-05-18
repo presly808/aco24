@@ -1,6 +1,7 @@
 package service_center.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Specialist {
@@ -10,9 +11,14 @@ public class Specialist {
     private String id;
     private String login;
     private String password;
-    private List<Ticket> ticketList;
+    private List<Ticket> ticketList = new ArrayList<>();
 
     private double salary;
+
+    public Specialist(String name) {
+        this.name = name;
+        this.salary = 0d;
+    }
 
     public Specialist(String name, double salary) {
         this.name = name;
@@ -67,4 +73,11 @@ public class Specialist {
         this.ticketList = ticketList;
     }
 
+    @Override
+    public String toString() {
+        return "Specialist{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }
