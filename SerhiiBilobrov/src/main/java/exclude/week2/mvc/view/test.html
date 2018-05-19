@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page Title</title>
+
+  <script type="text/javascript">
+
+
+  </script>
+</head>
+
+<body>
+
+<div class="header">
+
+</div>
+
+<div class="container">
+  <h1 id="ajaxResponse">Will be a response</h1>
+  <div class="container">
+
+    <button id="testButt" type="button" name="button">
+      Test
+    </button>
+
+  </div>
+</div>
+
+<div class="footer">
+
+</div>
+
+<script type="text/javascript">
+
+  function test() {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("ajaxResponse").innerHTML = this.responseText;
+      }
+    };
+
+    xhttp.open("GET", "/hello", true);
+    xhttp.send();
+  }
+  // jquery, es6
+  var butt = document.getElementById("testButt");
+  butt.addEventListener("click", test);
+
+
+</script>
+
+</body>
+</html>

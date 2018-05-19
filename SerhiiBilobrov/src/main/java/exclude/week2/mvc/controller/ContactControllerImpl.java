@@ -1,12 +1,10 @@
 package exclude.week2.mvc.controller;
 
-import exclude.week2.mvc.dao.ContactDao;
+import exclude.week2.mvc.dao.Dao;
 import exclude.week2.mvc.model.Contact;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by serhii on 15.04.18.
@@ -14,29 +12,22 @@ import java.util.stream.Collectors;
 public class ContactControllerImpl implements ContactController {
 
     private static int ID_COUNT = 1;
-    private final ContactDao contactDao;
+    private final Dao<Contact> contactDao;
 
-    public ContactControllerImpl(ContactDao contactDao) {
+    public ContactControllerImpl(Dao<Contact> contactDao) {
         this.contactDao = contactDao;
     }
 
     @Override
-    public int addContact(Contact contact) {
-
-        // validation
-
-        // generate id
-        int idCount = ID_COUNT;
-        contact.setId(idCount);
-        ID_COUNT++;
+    public String addContact(Contact contact) {
 
         contactDao.create(contact);
 
-        return idCount;
+        return contact.getId();
     }
 
     @Override
-    public Contact removeContact(int id) {
+    public Contact removeContact(String id) {
         return contactDao.delete(id);
     }
 
