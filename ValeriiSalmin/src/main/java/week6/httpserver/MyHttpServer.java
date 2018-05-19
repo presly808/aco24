@@ -67,27 +67,47 @@ public class MyHttpServer {
                     } else {
                         System.out.println("There is no access key");
                     }
-                }else {
-                    String requestURL = httpExchange.getRequestURI().toString();
-                    int postId = Integer.parseInt(requestURL.substring(requestURL.indexOf("/post/")+6));
-                    System.out.println(postId);
-                    if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
-                        accessKeyMap.forEach((k, v) -> {
-                            for (Post post: v.getPostsLists()){
-                                if (post.getId() == postId){
-                                    Map<Object, Object> response = new HashMap<>();
-                                    response.put("id", post.getId());
-                                    response.put("title", post.getTitle());
-                                    response.put("body", post.getBody());
+                }
+        }});
 
-                                    Helper.writeResponse(httpExchange, gson.toJson(response));
-                                } else {
-                                    System.out.println("there is no such post");
-                                }
+        httpServer.createContext("/posts/", new HttpHandler() {
+            @Override
+            public void handle(HttpExchange httpExchange) throws IOException {
+                String requestURL = httpExchange.getRequestURI().toString();
+                int postId = Integer.parseInt(requestURL.substring(requestURL.indexOf("/post/") + 6));
+
+                if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
+                    accessKeyMap.forEach((k, v) -> {
+                        for (Post post : v.getPostsLists()) {
+                            if (post.getId() == postId) {
+                                Map<Object, Object> response = new HashMap<>();
+                                response.put("id", post.getId());
+                                response.put("title", post.getTitle());
+                                response.put("body", post.getBody());
+
+                                Helper.writeResponse(httpExchange, gson.toJson(response));
+                            } else {
+                                System.out.println("there is no such post");
                             }
-                        });
+                        }
+                    });
+                }
+            }
+        });
+        // "/user/kol2" -> "/user/{username}"
+        httpServer.createContext("/user/", new HttpHandler() {
+            @Override
+            public void handle(HttpExchange httpExchange) throws IOException {
+                String requestURL = httpExchange.getRequestURI().toString();
+                int postId = Integer.parseInt(requestURL.substring(requestURL.indexOf("/post/") + 6));
 
-                    }
+                if (httpExchange.getRequestHeaders().containsKey("accessToken")) {
+                    accessKeyMap.forEach((k, v) -> {
+                        for (Post post : v.getPostsLists()) {
+                            if (post.getId() == postId) {
+                            }
+                        }
+                    });
                 }
             }
         });
