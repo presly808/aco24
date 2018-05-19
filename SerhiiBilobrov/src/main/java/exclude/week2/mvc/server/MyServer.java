@@ -28,6 +28,14 @@ public class MyServer {
 
         port(Integer.parseInt(port));
 
+
+//        String classPathStaticFiles = MyServer.class.getResource("/exclude/week2/mvc/view/").getFile();
+        String classPathStaticFiles = "/home/serhii/dev/projects/aco24n/SerhiiBilobrov/src/main/java/exclude/week2/mvc/view/";
+        externalStaticFileLocation(classPathStaticFiles);
+
+        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+
+
         get("/hello", ((request, response) -> "Hello"));
 
         get("/contact/all", (request, response) -> {
