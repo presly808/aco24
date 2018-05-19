@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Login page</title>
-</head>
-<body>
-    <h1>Login form</h1>
-    <input id="name">Name</input>
-    <input id="password">Password</input>
-    <button id="registerButt">Register</button>
-
+  </head>
+  <body>
+    <div class="header">
+      <h1 id="ajaxResponse">Will be a response</h1>
+    </div>
+    <div id="loginForm">
+      <label>Name</label>
+      <input id="name"></input>
+      <label>Password</label>
+      <input id="pass"></input>
+      <button id="loginButt">Login</button>
+    </div>
     <script type="text/javascript">
 
-  function sendRegReq() {
+      function sendRegReq() {
 
-    var nameVal = document.getElementById("name").value;
-    var passVal = document.getElementById("pass").value;
+        var nameVal = document.getElementById("name").value;
+        var passVal = document.getElementById("pass").value;
+        var form = document.getElementById("loginForm");
 
-    var xhttp = new XMLHttpRequest();
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var accesskey = JSON.parse(this.responseText);
+            if (accesskey){
+              form.style.display = "none";
+              document.getElementById("ajaxResponse").innerHTML =
+              "Hello " + nameVal;
 
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var user = JSON.parse(this.responseText);
-        document.getElementById("ajaxResponse").innerHTML =
-          "Welcome to site " + user.name;
+            }
+          }
+        };
+
+        xhttp.open("POST", "/login", true);
+        xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
       }
-    };
-
-    xhttp.open("POST", "/register", true);
-    xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
-  }
-  // jquery, es6
-  var butt = document.getElementById("registerButton");
-  butt.addEventListener("click", sendRegReq);
-
-
-</script>
-
-</body>
+      var butt = document.getElementById("loginButt");
+      butt.addEventListener("click", sendRegReq);
+    </script>
+  </body>
 </html>

@@ -1,10 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+	<head>
+    	<meta charset="UTF-8">
+    	<title>Contacts page</title>
+  	</head>
+  	<body>
+    	<div class="header">
+      		<h1 id="ajaxResponse">Will be a response</h1>
+    	</div>
+    	<div id="loginForm">
+    		<label>Name</label>
+      		<input id="name"></input>
+      		<label>Password</label>
+      		<input id="pass"></input>
+      		<button id="loginButt">Login</button>
+    	</div>
+		<div>
+			<button id="contacts" style="display: none">Get contacts</button>
+		</div>
+		<div id="results"></div>
 
-</body>
+	    <script type="text/javascript">
+
+	      function sendRegReq() {
+
+	        var nameVal = document.getElementById("name").value;
+	        var passVal = document.getElementById("pass").value;
+	        var form = document.getElementById("loginForm");
+			var contacts = document.getElementById("contacts");
+
+
+	        var xhttp = new XMLHttpRequest();
+	        xhttp.onreadystatechange = function() {
+	          	if (this.readyState == 4 && this.status == 200) {
+	            	var accesskey = JSON.parse(this.responseText);
+	            	if (accesskey){
+	              		form.style.display = "none";
+	              		contacts.style.display = "block";
+	              		document.getElementById("ajaxResponse").innerHTML =
+	              		"Hello " + nameVal;
+	            	}
+	          	}
+	        };
+
+	        xhttp.open("POST", "/login", true);
+	        xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
+	      }
+
+	      function sendContactsReq() {
+	        var xhttp = new XMLHttpRequest();
+	        xhttp.onreadystatechange = function() {
+	          	if (this.readyState == 4 && this.status == 200) {
+	            	var contact = JSON.parse(this.responseText);
+					document.getElementById("results").innerHTML = contact.name + " " + contact.number;
+	          	}
+	        };
+
+	        xhttp.open("GET", "/contact/all", true);
+	      }
+
+	      var butt = document.getElementById("loginButt");
+	      butt.addEventListener("click", sendRegReq);
+
+	      var butt = document.getElementById("contacts");
+	      butt.addEventListener("click", sendContactsReq);
+	    </script>
+  	</body>
 </html>
