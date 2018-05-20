@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="UTF-8">
+    	<title>Main page</title>
+    	<style type="text/css">
+    		div.blocks {
+    			display: inline-block;
+    		}
+
+    		#loginForm, #registerForm, #contactContainer {
+    			display: none;
+    		}
+    	</style>
+  	</head>
+  	<body>
+  		<div id="main">
+  			<h1 id="greetings">Hello bro</h1>
+  		</div>
+  		<div id="contacts" class="blocks">
+  			<button id="showAllContacts">Show all contacts</button>
+  		</div>
+  		<div id="login" class="blocks">
+  			<button id="loginButton">Login</button>
+  		</div>
+  		<div id="contactContainer">
+  			Here will be contacts
+  		</div>
+  		<div id="loginForm">
+  				<input id="nameLogin" type="text"/>
+  				<input id="passLogin" type="password"/>
+  				<button id="submitLogin">Login</button>	
+  		</div>
+  		<div id="register" class="blocks">
+  			<button id="registerButton">Register</button>
+  		</div>
+  		<div id="registerForm">
+  				<input id="name" type="text"/>
+  				<input id="pass" type="password"/>
+  				<button id="submitRegister">Register</button>	
+  		</div>
+
+	    <script type="text/javascript">
+
+	    	var accessKeyGlobal;
+
+	    	function loginSelection() {
+	    		document.getElementById("register").style.display = "none";
+	    		document.getElementById("contacts").style.display = "none";
+	    		document.getElementById("login").style.display = "none";
+	    		document.getElementById("loginForm").style.display = "block";
+	    	}
+
+	    	function registerSelection() {
+	    		document.getElementById("register").style.display = "none";
+	    		document.getElementById("contacts").style.display = "none";
+	    		document.getElementById("login").style.display = "none";
+	    		document.getElementById("registerForm").style.display = "block";
+	    	}
+
+	    	function contactsSelection() {
+	    		document.getElementById("register").style.display = "none";
+	    		document.getElementById("contacts").style.display = "none";
+	    		document.getElementById("login").style.display = "none";
+	    		document.getElementById("contactContainer").style.display = "block";
+
+		    	var xhttp = new XMLHttpRequest();
+
+    			xhttp.onreadystatechange = function() {
+      				if (this.readyState == 4 && this.status == 200) {
+      					var contact = JSON.parse(this.responseText);
+      					console.log(contact);
+        				document.getElementById("contactContainer").innerHTML = contact;
+      				}
+    			};
+
+    			xhttp.open("GET", "/contact/all", true);
+    			xhttp.setRequestHeader("accessToken",accessKeyGlobal);
+    			xhttp.send();
+	    	}
+
+			function sendLoginReq() {
+	        	var nameVal = document.getElementById("nameLogin").value;
+	        	var passVal = document.getElementById("passLogin").value;
+
+				var xhttp = new XMLHttpRequest();
+
+    			xhttp.onreadystatechange = function() {
+      				if (this.readyState == 4 && this.status == 200) {
+	        			var accesskey = JSON.parse(this.responseText);
+	        			accessKeyGlobal = accesskey;
+	        			console.log(accessKeyGlobal);
+		            	if (accesskey){
+		              		document.getElementById("greetings").innerHTML =
+		              		"Hello " + nameVal;
+		            	}
+      				}
+    			};
+
+    			xhttp.open("POST", "/login", true);
+    			xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
+		    }
+
+		    // function sendContactsReq() {
+		    // 	var xhttp = new XMLHttpRequest();
+
+    		// 	xhttp.onreadystatechange = function() {
+      // 				if (this.readyState == 4 && this.status == 200) {
+      // 					var contact = JSON.parse(this.responseText);
+      //   				document.getElementById("contactContainer").innerHTML = contact;
+      // 				}
+    		// 	};
+    		// 	xhttp.setRequestHeader(accessToken,accesskeyGlobal);
+
+    		// 	xhttp.open("GET", "/contact/all", true);
+    		// 	xhttp.send();
+		    // }
+
+
+		    function sendRegisterReq() {
+
+    			var nameVal = document.getElementById("name").value;
+    			var passVal = document.getElementById("pass").value;
+
+    			var xhttp = new XMLHttpRequest();
+
+    			xhttp.onreadystatechange = function() {
+      				if (this.readyState == 4 && this.status == 200) {
+        				var user = JSON.parse(this.responseText);
+        				document.getElementById("greetings").innerHTML =
+          					"Welcome to site " + user.name;
+      				}
+    			};
+
+    			xhttp.open("POST", "/register", true);
+    			xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
+  			}
+		    
+  			document.addEventListener("DOMContentLoaded", function(){
+				var butt = document.getElementById("login");
+			    butt.addEventListener("click", loginSelection);
+
+			    var butt1 = document.getElementById("register");
+			    butt1.addEventListener("click", registerSelection);
+
+			    var butt2 = document.getElementById("showAllContacts");
+			    butt2.addEventListener("click", contactsSelection);
+
+			    var butt3 = document.getElementById("submitLogin");
+			    butt3.addEventListener("click", sendLoginReq);
+
+			    var butt4 = document.getElementById("submitRegister");
+			    butt4.addEventListener("click", sendRegisterReq)  				
+	  		});
+
+		  	// var butt5 = document.getElementById("submitRegister");
+		   //  butt5.addEventListener("click", sendContactsReq);
+		    // var butt1 = document.getElementById("register");
+		    // butt.addEventListener("click", sendRegisterReq);
+
+		    // var butt2 = document.getElementById("login");
+		    // butt.addEventListener("click", sendLoginReq);
+
+		    // var butt3 = document.getElementById("contacts");
+		    // butt.addEventListener("click", sendContactsReq);
+	    </script>
+  	</body>
+</html>
