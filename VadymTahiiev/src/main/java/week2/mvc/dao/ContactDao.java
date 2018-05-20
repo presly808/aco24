@@ -7,10 +7,10 @@ import week2.mvc.model.Contact;
  */
 public interface ContactDao {
 
-    boolean create(Contact contact);
-    Contact read(int id);
-    boolean update(Contact updatedContact);
-    Contact delete(int id);
+    boolean create(Contact contact) throws Exception;
+    Contact read(int id) throws Exception;
+    boolean update(Contact updatedContact) throws Exception;
+    Contact delete(int id) throws Exception;
 
     Contact[] all();
 

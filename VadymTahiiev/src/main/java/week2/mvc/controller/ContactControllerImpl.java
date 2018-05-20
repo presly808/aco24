@@ -21,67 +21,58 @@ public class ContactControllerImpl implements ContactController {
     }
 
     @Override
-    public int addContact(Contact contact) {
+    public int addContact(Contact contact) throws Exception {
 
-        // generate id
         int idCount = ID_COUNT;
         contact.setId(idCount);
         ID_COUNT++;
-
         contactDao.create(contact);
-
         return idCount;
     }
 
     @Override
-    public Contact removeContact(int id) {
+    public Contact removeContact(int id) throws Exception  {
         return contactDao.delete(id);
     }
 
     @Override
-    public Contact[] findByKeyWord(String keyWord) {
+    public Contact[] findByKeyWord(String keyWord) throws Exception {
         if (keyWord == null || keyWord.isEmpty()) {
-            return new Contact[0];
+            throw new Exception();
         }
 
         String prepared = keyWord.trim().toLowerCase();
 
-        Contact[] contacts = contactDao.all();
-
         List<Contact> resultList = new ArrayList<>();
 
-        for (int i = 0; i < contacts.length; i++) {
-            Contact curr = contacts[i];
-
-            String name = curr.getName().toLowerCase();
-            String number = curr.getNumber();
-            if (name.startsWith(prepared) || number.contains(prepared)) {
-                resultList.add(curr);
-            }
-        }
-
-        /*return Arrays.stream(contactDao.all())
-                .filter(cont -> cont.getName().startsWith(prepared) || cont.getNumber().contains(prepared))
+        Contact[] result = Arrays.stream(contactDao.all())
+                .filter(cont -> cont.getName().startsWith(prepared) ||
+                        cont.getNumber().contains(prepared))
                 .collect(Collectors.toList())
-                .toArray(new Contact[resultList.size()]);*/
+                .toArray(new Contact[resultList.size()]);
 
 
-        return resultList.toArray(new Contact[resultList.size()]);
+        return result;
     }
     @Override
-    public Contact[] filterByCity(String city) {
-        Contact[] contacts = contactDao.all();
-        List<Contact> resultList = new ArrayList<>();
-        for (int i = 0; i < contacts.length; i++) {
-            if (contacts[i].getNotes().toLowerCase().contains(city.toLowerCase())){
-                resultList.add(contacts[i]);
-            }
+    public Contact[] filterByCity(String city) throws Exception {
+        if (city == null || city.isEmpty()) {
+            throw new Exception();
         }
-        return resultList.toArray(new Contact[resultList.size()]);
+        String prepared = city.trim().toLowerCase();
+        List<Contact> resultList = new ArrayList<>();
+
+        Contact[] result = Arrays.stream(contactDao.all())
+                .filter(cont -> cont.getNotes().startsWith(prepared))
+                .collect(Collectors.toList())
+                .toArray(new Contact[resultList.size()]);
+
+
+        return result;
     }
 
     @Override
-    public Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2){
+    public Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2) throws Exception {
         Contact[] mergedContacts = new Contact[contacts1.length + contacts2.length];
         for (int i = 0; i < contacts1.length; i++) {
             mergedContacts[i] = contacts1[i];
@@ -96,21 +87,15 @@ public class ContactControllerImpl implements ContactController {
 
     @Override
     public Contact[] findDuplicates() {
-        Contact[] contacts = contactDao.all();
 
         List<Contact> duplicates = new ArrayList<>();
 
-        // java8
-        for (int i = 0; i < contacts.length; i++) {
-            for (int j = i + 1; j < contacts.length; j++) {
-                if(contacts[i].getNumber().equals(contacts[j].getNumber())){
-                    duplicates.add(contacts[i]);
-                    duplicates.add(contacts[j]);
-                }
-            }
-        }
+        Contact[] result = Arrays.stream(contactDao.all())
+                .distinct()
+                .collect(Collectors.toList())
+                .toArray(new Contact[duplicates.size()]);
 
-        return duplicates.toArray(new Contact[duplicates.size()]);
+        return result;
     }
 
     @Override

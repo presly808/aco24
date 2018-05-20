@@ -17,32 +17,28 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public boolean create(Contact contact) {
+    public boolean create(Contact contact) throws Exception {
         return arrayList.add(contact);
     }
 
     @Override
-    public Contact read(int id) {
-
-        // java8
-        for (int i = 0; i < arrayList.size(); i++) {
-            Contact contact = arrayList.get(i);
-            if(contact.getId() == id){
-                return contact;
-            }
+    public Contact read(int id) throws Exception{
+        Contact result = arrayList.stream().
+                filter(contact -> contact.getId() == id).
+                findFirst().orElseGet(null);
+        if (result == null) {
+            throw new Exception();
+        } else {
+            return result;
         }
-
-        // arrayList.stream().filter(contact -> contact.getId() == id).findFirst().orElseGet(null);
-
-        return null;
     }
 
     @Override
-    public boolean update(Contact updatedContact) {
+    public boolean update(Contact updatedContact) throws Exception{
         int indexInArr = arrayList.indexOf(updatedContact);
 
         if(indexInArr == -1){
-            return false;
+            throw new Exception();
         }
 
         arrayList.set(indexInArr, updatedContact);
@@ -51,11 +47,11 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public Contact delete(int id) {
+    public Contact delete(int id) throws Exception{
         Contact contact = read(id);
 
         if(contact == null){
-            return null;
+            throw new Exception();
         }
 
         arrayList.remove(contact);
@@ -64,7 +60,7 @@ public class ContactDaoImpl implements ContactDao {
     }
 
     @Override
-    public Contact[] all() { // pagination
+    public Contact[] all() {
         return arrayList.toArray(new Contact[arrayList.size()]);
     }
 }
