@@ -1,38 +1,44 @@
 package week2.mvc.dao;
 
 import week2.mvc.model.User;
-import week2.mvc.server.ObjectHolder;
+import week2.mvc.utils.NumberUtil;
+import week2.mvc.utils.ObjectHolder;
 
-import java.util.HashMap;
-
-
+/**
+ * Created by serhii on 13.05.18.
+ */
 public class UserDaoImpl implements Dao<User> {
-
+    
     private DbContainer container = (DbContainer) ObjectHolder.getBean("db");
 
     public UserDaoImpl() {
-        container.userMap = new HashMap<>();
     }
 
+    @Override
     public boolean create(User user) {
-      //  container.userMap.put(user.getId(), user);
+        user.setId(NumberUtil.generateId());
+        container.userMap.put(user.getId(), user);
         return true;
     }
 
+    @Override
     public User read(String id) {
         return container.userMap.get(id);
     }
 
+    @Override
     public boolean update(User user) {
-     //   container.userMap.put(user.getId(), user);
+        User oldOne = container.userMap.put(user.getId(), user);
         return true;
     }
 
-    public User delete(int id) {
-        return null;
+    @Override
+    public User delete(String id) {
+        return container.userMap.remove(id);
     }
 
+    @Override
     public User[] all() {
-        return new User[0];
+        return container.userMap.values().toArray(new User[container.userMap.size()]);
     }
 }

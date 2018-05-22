@@ -1,12 +1,16 @@
 package week2.mvc.model;
 
+/**
+ * Created by serhii on 13.05.18.
+ */
 public class User {
 
     private String id;
     private String name;
     private String pass;
 
-    public User(){}
+    public User() {
+    }
 
     public String getId() {
         return id;

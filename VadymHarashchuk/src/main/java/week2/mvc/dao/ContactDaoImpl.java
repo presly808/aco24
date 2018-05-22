@@ -1,34 +1,61 @@
 package week2.mvc.dao;
 
 import week2.mvc.model.Contact;
-import week2.mvc.server.ObjectHolder;
+import week2.mvc.utils.NumberUtil;
+import week2.mvc.utils.ObjectHolder;
 
+/**
+ * Created by serhii on 15.04.18.
+ */
+// TODO: 13.05.18 add exceptions
 public class ContactDaoImpl implements Dao<Contact> {
 
     private DbContainer container = (DbContainer) ObjectHolder.getBean("db");
 
-
-    public ContactDaoImpl(){
-
+    public ContactDaoImpl() {
     }
 
+    @Override
     public boolean create(Contact contact) {
-        return false;
+        contact.setId(NumberUtil.generateId());
+        return container.contactList.add(contact);
     }
 
-    public Contact read(String id) {
-        return null;
+    @Override
+    public Contact read(String id) { // TODO: 13.05.18 add exceptions
+        return container.contactList.stream()
+                        .filter(contact -> contact.getId().equals( id))
+                        .findFirst().orElseGet(null);
     }
 
-    public boolean update(Contact contact) {
-        return false;
+    @Override
+    public boolean update(Contact updatedContact) {
+        int indexInArr = container.contactList.indexOf(updatedContact);
+
+        if(indexInArr == -1){
+            return false;
+        }
+
+        container.contactList.set(indexInArr, updatedContact);
+
+        return true;
     }
 
-    public Contact delete(int id) {
-        return null;
+    @Override
+    public Contact delete(String id) {
+        Contact contact = read(id);
+
+        if(contact == null){
+            return null;
+        }
+
+        container.contactList.remove(contact);
+
+        return contact;
     }
 
-    public Contact[] all() {
-        return new Contact[0];
+    @Override
+    public Contact[] all() { // pagination
+        return container.contactList.toArray(new Contact[container.contactList.size()]);
     }
 }
