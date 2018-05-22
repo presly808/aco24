@@ -46,7 +46,7 @@
 
 	    	function loginSelection() {
 	    		document.getElementById("register").style.display = "none";
-	    		document.getElementById("contacts").style.display = "none";
+	    		// document.getElementById("contacts").style.display = "none";
 	    		document.getElementById("login").style.display = "none";
 	    		document.getElementById("loginForm").style.display = "block";
 	    	}
@@ -68,14 +68,20 @@
 
     			xhttp.onreadystatechange = function() {
       				if (this.readyState == 4 && this.status == 200) {
-      					var contact = JSON.parse(this.responseText);
-      					console.log(contact);
-        				document.getElementById("contactContainer").innerHTML = contact;
+
+                var contacts = JSON.parse(this.responseText);
+                  var contextHTML = "";
+                  for (var i = 0; i < contacts.length; i++) {
+                    var contact = contacts[i];
+                    contextHTML += contact.name + ' '
+                    + contact.number + '<br>'
+                }
+                document.getElementById("contactContainer").innerHTML = contextHTML;
       				}
     			};
 
     			xhttp.open("GET", "/contact/all", true);
-    			xhttp.setRequestHeader("accessToken",accessKeyGlobal);
+    			xhttp.setRequestHeader("accessToken", accessKeyGlobal);
     			xhttp.send();
 	    	}
 
@@ -88,9 +94,8 @@
     			xhttp.onreadystatechange = function() {
       				if (this.readyState == 4 && this.status == 200) {
 	        			var accesskey = JSON.parse(this.responseText);
-	        			accessKeyGlobal = accesskey;
-	        			console.log(accessKeyGlobal);
-		            	if (accesskey){
+	        			accessKeyGlobal = accesskey.accessToken;
+		            	if (accesskey != null){
 		              		document.getElementById("greetings").innerHTML =
 		              		"Hello " + nameVal;
 		            	}
@@ -100,22 +105,6 @@
     			xhttp.open("POST", "/login", true);
     			xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
 		    }
-
-		    // function sendContactsReq() {
-		    // 	var xhttp = new XMLHttpRequest();
-
-    		// 	xhttp.onreadystatechange = function() {
-      // 				if (this.readyState == 4 && this.status == 200) {
-      // 					var contact = JSON.parse(this.responseText);
-      //   				document.getElementById("contactContainer").innerHTML = contact;
-      // 				}
-    		// 	};
-    		// 	xhttp.setRequestHeader(accessToken,accesskeyGlobal);
-
-    		// 	xhttp.open("GET", "/contact/all", true);
-    		// 	xhttp.send();
-		    // }
-
 
 		    function sendRegisterReq() {
 
@@ -152,17 +141,6 @@
 			    var butt4 = document.getElementById("submitRegister");
 			    butt4.addEventListener("click", sendRegisterReq)  				
 	  		});
-
-		  	// var butt5 = document.getElementById("submitRegister");
-		   //  butt5.addEventListener("click", sendContactsReq);
-		    // var butt1 = document.getElementById("register");
-		    // butt.addEventListener("click", sendRegisterReq);
-
-		    // var butt2 = document.getElementById("login");
-		    // butt.addEventListener("click", sendLoginReq);
-
-		    // var butt3 = document.getElementById("contacts");
-		    // butt.addEventListener("click", sendContactsReq);
 	    </script>
   	</body>
 </html>
