@@ -1,19 +1,27 @@
 package week2.mvc.model;
 
 /**
- * Created by serhii on 31.03.18.
+ * Created by serhii on 15.04.18.
  */
 public class Contact {
 
-    private int id;
+    private String id;
     private String name;
     private String number;
 
+    private String notes;
 
-    public Contact(int id, String name, String number) {
-        this.id = id;
+    public Contact(String name, String number) {
         this.name = name;
         this.number = number;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -32,23 +40,40 @@ public class Contact {
         this.number = number;
     }
 
-
-    public int getId() {
-        return id;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+
+        if(this == obj){
+            return true;
+        }
+
+        if(obj == null || obj.getClass() != Contact.class){
+            return false;
+        }
 
         Contact contact = (Contact) obj;
-        if (obj == null) return  false;
 
-        return contact.getNumber().equals(this.getNumber())
-                && contact.getName().equals(this.getName())
-                && contact.getId() == this.getId();
+
+        return this.id == contact.id;
+
+
     }
 }

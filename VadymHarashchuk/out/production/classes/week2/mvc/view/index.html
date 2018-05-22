@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Contact list page</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript">
+  </script>
+</head>
+
+<body>
+
+<div class="header">
+  <button id="loginBtn" type="button" name="button" class="button">
+    Log in
+  </button>
+
+  <button id="showContactsBtn" type="button" name="button">
+    Show all contacts
+  </button>
+
+  <button id="registerBtn" type="button" name="button">
+    Join us
+  </button>
+</div>
+
+<br>
+  <div class="container">
+
+    <div id="greatings" class="main">
+    <h3></h3>
+    </div>
+
+
+    <div id="login" class="main">
+    <h3>Please enter you login and password</h3>
+    <form class="form">
+      <label for="name">Name: </label>
+      <input id="name" type="text" value="">
+      <label for="pass">Password: </label>
+      <input id="pass" type="password">
+    </form>
+    <br>
+    <button id="submitBtn" type="button" name="button">
+      Submit
+    </button>
+    </div>
+
+    <div id="register" class="main">
+    <h3>Please enter you name and password</h3>
+    <form class="form">
+      <label for="name">Name: </label>
+      <input id="regName" type="text" value="">
+      <label for="pass">Password: </label>
+      <input id="regPass" type="password">
+    </form>
+    <br>
+    <button id="startBtn" type="button" name="button">
+      Start
+    </button>
+    </div>
+
+    <div id="contacts" class="main">
+    <h3>There is your contact list: </h3>
+    <table width=100%>
+    <tr>
+    <td class="tabHeader">ID
+      </td>
+      <td class="tabHeader">Name
+        </td>
+        <td class="tabHeader">Phone
+          </td>
+          <td class="tabHeader">Notes
+            </td>
+    </tr>
+    <tr>
+    <td id ="ContactID">
+      </td>
+      <td id ="ContactName">
+        </td>
+        <td id ="ContactPhone">
+          </td>
+          <td id = "ContactNotes">
+            </td>
+    </tr>
+    </table>
+    </div>
+
+
+
+  </div>
+
+<div class="footer">
+
+
+</div>
+
+<script type="text/javascript">
+
+  var accessToken = "";
+  var userAuth;
+//LOGIN BLOCK
+
+  function login() {
+    document.getElementById("login").style.display = "block";
+    document.getElementById("register").style.display = "none";
+    document.getElementById("contacts").style.display = "none";
+    document.getElementById("greatings").style.display = "none";
+  }
+
+  function submitLogin() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("greatings").style.display = "block";
+
+    var nameVal = document.getElementById("name").value;
+    var passVal = document.getElementById("pass").value;
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var key = JSON.parse(this.responseText);
+        document.getElementById("greatings").innerHTML =
+          "You are succesfully login. <br> Your access key " + key.accessToken;
+
+        accessToken = key.accessToken;
+        console.log(accessToken);
+      }
+    };
+    xhttp.open("POST", "/login", true);
+    xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
+  }
+
+
+//REGISTER BLOCK
+
+   function register() {
+        document.getElementById("register").style.display = "block";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("contacts").style.display = "none";
+        document.getElementById("greatings").style.display = "none";
+      }
+
+      function submitRegister() {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("register").style.display = "none";
+        document.getElementById("greatings").style.display = "block";
+
+        var nameVal = document.getElementById("regName").value;
+        var passVal = document.getElementById("regPass").value;
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var user = JSON.parse(this.responseText);
+            document.getElementById("greatings").innerHTML =
+              "Welcome to Contact list, " + user.name;
+
+            userAuth  = user.name;
+            console.log(userAuth);
+          }
+        };
+        xhttp.open("POST", "/register", true);
+        xhttp.send(JSON.stringify({name: nameVal, pass: passVal}));
+      }
+
+
+//SHOW CONTACTS
+         function showContacts() {
+              document.getElementById("register").style.display = "none";
+              document.getElementById("login").style.display = "none";
+              document.getElementById("contacts").style.display = "block";
+              document.getElementById("greatings").style.display = "none";
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                // document.getElementById("contacts").innerHTML =
+                //   "There is your list of contacts, " + userAuth;
+
+                if (this.readyState == 4 && this.status == 200) {
+                  var array = JSON.parse(this.responseText);
+                  var id = "";
+                  var name = "";
+                  var number = "";
+                  for (i = 0; i < array.length; i++) {
+                    id += array[i].id + "\n";
+                    name += array[i].name + "\n";
+                    number += array[i].number + "\n";
+                    }
+                    document.getElementById("ContactID").innerHTML =
+                        id;
+                    document.getElementById("ContactName").innerHTML =
+                        name;
+                    document.getElementById("ContactPhone").innerHTML =
+                        number;
+                    }
+
+              };
+
+              xhttp.open("GET", "/contact/all", true);
+              xhttp.setRequestHeader("accessToken", accessToken)
+              xhttp.send()
+            }
+
+
+
+  // jquery, es6
+  document.getElementById("loginBtn").addEventListener("click", login);
+  document.getElementById("registerBtn").addEventListener("click", register);
+  document.getElementById("showContactsBtn").addEventListener("click", showContacts);
+  document.getElementById("submitBtn").addEventListener("click", submitLogin);
+  document.getElementById("startBtn").addEventListener("click", submitRegister);
+
+</script>
+
+</body>
+</html>

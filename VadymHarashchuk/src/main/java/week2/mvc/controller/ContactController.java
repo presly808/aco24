@@ -2,16 +2,18 @@ package week2.mvc.controller;
 
 import week2.mvc.model.Contact;
 
+/**
+ * Created by serhii on 15.04.18.
+ */
 public interface ContactController {
 
-    boolean addContact(Contact contact);
+    String addContact(Contact contact);
 
-    Contact[] findByNameOrNumber(String nameOrNumber);
+    Contact removeContact(String id);
 
-    Contact removeContact(int id);
+    Contact[] findByKeyWord(String keyWord);
+
+    Contact[] findDuplicates();
 
     Contact[] getAll();
-
-    Contact findContact(Contact contact, String nameOrNumber);
-
 }
