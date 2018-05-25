@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="main">
+
+    <div id="contacts">
+
+        <button id="contactsBtn" type="button" onclick="showContacts()">Contacts</button>
+
+        <div id="inner-contacts">
+            <form action="allcontacts"method="get">
+                <label for="accessKey">Key</label>
+                <input type="text" id="accessKey" value="">
+            </form>
+
+            <button id="all-contacts-button" type="button" name="button"></button>
+        </div>
+
+    </div>
+
+    <div id="login">
+
+        <button id="loginBtn" type="button" onclick="showLogin()">Login</button>
+
+        <div id="inner-login">
+            <form action="login" method="post">
+                <label for="nameLog">Name</label>
+                <input type="text" id="nameLog" value="">
+                <label for="passLog">Password</label>
+                <input id="passLog" type="password">
+            </form>
+
+            <button id="login-button" type="button" name="button">
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="register">
+
+        <button id="registerBtn" type="button" onclick="showRegister()">Register</button>
+
+        <div id="inner-register">
+            <form method="post" action="register">
+                <label for="nameReg">Name</label>
+                <input type="text" id="nameReg" value="">
+                <label for="passReg">Password</label>
+                <input id="passReg" type="password">
+            </form>
+
+            <button id="register-button" type="button" name="button">
+            </button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</div>
+
+<div id="footer">
+    <h1 id="resp">Will be a response</h1>
+</div>
+</body>
+</html>
