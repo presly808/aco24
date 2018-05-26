@@ -7,15 +7,15 @@ import week2.mvc.model.Contact;
  */
 public interface ContactController {
 
-    int addContact(Contact contact);
+    int addContact(Contact contact) throws Exception;
 
-    Contact removeContact(int id);
+    Contact removeContact(int id) throws Exception;
 
-    Contact[] findByKeyWord(String keyWord);
+    Contact[] findByKeyWord(String keyWord) throws Exception;
 
-    Contact[] filterByCity(String city);
+    Contact[] filterByCity(String city) throws Exception;
 
-    Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2);
+    Contact[] mergeContacts(Contact[] contacts1, Contact[] contacts2) throws Exception;;
 
     Contact[] findDuplicates();
 
