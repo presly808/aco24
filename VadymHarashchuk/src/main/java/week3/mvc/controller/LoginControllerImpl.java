@@ -1,59 +1,93 @@
 package week3.mvc.controller;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import week3.mvc.dao.Dao;
+import week3.mvc.dao.UserDaoImpl;
+import week3.mvc.dao.WorkerDaoImpl;
+import week3.mvc.db.DBadmins;
+import week3.mvc.db.DBusers;
+import week3.mvc.db.DBworkers;
+import week3.mvc.exceptions.LoginException;
+import week3.mvc.exceptions.RegisterException;
+import week3.mvc.model.human.Human;
+import week3.mvc.model.human.User;
+import week3.mvc.model.human.Worker;
+
+import java.util.*;
 
 public class LoginControllerImpl implements LoginController {
 
-    private final static Map<String, String> admins = new HashMap<>();
-    private final static Map<String, String> users = new HashMap<>();
-    private final static Map<String, String> workers = new HashMap<>();
 
-    private String accessKey;
+    private Map<String, String> accessKeys;
+    private static Dao<User> users;
+    private static Dao<Worker> workers;
+    private static DBadmins admins;
 
-    static {
-        admins.put("admin_Vadym", "123456");
-        admins.put("admin_Valerii", "qwerty");
-        admins.put("admin_Serhii", "123123");
-        users.put("user", "123456");
-        users.put("Max", "654321");
-        users.put("Sashko", "password");
-        workers.put("Olexandr", "id1234");
-        workers.put("Ivan", "id625");
-        workers.put("Nazar", "id1024");
+
+    public LoginControllerImpl() {
+        users = new UserDaoImpl();
+        workers = new WorkerDaoImpl();
+        accessKeys = new HashMap<>();
     }
 
-    @Override
-    public String login(String typeOfuser, String username, String password) {
-        Map<String, String> credentials = new HashMap<>();
-        switch (typeOfuser) {
-            case "user":
-                credentials = users;
-                break;
-            case "admin":
-                credentials = admins;
-                break;
-            case "worker":
-                credentials = workers;
-        }
 
-        for (Map.Entry<String, String> pair : credentials.entrySet()) {
-            if (pair.getKey().equals(username) && pair.getValue().equals(password)) {
-                setAccessKey(Base64.getEncoder().encodeToString(password.getBytes())
-                        + Base64.getEncoder().encodeToString(username.getBytes())
-                        + Base64.getEncoder().encodeToString(new Date().toString().getBytes()));
-            }
+    public String login(String name, String pass, String type) throws LoginException {
+//            User found = getUser(name);
+        Human found = null;
+        switch (type) {
+            case "USER":
+                found = getUser(name);
+                break;
+            case "WORKER":
+                found = getWorker(name);
         }
+        if (found == null || !found.getPassword().equals(pass)) {
+            throw new LoginException("wrong name or pass");
+        }
+        String accessKey = UUID.randomUUID().toString().substring(0, 16);
+        accessKeys.put(accessKey, found.getName());
         return accessKey;
     }
 
-    public String getAccessKey() {
-        return accessKey;
+    public User getUser(String name) {
+        return users.getAll().stream()
+                .filter(user -> user.getName().equals(name)).findFirst()
+                .orElse(null);
     }
 
-    private void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
+    public Worker getWorker(String name) {
+        return workers.getAll().stream()
+                .filter(user -> user.getName().equals(name)).findFirst()
+                .orElse(null);
     }
+
+    public String isLoggedIn(String accessToken) {
+
+        return accessKeys.entrySet().stream()
+                .filter(set -> set.getKey().equals(accessToken))
+                .findFirst()
+                .map(set -> set.getValue())
+                .get();
+    }
+
+
+
+//    public <T> T register(String name, String pass) throws RegisterException {
+//        Human t;
+//        if (T instanceof Worker) {
+//            t = new Worker(name, pass);
+//        }
+//
+//        t.setName(name);
+//        t.setPassword(pass);
+//
+//        User found = getUser(name);
+//
+//        if (found != null) {
+//            throw new RegisterException("user already exists");
+//        }
+//
+//        boolean result = users.create(t);
+//        return t;
+//
+//    }
 }

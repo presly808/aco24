@@ -10,7 +10,7 @@ public class ItemDaoImpl implements ItemDao {
 
     public ItemDaoImpl() {
 
-        database = (DataBase) ServiceFactory.get("database");
+        database = (DataBase) ServiceFactory.getBean("database");
     }
 
     public Item getItem(String model) {

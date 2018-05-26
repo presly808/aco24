@@ -7,34 +7,39 @@ import week3.mvc.model.repair.Ticket;
 
 import java.util.List;
 
-public class WorkerDaoImpl implements WorkerDao {
+public class WorkerDaoImpl implements Dao<Worker> {
 
     DataBase database;
 
     public WorkerDaoImpl() {
-        database = (DataBase) ServiceFactory.get("database");
+        database = (DataBase) ServiceFactory.getBean("database");
     }
 
-    public boolean createWorker(Worker worker) {
+    public boolean create(Worker worker) {
         return database.getWorkers().add(worker);
     }
 
-    public List<Worker> getAllWorkers() {
+    @Override
+    public List<Worker> find(String key) {
+        return null;
+    }
+
+    public List<Worker> getAll() {
         return database.getWorkers();
     }
 
-    public Worker updateWorker(Worker worker, String phone, double salary, List<Ticket> tickets) {
+    public Worker update(Worker worker, String phone, List<Ticket> tickets, double...salary) {
 
         int index = database.getWorkers().indexOf(worker);
 
         worker.setPhoneNumber(phone);
-        worker.setSalary(salary);
+        worker.setSalary(salary[0]);
         worker.setTickets(tickets);
 
         return database.getWorkers().set(index, worker);
     }
 
-    public boolean deleteWorker(Worker worker) throws Exception {
+    public boolean delete(Worker worker) throws Exception {
 
         if (database.getWorkers().indexOf(worker) >= 0) {
             return database.getWorkers().remove(worker);

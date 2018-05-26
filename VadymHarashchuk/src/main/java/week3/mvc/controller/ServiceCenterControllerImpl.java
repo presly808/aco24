@@ -1,7 +1,7 @@
 package week3.mvc.controller;
 
 import com.google.gson.Gson;
-import week3.mvc.db.DataBase;
+import week3.mvc.db.*;
 import week3.mvc.model.human.User;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Item;
@@ -13,12 +13,15 @@ import week3.mvc.view.WorkerViewImpl;
 public class ServiceCenterControllerImpl {
 
     //database
-    public DataBase dataBase;
+    private DBusers users;
+    private DBworkers dBworkers;
+    private DBitems items;
+    private DBtickets tickets;
 
     //controllers
-    private AdminController adminController;
-    private UserController userController;
-    private WorkerController workerController;
+    public AdminController adminController;
+    public UserController userController;
+    public WorkerController workerController;
 
 
     //views
@@ -28,15 +31,15 @@ public class ServiceCenterControllerImpl {
 
     public ServiceCenterControllerImpl(){
 
-        dataBase = (DataBase) ServiceFactory.get("database");
+        users = (DBusers) ServiceFactory.getBean("users");
 
-        adminController = (AdminController) ServiceFactory.get("adminController");
-        userController = (UserController) ServiceFactory.get("userController");
-        workerController = (WorkerController) ServiceFactory.get("workerController");
+        adminController = (AdminController) ServiceFactory.getBean("adminController");
+        userController = (UserController) ServiceFactory.getBean("userController");
+        workerController = (WorkerController) ServiceFactory.getBean("workerController");
 
-        adminViewImpl = (AdminView) ServiceFactory.get("adminViewImpl");
-        workerViewImpl = (WorkerViewImpl) ServiceFactory.get("workerViewImpl");
-        userViewImpl = (UserView) ServiceFactory.get("userViewImpl");
+        adminViewImpl = (AdminView) ServiceFactory.getBean("adminView");
+        workerViewImpl = (WorkerViewImpl) ServiceFactory.getBean("workerView");
+        userViewImpl = (UserView) ServiceFactory.getBean("userView");
     }
 
     public static void main(String[] args) {

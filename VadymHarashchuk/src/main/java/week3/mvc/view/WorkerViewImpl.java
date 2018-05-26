@@ -4,6 +4,7 @@ package week3.mvc.view;
 import week3.mvc.controller.LoginController;
 import week3.mvc.controller.ServiceFactory;
 import week3.mvc.dao.TicketDao;
+import week3.mvc.exceptions.LoginException;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Item;
 import week3.mvc.model.repair.Ticket;
@@ -20,11 +21,11 @@ public class WorkerViewImpl {
     private LoginController loginController;
 
     public WorkerViewImpl() {
-        loginController = (LoginController) ServiceFactory.get("loginController");
+        loginController = (LoginController) ServiceFactory.getBean("loginController");
     }
 
 
-    public void login() {
+    public void login() throws LoginException {
 
         System.out.println("+++++++++++++++++++++++++++++++++++");
         System.out.println("+You are trying to login as Worker+");
@@ -38,7 +39,7 @@ public class WorkerViewImpl {
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
 
-        accessKey = loginController.login("worker", username, password);
+        accessKey = loginController.login( username, password, "WORKER");
         if (accessKey != null) {
 
             System.out.println("Enter your phone number: ");

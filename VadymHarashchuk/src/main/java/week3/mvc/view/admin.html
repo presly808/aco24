@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Service center</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="text/javascript">
+  </script>
+</head>
+
+<body>
+
+<div id="header">
+</div>
+
+<br>
+  <div class="container">
+    <div id="adminLogin" class="main">
+    <h3>Admin service:</h3>
+    <form class="form">
+      <label for="name">Name: </label>
+      <input id="name" type="text" value="">
+      <label for="pass">Password: </label>
+      <input id="pass" type="password">
+      <br>
+    </form>
+    <br>
+    <button id="submitBtn" type="button" name="button">
+      Submit
+    </button>
+    </div>
+
+    <div id="adminView" class="main">
+      <div id="personalInfo">
+      <b>Name:</b><span id="p_name"></span><br>
+      <b>PhoneNumber:</b><span id="p_phone"></span><br>
+      <b>Items:</b><span id="p_items"></span><br>
+      <b>Tickets:</b><span id="p_tickets"></span>
+      <b>Items:</b><span id="p_items"></span>
+      </div>
+      <button id="submitBtn" type="button" name="button">
+        Add item
+      </button>
+   </div>
+
+</div>
+
+
+
+<div class="footer">
+</div>
+
+<script type="text/javascript">
+  var accessToken = "";
+  var userAuth;
+//LOGIN BLOCK
+
+  function submitLogin() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("userView").style.display = "block";
+
+    var nameVal = document.getElementById("name").value;
+    var passVal = document.getElementById("pass").value;
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var key = JSON.parse(this.responseText);
+        document.getElementById("header").innerHTML =
+          "You are succesfully login, " + nameVal;
+
+        accessToken = key.accessToken;
+           getInfo();
+      }
+    };
+    xhttp.open("POST", "/login", true);
+    xhttp.send(JSON.stringify({name: nameVal, password: passVal, type: radio}));
+
+  }
+
+
+//SHOW PERSONAL_INFO
+         function getInfo() {
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+                  var user = JSON.parse(this.responseText);
+
+                    document.getElementById("p_name").innerHTML =
+                        user.name;
+                    document.getElementById("p_phone").innerHTML =
+                        user.phoneNumber;
+
+                    tickets = ""
+                    for(i = 0; i < user.tickets.length; i++){
+                      tickets += "\nid: " + user.tickets[i].id
+                      + "\nitem: " + JSON.stringify(user.tickets[i].item)
+                      +"\nstatus: " + user.tickets[i].status;
+                    }
+                    document.getElementById("p_tickets").innerHTML =
+                        tickets;
+                    }
+
+              };
+
+              xhttp.open("GET", "/user", true);
+              xhttp.setRequestHeader("accessToken", accessToken)
+              xhttp.send()
+            }
+
+  // jquery, es6
+  document.getElementById("submitBtn").addEventListener("click", submitLogin);
+
+
+</script>
+
+</body>
+</html>

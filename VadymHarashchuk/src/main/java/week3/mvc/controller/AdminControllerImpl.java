@@ -13,22 +13,22 @@ public class AdminControllerImpl implements AdminController {
     //DAO for work with database
     LogDao logDao;
     TicketDao ticketDao;
-    UserDao userDao;
-    WorkerDao workerDao;
+    Dao<User> userDao;
+    Dao<Worker> workerDao;
 
     public AdminControllerImpl() {
-        ticketDao = (TicketDao) ServiceFactory.get("ticketDao");
-        userDao = (UserDao) ServiceFactory.get("userDao");
-        workerDao = (WorkerDao) ServiceFactory.get("workerDao");
+        ticketDao = (TicketDao) ServiceFactory.getBean("ticketDao");
+        userDao = (Dao<User>) ServiceFactory.getBean("userDao");
+        workerDao = (Dao<Worker>) ServiceFactory.getBean("workerDao");
     }
 
     public boolean hireWorker(Worker worker) {
         System.out.printf("Worker %s is hired.\n", worker.getName());
-        return workerDao.createWorker(worker);
+        return workerDao.create(worker);
     }
 
     public boolean fireWorker(Worker worker) throws Exception {
-        return workerDao.deleteWorker(worker);
+        return workerDao.delete(worker);
     }
 
     public void paySalary() {
@@ -37,13 +37,13 @@ public class AdminControllerImpl implements AdminController {
 
     public Map<String, Double> getSalaryInfoByWorkers() {
 
-        return workerDao.getAllWorkers().stream()
+        return workerDao.getAll().stream()
                 .collect(Collectors.toMap(Worker::getName, Worker::getSalary));
     }
 
     public int getWorkedHoursByWorker(Worker worker) {
 
-        return workerDao.getAllWorkers().stream()
+        return workerDao.getAll().stream()
                 .filter(worker1 -> worker1.equals(worker)).map(Worker::getHours).findFirst().get();
     }
 
@@ -63,11 +63,11 @@ public class AdminControllerImpl implements AdminController {
     }
 
     public boolean createUser(User user) {
-        return userDao.createUser(user);
+        return userDao.create(user);
     }
 
     public List<User> findUsers(String key) {
-        return userDao.findUsers(key);
+        return userDao.find(key);
     }
 
 }

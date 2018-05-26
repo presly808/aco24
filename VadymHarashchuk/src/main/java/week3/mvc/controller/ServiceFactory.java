@@ -1,14 +1,21 @@
 package week3.mvc.controller;
 
+import com.google.gson.Gson;
 import week3.mvc.dao.*;
-import week3.mvc.db.DataBase;
+import week3.mvc.db.*;
+import week3.mvc.model.human.User;
+import week3.mvc.model.human.Worker;
 import week3.mvc.view.*;
 
 import java.lang.reflect.Proxy;
 
 public class ServiceFactory {
 
-    static DataBase database;
+    //DATABASES
+    static DBusers users;
+    static DBworkers workers;
+    static DBitems items;
+    static DBtickets tickets;
 
     //VIEWS
     private static AdminView adminViewImpl;
@@ -22,22 +29,30 @@ public class ServiceFactory {
     private static LoginController loginController;
 
     //DAO
-
-    private static UserDao userDao;
-    private static WorkerDao workerDao;
+    private static Dao<User> userDao;
+    private static Dao<Worker> workerDao;
     private static TicketDao ticketDao;
     private static ItemDao itemDao;
 
-    public static Object get(String parameter) {
+    // additional
+    private static Gson gson;
+
+    public static Object getBean(String parameter) {
         switch (parameter) {
-            case "database":
-                return database == null ? database = new DataBase() : database;
-            case "adminViewImpl":
+            case "users":
+                return users == null ? users = new DBusers() : users;
+            case  "workers":
+                return  workers == null ? workers = new DBworkers() : workers;
+            case "items":
+                return  items == null ? items = new DBitems() : items;
+            case "tickets":
+                return tickets == null ? tickets = new DBtickets() : tickets;
+            case "adminView":
                 return proxyForAdmin();
-            case "userViewImpl":
+            case "userView":
                 return proxyForUser();
          //       return userViewImpl == null ? userViewImpl = new UserViewImpl() : userViewImpl;
-            case "workerViewImpl":
+            case "workerView":
                 return workerViewImpl == null ? workerViewImpl = new WorkerViewImpl() : workerViewImpl;
             case "adminController":
                 return adminController == null ? adminController = new AdminControllerImpl() : adminController;
@@ -55,6 +70,8 @@ public class ServiceFactory {
                 return ticketDao == null ? ticketDao = new TicketDaoImpl() : ticketDao;
             case "itemDao":
                 return itemDao == null ? itemDao = new ItemDaoImpl() : itemDao;
+            case "gson":
+                return gson == null ? gson = new Gson() : gson;
             default:
                 return null;
         }

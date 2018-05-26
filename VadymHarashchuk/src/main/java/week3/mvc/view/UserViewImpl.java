@@ -3,6 +3,7 @@ package week3.mvc.view;
 import week3.mvc.controller.LoginController;
 import week3.mvc.controller.ServiceFactory;
 import week3.mvc.dao.TicketDao;
+import week3.mvc.exceptions.LoginException;
 import week3.mvc.model.human.User;
 import week3.mvc.model.repair.Item;
 import week3.mvc.model.repair.Ticket;
@@ -19,12 +20,12 @@ public class UserViewImpl implements UserView{
     private User user;
 
     public UserViewImpl() {
-        loginController = (LoginController) ServiceFactory.get("loginController");
-        tickets = (TicketDao) ServiceFactory.get("ticketDao");
+        loginController = (LoginController) ServiceFactory.getBean("loginController");
+        tickets = (TicketDao) ServiceFactory.getBean("ticketDao");
 
     }
 
-    public void login() {
+    public void login() throws LoginException {
 
         System.out.println("*********************************");
         System.out.println("*You are trying to login as User*");
@@ -38,7 +39,7 @@ public class UserViewImpl implements UserView{
         System.out.println("Enter your password: ");
         String password = scanner.nextLine();
 
-        accessKey = loginController.login("user", username, password);
+        accessKey = loginController.login(username, password, "USER");
 
         if (accessKey != null) {
             System.out.println("Enter your phone number: ");
@@ -88,7 +89,7 @@ public class UserViewImpl implements UserView{
 
     public boolean giveItem(Item item, int hours) {
         if (accessKey == null) {
-            login();
+           // //login();
         }
         user.getItems().remove(item);
 
@@ -98,7 +99,7 @@ public class UserViewImpl implements UserView{
 
     public String checkTicketStatus(Ticket ticket) {
         if (accessKey == null) {
-            login();
+            //login();
         }
         return tickets.getAllTickets().stream()
                 .filter(ticket1 -> ticket1.equals(ticket))
@@ -107,7 +108,7 @@ public class UserViewImpl implements UserView{
 
     public Item takeItemBack(Ticket ticket) {
         if (accessKey == null) {
-            login();
+            //login();
         }
 
         Item item = tickets.getAllTickets().stream()
@@ -120,7 +121,7 @@ public class UserViewImpl implements UserView{
 
     public void leaveComment(String comment) {
         if (accessKey == null) {
-            login();
+            //login();
         }
         System.out.println(comment);
     }

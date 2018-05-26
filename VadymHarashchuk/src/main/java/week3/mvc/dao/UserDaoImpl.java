@@ -1,61 +1,59 @@
 package week3.mvc.dao;
 
 import week3.mvc.controller.ServiceFactory;
-import week3.mvc.db.DataBase;
+import week3.mvc.db.DBusers;
 import week3.mvc.model.human.User;
 import week3.mvc.model.repair.Ticket;
 
 import java.util.List;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl implements Dao<User> {
 
-    DataBase database;
+    DBusers users;
 
 
     public UserDaoImpl() {
-        database = (DataBase) ServiceFactory.get("database");
+        users = (DBusers) ServiceFactory.getBean("users");
     }
 
 
-    public boolean createUser(User user) {
+    public boolean create(User user) {
 
-        return database.addUser(user);
-
-    }
-
-    public List<User> findUsers(String key) {
-        return database.findUsers(key);
-    }
-
-    public boolean createUsers(List<User> users) {
-
-        return database.addUsers(users);
+        return users.addUser(user);
 
     }
 
-
-
-    public List<User> getAllUsers() {
-
-        return database.getAllUsers();
+    public List<User> find(String key) {
+        return users.findUsers(key);
     }
 
-    public User updateUser(User user, String phone, List<Ticket> tickets) {
+    public boolean createUsers(List<User> usersList) {
 
-        int index = database.getAllUsers().indexOf(user);
+        return users.addUsers(usersList);
 
+    }
+
+
+    public List<User> getAll() {
+
+        return users.getAllUsers();
+    }
+
+    public User update(User user, String phone, List<Ticket> tickets, double...salary) {
+
+        int index = users.getAllUsers().indexOf(user);
         user.setPhoneNumber(phone);
         user.setTickets(tickets);
 
-        return database.getAllUsers().set(index, user);
+        return users.getAllUsers().set(index, user);
     }
 
-    public boolean deleteUser(User user) throws Exception {
+    public boolean delete(User user) throws Exception {
 
-        if (database.getAllUsers().indexOf(user) >= 0)
-            return database.getAllUsers().remove(user);
+        if (users.getAllUsers().indexOf(user) >= 0)
+            return users.getAllUsers().remove(user);
 
-        throw new Exception("There is no such user in database");
+        throw new Exception("There is no such user in users");
 
     }
 

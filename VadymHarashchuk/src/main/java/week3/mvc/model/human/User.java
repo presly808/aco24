@@ -6,12 +6,20 @@ import week3.mvc.model.repair.Ticket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Human {
+
 
     private String name;
+    private String password;
     private String phoneNumber;
     private List<Ticket> tickets;
     private List<Item> items;
+    private static final String type = "USER";
+
+    public User(){
+
+    }
+
 
     public User(String name, String phoneNumber, Ticket ticket){
         this.name = name;
@@ -24,6 +32,15 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setName(String name) {
@@ -55,4 +72,10 @@ public class User {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+
+    public String getType() {
+        return type;
+    }
+
 }

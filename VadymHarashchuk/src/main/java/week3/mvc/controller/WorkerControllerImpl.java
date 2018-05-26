@@ -10,7 +10,7 @@ public class WorkerControllerImpl implements WorkerController {
 
 
     public WorkerControllerImpl(){
-        ticketDao = (TicketDao) ServiceFactory.get("ticketDao");
+        ticketDao = (TicketDao) ServiceFactory.getBean("ticketDao");
     }
 
     public void takeForRepair(Item item) {

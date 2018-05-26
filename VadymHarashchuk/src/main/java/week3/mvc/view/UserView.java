@@ -1,11 +1,12 @@
 package week3.mvc.view;
 
+import week3.mvc.exceptions.LoginException;
 import week3.mvc.model.repair.Item;
 import week3.mvc.model.repair.Ticket;
 
 public interface UserView {
 
-    void login();
+    void login() throws LoginException;
 
     boolean giveItem(Item item, int hours);
 

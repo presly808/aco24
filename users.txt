@@ -1,0 +1,4 @@
+{"name":"Vad", "password":"12345", "phoneNumber":"+380931234567", "type": "USER", "tickets":[{"item":{"model":"Honda","type":"moto","state":"FIXED"},"id":1,"status":"open","fixHours":4}],"items":[{"model":"Honda","type":"moto","state":"FIXED"}]}
+{"name":"Max", "password":"12345", "phoneNumber":"+380935556667", "type": "USER", "tickets":[{"item":{"model":"Honda","type":"moto","state":"FIXED"},"id":1,"status":"open","fixHours":4}],"items":[{"model":"Honda","type":"moto","state":"FIXED"}]}
+{"name":"Vados","password":"12345","phoneNumber":"12345"}
+{"name":"www","password":"1234","phoneNumber":"1234"}

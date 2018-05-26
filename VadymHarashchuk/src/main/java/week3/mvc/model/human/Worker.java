@@ -8,27 +8,35 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Worker {
+public class Worker implements Human {
 
     private String name;
     private String phoneNumber;
+    private String password;
     private TicketDao tickets;
     private double salary;
     private LocalDate startWorkDate;
     private int hours;
-
+    private static final String type = "WORKER";
 
     public Worker(String name, String phoneNumber, double salary) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
         this.startWorkDate = LocalDate.now();
-        tickets = (TicketDao) ServiceFactory.get("ticketDao");
+        tickets = (TicketDao) ServiceFactory.getBean("ticketDao");
     }
-
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setName(String name) {
@@ -45,6 +53,10 @@ public class Worker {
 
     public List<Ticket> getTickets() {
         return tickets.getAllTickets();
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setTickets(List<Ticket> tickets) {

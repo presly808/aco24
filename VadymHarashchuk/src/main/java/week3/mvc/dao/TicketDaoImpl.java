@@ -13,7 +13,7 @@ public class TicketDaoImpl implements TicketDao {
     DataBase database;
 
     public TicketDaoImpl() {
-        database = (DataBase) ServiceFactory.get("database");
+        database = (DataBase) ServiceFactory.getBean("database");
     }
 
     public Ticket createTicket(Item item, int fixHours) {

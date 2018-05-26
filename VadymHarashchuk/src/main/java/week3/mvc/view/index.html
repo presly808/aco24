@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Service center</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="text/javascript">
+  </script>
+</head>
+
+<body>
+
+<div id="header">
+<h1> Welcome to service center!</h1>
+  <button id="loginBtn" type="button" name="button" class="button">
+    Log in
+  </button>
+
+
+  <button id="registerBtn" type="button" name="button">
+    Register
+  </button>
+</div>
+
+<br>
+  <div class="container">
+    <div id="login" class="main">
+    <h3>Please enter you login and password below</h3>
+    <form class="form">
+      <label for="name">Name: </label>
+      <input id="name" type="text" value="">
+      <label for="pass">Password: </label>
+      <input id="pass" type="password">
+      <br>
+      <input type="radio" name="type" value="USER"> User &nbsp;
+      <input type="radio" name="type" value="WORKER"> Worker<br><br>
+    </form>
+    <br>
+    <button id="submitBtn" type="button" name="button">
+      Submit
+    </button>
+    </div>
+
+    <div id="userView" class="main">
+      <div id="personalInfo">
+      <b>Name:</b><span id="p_name"></span><br>
+      <b>PhoneNumber:</b><span id="p_phone"></span><br>
+      <b>Items:</b><span id="p_items"></span><br>
+      <b>Tickets:</b><span id="p_tickets"></span>
+      <b>Items:</b><span id="p_items"></span>
+      </div>
+      <button id="submitBtn" type="button" name="button">
+        Add item
+      </button>
+   </div>
+
+</div>
+
+<div id="register" class="main">
+    <h3>Please fill the form:</h3>
+    <form class="form">
+      <label for="name">Name: </label>
+      <input id="regName" type="text" value="">
+      <br>
+      <label for="pass">Password: </label>
+      <input id="regPass" type="password">
+      <br>
+      <label for="number">Phone number: </label>
+      <input id="regPhone" type="text">
+      <br>
+      <input type="radio" name="type" value="USER"> User &nbsp;
+      <input type="radio" name="type" value="WORKER"> Worker<br><br>
+    </form>
+    <br>
+    <button id="startBtn" type="button" name="button">
+      Start
+    </button>
+</div>
+
+<div class="footer">
+</div>
+
+<script type="text/javascript">
+  var accessToken = "";
+  var userAuth;
+//LOGIN BLOCK
+
+function login() {
+     document.getElementById("login").style.display = "block";
+     document.getElementById("register").style.display = "none";
+   }
+
+  function submitLogin() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "none";
+    document.getElementById("userView").style.display = "block";
+
+    var nameVal = document.getElementById("name").value;
+    var passVal = document.getElementById("pass").value;
+    var radio = document.querySelector('input[name="type"]:checked').value;
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var key = JSON.parse(this.responseText);
+        document.getElementById("header").innerHTML =
+          "You are succesfully login, " + nameVal;
+
+        accessToken = key.accessToken;
+           getInfo();
+      }
+    };
+    xhttp.open("POST", "/login", true);
+    xhttp.send(JSON.stringify({name: nameVal, password: passVal, type: radio}));
+
+  }
+
+
+//REGISTER BLOCK
+
+   function register() {
+        document.getElementById("register").style.display = "block";
+        document.getElementById("login").style.display = "none";
+      }
+
+      function submitRegister() {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("register").style.display = "none";
+
+        var nameVal = document.getElementById("regName").value;
+        var passVal = document.getElementById("regPass").value;
+        var phoneVal = document.getElementById("regPhone").value;
+
+        var radio = document.querySelector('input[name="type"]:checked').value;
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            if(this.responseText == "true")
+            {
+              document.getElementById("header").innerHTML =
+              "You are succesfully register new user: " + nameVal;
+            }
+              else {
+                document.getElementById("header").innerHTML =
+                "Error! There is registerd user with such name";
+              }
+          }
+        };
+        xhttp.open("POST", "/register", true);
+        xhttp.send(JSON.stringify({name: nameVal, password: passVal, phoneNumber: phoneVal, type: radio}));
+
+      }
+
+
+//SHOW PERSONAL_INFO
+         function getInfo() {
+
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+                  var user = JSON.parse(this.responseText);
+
+                    document.getElementById("p_name").innerHTML =
+                        user.name;
+                    document.getElementById("p_phone").innerHTML =
+                        user.phoneNumber;
+
+                    tickets = ""
+                    for(i = 0; i < user.tickets.length; i++){
+                      tickets += "\nid: " + user.tickets[i].id
+                      + "\nitem: " + JSON.stringify(user.tickets[i].item)
+                      +"\nstatus: " + user.tickets[i].status;
+                    }
+                    document.getElementById("p_tickets").innerHTML =
+                        tickets;
+                    }
+
+              };
+
+              xhttp.open("GET", "/user", true);
+              xhttp.setRequestHeader("accessToken", accessToken)
+              xhttp.send()
+            }
+
+
+
+  // jquery, es6
+  document.getElementById("loginBtn").addEventListener("click", login);
+  document.getElementById("registerBtn").addEventListener("click", register);
+  // document.getElementById("showContactsBtn").addEventListener("click", showContacts);
+  document.getElementById("submitBtn").addEventListener("click", submitLogin);
+  document.getElementById("startBtn").addEventListener("click", submitRegister);
+
+</script>
+
+</body>
+</html>

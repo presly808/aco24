@@ -1,5 +1,6 @@
 package week3.mvc.view;
 
+import week3.mvc.exceptions.LoginException;
 import week3.mvc.model.human.Worker;
 import week3.mvc.model.repair.Ticket;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 public interface AdminView {
 
-    void login();
+    void login() throws LoginException;
 
     boolean hireWorker(Worker worker);
 

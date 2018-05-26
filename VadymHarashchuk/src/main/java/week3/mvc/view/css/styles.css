@@ -1,0 +1,83 @@
+
+body {
+   width:100%;
+   text-align:center;
+}
+
+h3 {
+color: LightGray;
+}
+
+.form {
+
+}
+
+button {
+  background-color: #008CBA;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline;
+  font-size: 16px;
+  border: 1px solid white;
+}
+
+#submitBtn{
+  color: white;
+  text-align: center;
+  position: relative;
+
+}
+
+#startBtn{
+  color: white;
+  text-align: center;
+  position: relative;
+  left: 450px;
+
+}
+
+.header {
+text-align: center;
+margin: 0 auto;
+}
+
+
+.main {
+  width: 30%;
+  height: auto;
+  margin: auto;
+  background-color: #008CBA;
+  color: white;
+  padding-top: : 15px 32px;
+  padding-bottom: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#login {
+  display: none;
+}
+
+#userView{
+  display: none;
+}
+
+#adminView{
+  display: none;
+}
+
+#register {
+  display: none;
+  color: white;
+  padding: 15px 15px;
+  text-align: left;
+  background-color: #008CBA;
+
+}
+
+.tabHeader {
+  color: white;
+  text-align: center;
+}

@@ -19,7 +19,7 @@ public class TextUtils {
 
     /**
      * @param text
-     * @return array with words, get from receive text
+     * @return array with words, getBean from receive text
      * if received argument is null
      * or text length is zero
      * return array with zero length
