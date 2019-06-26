@@ -1,10 +1,8 @@
-package exclude.week2.mvc.dao;
+package week2.mvc.dao;
 
-import exclude.week2.mvc.model.Contact;
+import week2.mvc.model.Contact;
 
-/**
- * Created by serhii on 15.04.18.
- */
+
 public interface ContactDao {
 
     boolean create(Contact contact);

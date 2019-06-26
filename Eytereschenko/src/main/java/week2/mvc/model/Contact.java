@@ -1,11 +1,8 @@
-package exclude.week2.mvc.model;
+package week2.mvc.model;
 
-/**
- * Created by serhii on 15.04.18.
- */
 public class Contact {
 
-    private String id;
+    private int id;
     private String name;
     private String number;
 
@@ -16,11 +13,16 @@ public class Contact {
         this.number = number;
     }
 
-    public String getId() {
+    public Contact(String name, String number, String notes) {
+        this(name, number);
+        this.notes = notes;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,13 +61,13 @@ public class Contact {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
 
-        if(this == obj){
+        if (this == obj) {
             return true;
         }
 
-        if(obj == null || obj.getClass() != Contact.class){
+        if (obj == null || obj.getClass() != Contact.class) {
             return false;
         }
 

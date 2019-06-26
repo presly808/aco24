@@ -1,0 +1,59 @@
+Task
+Endpoints
+
+    "/login"
+    req:
+        {
+            "user" : "presly",
+            "pass" : "12345"
+        }
+    resp:
+        {
+            "accessKey" : "sdfkhdsf239832lkjh9y34uh"
+        }
+
+    "/user/find?key=Kolia"
+    in headers we must have "accessKey" header
+    resqp:
+        [{
+            "name": "Kolia Kers",
+            "url" : "/user/kol32"
+        },
+        {},
+        {}]
+    "/user/kol2" -> "/user/{username}"
+    in headers we must have "accessKey" header
+    resp:
+        {
+            "name" : "Kolia Kers",
+            "posts" : [
+                {
+                    "id" : 23425,
+                    "title" : "Title",
+                    "body": "Message Body"
+                }, {}, {}, {}
+            ]
+
+        }
+    "/posts/{postid}"
+    in headers we must have "accessKey" header
+    response:
+        {
+             "id" : 23425,
+             "title" : "Title",
+             "body": "Message Body"
+        }
+
+    "/post/new"
+    in headers we must have "accessKey" header
+    req:
+        {
+            "title" : "Title",
+            "body": "Message Body"
+        }
+    resp:
+        {
+            "id" : 23425,
+            "title" : "Title",
+            "body": "Message Body"
+        }
